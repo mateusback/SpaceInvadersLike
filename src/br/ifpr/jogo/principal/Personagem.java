@@ -1,6 +1,7 @@
 package br.ifpr.jogo.principal;
 
 import java.awt.Image;
+import java.awt.event.KeyEvent;
 
 import javax.swing.ImageIcon;
 
@@ -25,6 +26,51 @@ public class Personagem {
         this.larguraImagem = this.imagem.getHeight(null);
     }
 
+    public void atualizar(){
+        posicaoEmX += deslocamentoEmX;
+        posicaoEmY += deslocamentoEmY;
+    }
+
+    public void keyPressed(KeyEvent tecla){
+        int codigo = tecla.getKeyCode();
+
+        if(codigo ==KeyEvent.VK_W || codigo == KeyEvent.VK_UP){
+            deslocamentoEmY = - 3;
+        }
+        if(codigo ==KeyEvent.VK_S || codigo == KeyEvent.VK_DOWN){
+            deslocamentoEmY = 3;
+        }
+        if(codigo ==KeyEvent.VK_A || codigo == KeyEvent.VK_LEFT){
+            deslocamentoEmX = - 3;
+        }
+        if(codigo == KeyEvent.VK_D || codigo == KeyEvent.VK_RIGHT){
+            deslocamentoEmX = 3;
+        }
+        if(codigo == KeyEvent.VK_SPACE){
+            posicaoEmX += 100;
+        }
+    }
+
+    public void keyReleased(KeyEvent tecla){
+        int codigo = tecla.getKeyCode();
+    
+        if(codigo ==KeyEvent.VK_W || codigo == KeyEvent.VK_UP){
+            deslocamentoEmY = 0;
+        }
+        if(codigo ==KeyEvent.VK_S || codigo == KeyEvent.VK_DOWN){
+            deslocamentoEmY = 0;
+        }
+        if(codigo ==KeyEvent.VK_A || codigo == KeyEvent.VK_LEFT){
+            deslocamentoEmX = 0;
+        }
+        if(codigo ==KeyEvent.VK_D || codigo == KeyEvent.VK_RIGHT){
+            deslocamentoEmX = 0;
+        }
+        if(codigo == KeyEvent.VK_SPACE){
+            deslocamentoEmX = 0;
+        }
+    }
+
     public int getPosicaoEmX() {
         return posicaoEmX;
     }
@@ -37,47 +83,7 @@ public class Personagem {
         return posicaoEmY;
     }
 
-    public void setPosicaoEmY(int posicaoEmY) {
-        this.posicaoEmY = posicaoEmY;
-    }
-
-    public int getDeslocamentoEmX() {
-        return deslocamentoEmX;
-    }
-
-    public void setDeslocamentoEmX(int deslocamentoEmX) {
-        this.deslocamentoEmX = deslocamentoEmX;
-    }
-
-    public int getDeslocamentoEmY() {
-        return deslocamentoEmY;
-    }
-
-    public void setDeslocamentoEmY(int deslocamentoEmY) {
-        this.deslocamentoEmY = deslocamentoEmY;
-    }
-
     public Image getImagem() {
         return imagem;
-    }
-
-    public void setImagem(Image imagem) {
-        this.imagem = imagem;
-    }
-
-    public int getLarguraImagem() {
-        return larguraImagem;
-    }
-
-    public void setLarguraImagem(int larguraImagem) {
-        this.larguraImagem = larguraImagem;
-    }
-
-    public int getAlturaImagem() {
-        return alturaImagem;
-    }
-
-    public void setAlturaImagem(int alturaImagem) {
-        this.alturaImagem = alturaImagem;
     }
 }
