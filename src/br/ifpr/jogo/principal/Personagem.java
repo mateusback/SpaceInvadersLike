@@ -13,6 +13,12 @@ public class Personagem {
     private Image imagem;
     private int larguraImagem;
     private int alturaImagem;
+    private String ultimaAcao;
+
+    //Constantes, note que estão em caixa alta.
+    private static final int DESLOCAMENTO = 3;
+    private static final int POSICAO_INICIAL_EM_X = 100;
+    private static final int POSICAO_INICIAL_EM_Y = 100;
 
     public Personagem(){
         this.posicaoEmX = 100;
@@ -27,31 +33,38 @@ public class Personagem {
     }
 
     public void atualizar(){
-        posicaoEmX += deslocamentoEmX;
-        posicaoEmY += deslocamentoEmY;
+        this.posicaoEmX += deslocamentoEmX;
+        this.posicaoEmY += deslocamentoEmY;
     }
 
-    public void keyPressed(KeyEvent tecla){
+    public void mover(KeyEvent tecla){
         int codigo = tecla.getKeyCode();
 
         if(codigo ==KeyEvent.VK_W || codigo == KeyEvent.VK_UP){
-            deslocamentoEmY = - 3;
+            deslocamentoEmY = - DESLOCAMENTO;
         }
         if(codigo ==KeyEvent.VK_S || codigo == KeyEvent.VK_DOWN){
-            deslocamentoEmY = 3;
+            deslocamentoEmY = DESLOCAMENTO;
         }
         if(codigo ==KeyEvent.VK_A || codigo == KeyEvent.VK_LEFT){
-            deslocamentoEmX = - 3;
+            deslocamentoEmX = - DESLOCAMENTO;
+            ultimaAcao = "esquerda";
         }
         if(codigo == KeyEvent.VK_D || codigo == KeyEvent.VK_RIGHT){
-            deslocamentoEmX = 3;
+            deslocamentoEmX = DESLOCAMENTO;
+            ultimaAcao = "direita";
         }
-        if(codigo == KeyEvent.VK_SPACE){
+
+        //Dash
+        if(codigo == KeyEvent.VK_SPACE && ultimaAcao == "direita"){
             posicaoEmX += 100;
+        }
+        if(codigo == KeyEvent.VK_SPACE && ultimaAcao == "esquerda"){
+            posicaoEmX -= 100;
         }
     }
 
-    public void keyReleased(KeyEvent tecla){
+    public void parar(KeyEvent tecla){
         int codigo = tecla.getKeyCode();
     
         if(codigo ==KeyEvent.VK_W || codigo == KeyEvent.VK_UP){

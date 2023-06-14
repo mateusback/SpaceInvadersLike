@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -14,11 +15,14 @@ import javax.swing.Timer;
 
 import br.ifpr.jogo.principal.Personagem;
 
-public class Fase extends JPanel implements ActionListener{
+public class Fase extends JPanel implements KeyListener, ActionListener {
     private Image fundo;
     private Personagem personagem;
     private Timer timer;
-    
+
+    //Constante para controlar a velocidade de uma fase  
+    private static final int DELAY = 5;
+
     public Fase() {
         setFocusable(true);
         setDoubleBuffered(true);
@@ -30,9 +34,9 @@ public class Fase extends JPanel implements ActionListener{
         personagem = new Personagem(); //Istanciando o jogador
         personagem.carregar(); //Carregadno a imagem do jogador
 
-        addKeyListener(new KeyboardAdapter()); //Instanciando o teclado
+        addKeyListener(this); //Instanciando o teclado
 
-        timer = new Timer(5, this); //Velocidade do jogo
+        timer = new Timer(DELAY, this); //Velocidade do jogo
         timer.start();
     }
 
@@ -44,19 +48,23 @@ public class Fase extends JPanel implements ActionListener{
     }
 
     @Override
+    public void keyPressed(KeyEvent e) {
+        personagem.mover(e);
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        personagem.parar(e);
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        //vazio
+    }
+
+    @Override
     public void actionPerformed(ActionEvent e){
         personagem.atualizar();
         repaint(); //Não vai deixar a imagem aparecer várias vezes na tela
-    }
-
-    private class KeyboardAdapter extends KeyAdapter{ //colocando os métodos do teclado na classe fase
-        @Override
-        public void keyPressed(KeyEvent e){
-            personagem.keyPressed(e);
-        }
-        @Override
-        public void keyReleased(KeyEvent e){
-            personagem.keyReleased(e);
-        }
     }
 }

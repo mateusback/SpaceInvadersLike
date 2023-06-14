@@ -13,7 +13,7 @@ public class Principal extends JFrame{
         setTitle("Space Invaders");
         setResizable(false);
         setSize(1000, 1000);
-        setDefaultCloseOperation(3);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
     }
     public static void main(String[] args) {
