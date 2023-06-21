@@ -1,6 +1,7 @@
 package br.ifpr.jogo.modelo;
 
 import java.awt.Image;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 
@@ -10,8 +11,8 @@ public class Tiro {
     private Image imagem;
     private int larguraImagem;
     private int alturaImagem;
-    private static int VELOCIDADE = 4; //Constante
-
+    private static int VELOCIDADE = 2; //Constante
+    private static final int LARGURA_DA_JANELA = 1600;
 
     public Tiro(int posicaoPersonagemEmX, int posicaoPersonagemEmY) {
         this.posicaoEmX = posicaoPersonagemEmX;
@@ -25,8 +26,12 @@ public class Tiro {
         this.larguraImagem = this.imagem.getHeight(null);;
     }
 
-    public void atualizar() {
+    public void atualizar(ArrayList<Tiro> tiros) {
         this.posicaoEmX = this.posicaoEmX + VELOCIDADE;
+       if (this.posicaoEmX > LARGURA_DA_JANELA) {
+            // Remover o tiro da lista de tiros
+            return;
+        }
     }
 
     public int getPosicaoEmX() {
