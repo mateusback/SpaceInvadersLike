@@ -2,8 +2,10 @@ package br.ifpr.jogo.principal;
 
 import java.awt.Image;
 import java.awt.event.KeyEvent;
-
+import java.util.ArrayList;
 import javax.swing.ImageIcon;
+
+import br.ifpr.jogo.modelo.Tiro;
 
 public class Personagem {
     private int posicaoEmX;
@@ -13,16 +15,19 @@ public class Personagem {
     private Image imagem;
     private int larguraImagem;
     private int alturaImagem;
-    private String ultimaAcao;
+    private String ultimoMovimento; //Atributo para direcionar o dash
+    private ArrayList<Tiro> tiros;
 
-    //Constantes, note que estão em caixa alta.
-    private static final int DESLOCAMENTO = 3;
-    private static final int POSICAO_INICIAL_EM_X = 100;
-    private static final int POSICAO_INICIAL_EM_Y = 100;
+    //Constantes
+    private static int POSICAO_INICIAL_EM_X = 500;
+    private static int POSICAO_INICIAL_EM_Y = 500;
+    private static int DESLOCAMENTO = 3;
+
 
     public Personagem(){
-        this.posicaoEmX = 100;
-        this.posicaoEmY = 100;
+        this.posicaoEmX = POSICAO_INICIAL_EM_X;
+        this.posicaoEmY = POSICAO_INICIAL_EM_Y;
+        this.tiros = new ArrayList<Tiro>();
     }
 
     public void carregar(){
@@ -33,8 +38,15 @@ public class Personagem {
     }
 
     public void atualizar(){
-        this.posicaoEmX += deslocamentoEmX;
-        this.posicaoEmY += deslocamentoEmY;
+        posicaoEmX += deslocamentoEmX;
+        posicaoEmY += deslocamentoEmY;
+    }
+
+    public void atirar(){
+        int frentedoPersonagem = this.posicaoEmX + this.larguraImagem;
+        int meiodoPersonagem = this.posicaoEmY = (this.larguraImagem / 2);
+        Tiro tiro = new Tiro(frentedoPersonagem, meiodoPersonagem);
+        this.tiros.add(tiro);
     }
 
     public void mover(KeyEvent tecla){
@@ -48,19 +60,19 @@ public class Personagem {
         }
         if(codigo ==KeyEvent.VK_A || codigo == KeyEvent.VK_LEFT){
             deslocamentoEmX = - DESLOCAMENTO;
-            ultimaAcao = "esquerda";
+            ultimoMovimento = "esquerda";
         }
         if(codigo == KeyEvent.VK_D || codigo == KeyEvent.VK_RIGHT){
             deslocamentoEmX = DESLOCAMENTO;
-            ultimaAcao = "direita";
+            ultimoMovimento = "direita";
         }
 
-        //Dash
-        if(codigo == KeyEvent.VK_SPACE && ultimaAcao == "direita"){
-            posicaoEmX += 100;
-        }
-        if(codigo == KeyEvent.VK_SPACE && ultimaAcao == "esquerda"){
+        //dash
+        if(codigo == KeyEvent.VK_SPACE && ultimoMovimento == "esquerda"){
             posicaoEmX -= 100;
+        }
+        if(codigo == KeyEvent.VK_SPACE && ultimoMovimento == "direita"){ 
+            posicaoEmX += 100;
         }
     }
 
@@ -79,9 +91,6 @@ public class Personagem {
         if(codigo ==KeyEvent.VK_D || codigo == KeyEvent.VK_RIGHT){
             deslocamentoEmX = 0;
         }
-        if(codigo == KeyEvent.VK_SPACE){
-            deslocamentoEmX = 0;
-        }
     }
 
     public int getPosicaoEmX() {
@@ -96,7 +105,56 @@ public class Personagem {
         return posicaoEmY;
     }
 
+    public void setPosicaoEmY(int posicaoEmY) {
+        this.posicaoEmY = posicaoEmY;
+    }
+
+    public int getDeslocamentoEmX() {
+        return deslocamentoEmX;
+    }
+
+    public void setDeslocamentoEmX(int deslocamentoEmX) {
+        this.deslocamentoEmX = deslocamentoEmX;
+    }
+
+    public int getDeslocamentoEmY() {
+        return deslocamentoEmY;
+    }
+
+    public void setDeslocamentoEmY(int deslocamentoEmY) {
+        this.deslocamentoEmY = deslocamentoEmY;
+    }
+
     public Image getImagem() {
         return imagem;
     }
+
+    public void setImagem(Image imagem) {
+        this.imagem = imagem;
+    }
+
+    public int getLarguraImagem() {
+        return larguraImagem;
+    }
+
+    public void setLarguraImagem(int larguraImagem) {
+        this.larguraImagem = larguraImagem;
+    }
+
+    public int getAlturaImagem() {
+        return alturaImagem;
+    }
+
+    public void setAlturaImagem(int alturaImagem) {
+        this.alturaImagem = alturaImagem;
+    }
+
+    public ArrayList<Tiro> getTiros() {
+        return tiros;
+    }
+
+    public void setTiros(ArrayList<Tiro> tiros) {
+        this.tiros = tiros;
+    }
+    
 }

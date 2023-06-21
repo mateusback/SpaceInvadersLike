@@ -5,9 +5,9 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -22,6 +22,7 @@ public class Fase extends JPanel implements KeyListener, ActionListener {
 
     //Constante para controlar a velocidade de uma fase  
     private static final int DELAY = 5;
+    private static final int LARGURA_DA_JANELA = 1000;
 
     public Fase() {
         setFocusable(true);
@@ -40,16 +41,31 @@ public class Fase extends JPanel implements KeyListener, ActionListener {
         timer.start();
     }
 
-    public void paint(Graphics g){
+    public void paint(Graphics g) {
         Graphics2D graficos = (Graphics2D) g;
-        graficos.drawImage(fundo, 0,0,null);
-        graficos.drawImage(personagem.getImagem(), personagem.getPosicaoEmX(), personagem.getPosicaoEmY(), null);
+        graficos.drawImage(fundo, 0, 0, null);
+        graficos.drawImage(personagem.getImagem(), personagem.getPosicaoEmX(), personagem.getPosicaoEmY(), this);
+        // Recuperar a nossa lista de tiros (getTiros) e atribuímos para uma variável
+        // local chamada tiros.
+        ArrayList<Tiro> tiros = personagem.getTiros();
+        // Criando um laço de repetição (foreach). Iremos percorrer toda a lista.
+        for (Tiro tiro : tiros) {
+            // Carregando imagem do objeto tiro pelo método carregar.
+            tiro.carregar();
+            // Desenhar o tiro na nossa tela.
+            graficos.drawImage(tiro.getImagem(), tiro.getPosicaoEmX(), tiro.getPosicaoEmY(), this);
+        }
+    
         g.dispose();
     }
 
+
     @Override
     public void keyPressed(KeyEvent e) {
-        personagem.mover(e);
+        if (e.getKeyCode() == KeyEvent.VK_L)
+            personagem.atirar();
+        else
+            personagem.mover(e);
     }
 
     @Override
@@ -63,8 +79,23 @@ public class Fase extends JPanel implements KeyListener, ActionListener {
     }
 
     @Override
-    public void actionPerformed(ActionEvent e){
+    public void actionPerformed(ActionEvent e) {
         personagem.atualizar();
-        repaint(); //Não vai deixar a imagem aparecer várias vezes na tela
+        // Recuperar a nossa lista de tiros (getTiros) e atribuímos para uma variável
+        // local chamada tiros.
+        ArrayList<Tiro> tiros = personagem.getTiros();
+        // Criando um laço de repetição (foreach). Iremos percorrer toda a lista.
+        for (Tiro tiro : tiros) {
+            // Verificar se (if) a posição do x (tiro.getPosicaoEmX()) é maior do que a
+            // largura da nossa janela
+            if (tiro.getPosicaoEmX() > LARGURA_DA_JANELA)
+                // Remover da lista se estiver fora do campo de visão (LARGURA_DA_TELA)
+                tiros.remove(tiro);
+            else
+                // Atualizar a posição do tiro.
+                tiro.atualizar();
+         }
+    
+         repaint();
     }
 }
