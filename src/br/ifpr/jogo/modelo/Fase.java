@@ -57,9 +57,7 @@ public class Fase extends JPanel implements KeyListener, ActionListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_L)
-            personagem.atirar();
-        else
+            personagem.atirar(e);
             personagem.mover(e);
     }
 
@@ -77,10 +75,14 @@ public class Fase extends JPanel implements KeyListener, ActionListener {
     public void actionPerformed(ActionEvent e) {
         personagem.atualizar();
         ArrayList<Tiro> tiros = personagem.getTiros();
-        for (Tiro tiro : tiros) {
-            tiro.atualizar(tiros);
+
+        for (int i = 0; i < tiros.size(); i++) {
+            if(tiros.get(i).getPosicaoEmX() > LARGURA_DA_JANELA)
+                tiros.remove(i);
+            else if (i < tiros.size()){
+                tiros.get(i).atualizar();
+            }
         }
-        tiros.removeIf(tiro -> tiro.getPosicaoEmX() > LARGURA_DA_JANELA);
-         repaint();
+        repaint();
     }
 }

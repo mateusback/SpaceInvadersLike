@@ -42,11 +42,21 @@ public class Personagem {
         posicaoEmY += deslocamentoEmY;
     }
 
-    public void atirar(){
-        int frentedoPersonagem = this.posicaoEmX + this.larguraImagem;
-        int meiodoPersonagem = this.posicaoEmY + (this.alturaImagem / 2);
-        Tiro tiro = new Tiro(frentedoPersonagem, meiodoPersonagem);
-        this.tiros.add(tiro);
+    public void atirar(KeyEvent tecla){
+        if (tecla.getKeyCode() == KeyEvent.VK_L){
+            int frentedoPersonagem = this.posicaoEmX + this.larguraImagem;
+            int meiodoPersonagem = this.posicaoEmY + (this.alturaImagem / 2);
+            Tiro tiro = new Tiro(frentedoPersonagem,meiodoPersonagem);
+            this.tiros.add(tiro);
+            Tiro.setDirecao("direita");
+        }
+        if(tecla.getKeyCode() == KeyEvent.VK_I){
+            int frentedoPersonagem = this.posicaoEmX + (this.larguraImagem/ 2);
+            int meiodoPersonagem = this.posicaoEmY + this.alturaImagem;
+            Tiro tiro = new Tiro(frentedoPersonagem,meiodoPersonagem);
+            this.tiros.add(tiro);
+            Tiro.setDirecao("cima");
+        }
     }
 
     public void mover(KeyEvent tecla){
@@ -57,14 +67,20 @@ public class Personagem {
         }
         if(codigo ==KeyEvent.VK_S || codigo == KeyEvent.VK_DOWN){
             deslocamentoEmY = DESLOCAMENTO;
+            ImageIcon carregando = new ImageIcon("recursos\\PersonagemFrente.png");
+            this.imagem = carregando.getImage();
         }
         if(codigo ==KeyEvent.VK_A || codigo == KeyEvent.VK_LEFT){
             deslocamentoEmX = - DESLOCAMENTO;
             ultimoMovimento = "esquerda";
+            ImageIcon carregando = new ImageIcon("recursos\\PersonagemEsquerdo.png");
+            this.imagem = carregando.getImage();
         }
         if(codigo == KeyEvent.VK_D || codigo == KeyEvent.VK_RIGHT){
             deslocamentoEmX = DESLOCAMENTO;
             ultimoMovimento = "direita";
+            ImageIcon carregando = new ImageIcon("recursos\\PersonagemDireito.png");
+            this.imagem = carregando.getImage();
         }
 
         //dash
@@ -78,7 +94,10 @@ public class Personagem {
 
     public void parar(KeyEvent tecla){
         int codigo = tecla.getKeyCode();
-    
+
+        ImageIcon carregando = new ImageIcon("recursos\\Personagem.png");
+        this.imagem = carregando.getImage();
+
         if(codigo ==KeyEvent.VK_W || codigo == KeyEvent.VK_UP){
             deslocamentoEmY = 0;
         }
