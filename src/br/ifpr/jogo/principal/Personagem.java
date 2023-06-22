@@ -1,6 +1,7 @@
 package br.ifpr.jogo.principal;
 
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
@@ -20,6 +21,7 @@ public class Personagem {
     private int alturaImagem;
     private String direcao; //Atributo para direcionar o dash
     private ArrayList<Tiro> tiros;
+    
 
     //Constantes
     private static int POSICAO_INICIAL_EM_X = 500;
@@ -35,7 +37,7 @@ public class Personagem {
 
     //Metodo para carregar o jogador na tela
     public void carregar(){
-        ImageIcon carregando = new ImageIcon("recursos\\Personagem.png");
+        ImageIcon carregando = new ImageIcon("recursos\\Personagem_Parado.png");
         this.imagem = carregando.getImage();
         this.alturaImagem = this.imagem.getWidth(null);
         this.larguraImagem = this.imagem.getHeight(null);
@@ -57,13 +59,15 @@ public class Personagem {
         if(codigo ==KeyEvent.VK_W){
             deslocamentoEmY = - DESLOCAMENTO;
             this.setDirecao("cima");
+            ImageIcon carregando = new ImageIcon("recursos\\Personagem_Cima.gif");
+            this.imagem = carregando.getImage();
         }
 
         //Baixo
         if(codigo ==KeyEvent.VK_S){
             deslocamentoEmY = DESLOCAMENTO;
             this.setDirecao("baixo");
-            ImageIcon carregando = new ImageIcon("recursos\\PersonagemFrente.png");
+            ImageIcon carregando = new ImageIcon("recursos\\Personagem_Baixo.gif");
             this.imagem = carregando.getImage();
         }
 
@@ -71,7 +75,7 @@ public class Personagem {
         if(codigo ==KeyEvent.VK_A){
             deslocamentoEmX = - DESLOCAMENTO;
             this.setDirecao("esquerda");
-            ImageIcon carregando = new ImageIcon("recursos\\PersonagemEsquerdo.png");
+            ImageIcon carregando = new ImageIcon("recursos\\Personagem_Esquerda.gif");
             this.imagem = carregando.getImage();
 
         //Direita
@@ -79,7 +83,7 @@ public class Personagem {
         if(codigo == KeyEvent.VK_D){
             deslocamentoEmX = DESLOCAMENTO;
             this.setDirecao("direita");
-            ImageIcon carregando = new ImageIcon("recursos\\PersonagemDireito.png");
+            ImageIcon carregando = new ImageIcon("recursos\\Personagem_Direita.gif");
             this.imagem = carregando.getImage();
         }
 
@@ -98,30 +102,30 @@ public class Personagem {
         int codigo = tecla.getKeyCode();
 
         //Cima
-        if(codigo ==KeyEvent.VK_W){
+        if(codigo ==KeyEvent.VK_W ){
             deslocamentoEmY = 0;
-            ImageIcon carregando = new ImageIcon("recursos\\Personagem.png");
+            ImageIcon carregando = new ImageIcon("recursos\\Personagem_Parado.png");
             this.imagem = carregando.getImage();
         }
 
         //Baixo
         if(codigo ==KeyEvent.VK_S){
             deslocamentoEmY = 0;
-            ImageIcon carregando = new ImageIcon("recursos\\Personagem.png");
+            ImageIcon carregando = new ImageIcon("recursos\\Personagem_Parado.png");
             this.imagem = carregando.getImage();
         }
 
         //Esquerda
         if(codigo ==KeyEvent.VK_A){
             deslocamentoEmX = 0;
-            ImageIcon carregando = new ImageIcon("recursos\\Personagem.png");
+            ImageIcon carregando = new ImageIcon("recursos\\Personagem_Parado.png");
             this.imagem = carregando.getImage();
         }
 
-        //Direita
+        //Direita 
         if(codigo ==KeyEvent.VK_D){
             deslocamentoEmX = 0;
-            ImageIcon carregando = new ImageIcon("recursos\\Personagem.png");
+            ImageIcon carregando = new ImageIcon("recursos\\Personagem_Parado.png");
             this.imagem = carregando.getImage();
         }
     }
@@ -129,11 +133,11 @@ public class Personagem {
     //Este metodo é responsavel pela ação de tiro do jogador. Foi o metodo mais trabalhoso até agora
     //Ao atirar, a direção do tiro também é setada para que ele saia na direção desejada
     public void atirar(KeyEvent tecla) {
-        // Crie uma instância de Sprite
+        // Criando uma instância de Sprite
         Sprite sprite = new Sprite();
         sprite.carregar();
         // Tiro para a Direita
-        if (tecla.getKeyCode() == KeyEvent.VK_RIGHT) {
+        if (tecla.getKeyCode() == KeyEvent.VK_RIGHT || tecla.getKeyCode() == KeyEvent.VK_L) {
             int frenteDoPersonagem = this.posicaoEmX + this.larguraImagem;
             int meioDoPersonagem = this.posicaoEmY + (this.alturaImagem / 2);
             Tiro tiro = new Tiro(frenteDoPersonagem, meioDoPersonagem, sprite, "direita");
@@ -141,7 +145,7 @@ public class Personagem {
         }
 
         // Tiro para Cima
-        if (tecla.getKeyCode() == KeyEvent.VK_UP) {
+        if (tecla.getKeyCode() == KeyEvent.VK_UP || tecla.getKeyCode() == KeyEvent.VK_I) {
             int frenteDoPersonagem = this.posicaoEmX + (this.larguraImagem / 2);
             int meioDoPersonagem = this.posicaoEmY + this.alturaImagem;
             Tiro tiro = new Tiro(frenteDoPersonagem, meioDoPersonagem, sprite, "cima");
@@ -149,7 +153,7 @@ public class Personagem {
         }
 
         // Tiro para a Esquerda
-        if (tecla.getKeyCode() == KeyEvent.VK_LEFT) {
+        if (tecla.getKeyCode() == KeyEvent.VK_LEFT || tecla.getKeyCode() == KeyEvent.VK_J) {
             int frenteDoPersonagem = this.posicaoEmX - Tiro.LARGURA_TIRO;
             int meioDoPersonagem = this.posicaoEmY + (this.alturaImagem / 2);
             Tiro tiro = new Tiro(frenteDoPersonagem, meioDoPersonagem, sprite, "esquerda");
@@ -157,7 +161,7 @@ public class Personagem {
         }
 
         // Tiro para Baixo
-        if (tecla.getKeyCode() == KeyEvent.VK_DOWN) {
+        if (tecla.getKeyCode() == KeyEvent.VK_DOWN || tecla.getKeyCode() == KeyEvent.VK_K) {
             int frenteDoPersonagem = this.posicaoEmX + (this.larguraImagem / 2);
             int meioDoPersonagem = this.posicaoEmY - Tiro.ALTURA_TIRO;
             Tiro tiro = new Tiro(frenteDoPersonagem, meioDoPersonagem, sprite, "baixo");
@@ -173,7 +177,9 @@ public class Personagem {
         }
     }
 
-
+    public Rectangle getRetangulo() {
+        return new Rectangle(posicaoEmX, posicaoEmY, larguraImagem, alturaImagem);
+    }
     //Getters e Setters
     public int getPosicaoEmX() {
         return posicaoEmX;

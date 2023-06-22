@@ -9,6 +9,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -22,11 +23,10 @@ public class Fase extends JPanel implements KeyListener, ActionListener {
     private Image fundo;
     private Personagem personagem;
     private Timer timer;
+    private List<Inimigo> inimigos;
 
     //Constante para controlar a velocidade de uma fase  
     private static final int DELAY = 5;
-    private static final int LARGURA_DA_JANELA = 1600;
-    private static final int ALTURA_DA_JANELA = 1600;
 
     //Construtor da fase
     public Fase() {
@@ -47,6 +47,18 @@ public class Fase extends JPanel implements KeyListener, ActionListener {
         //Definindo a velocidade do jogo.
         timer = new Timer(DELAY, this);
         timer.start();
+
+        //Adicionando inimigos
+        inimigos = new ArrayList<>();
+        inimigos.add(new Inimigo(0, 0, personagem));
+        inimigos.add(new Inimigo(400, 900, personagem));
+        inimigos.add(new Inimigo(100, 300, personagem));
+        inimigos.add(new Inimigo(200, 200, personagem));
+        inimigos.add(new Inimigo(900, 510, personagem));
+        inimigos.add(new Inimigo(600, 700, personagem));
+        for (Inimigo inimigo : inimigos) {
+            inimigo.carregar();
+        }
     }
 
     //Metodo utilizado para desenhar os elementos no painel.
@@ -61,7 +73,9 @@ public class Fase extends JPanel implements KeyListener, ActionListener {
             tiro.carregar();
             graficos.drawImage(tiro.getImagem(), tiro.getPosicaoEmX(), tiro.getPosicaoEmY(), this); //Carrega um tiro.
         }
-
+        for (Inimigo inimigo : inimigos) {
+            graficos.drawImage(inimigo.getImagem(), inimigo.getPosicaoEmX(), inimigo.getPosicaoEmY(), this);
+        }
         //Solta os recursso na tela
         g.dispose();
     }
@@ -91,21 +105,48 @@ public class Fase extends JPanel implements KeyListener, ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         personagem.atualizar();
-
-        ArrayList<Tiro> tiros = personagem.getTiros();
-
+        List<Tiro> tiros = personagem.getTiros();
         
-        Iterator<Tiro> iterator = tiros.iterator();     //O Iterator percorre os elementos da lista tiros
-        while (iterator.hasNext()) {                    //O método hasNext() verifica se ainda há elementos na lista.
-            Tiro tiro = iterator.next();                //O método next() retorna o próximo elemento.
-            if (tiro.getPosicaoEmX() > LARGURA_DA_JANELA || tiro.getPosicaoEmY() > ALTURA_DA_JANELA || tiro.getPosicaoEmX() < 0 || tiro.getPosicaoEmY() < 0) {
-                iterator.remove();                      //Se estiver fora da Janela, o iterator remove o tiro da lista.
+        // Remover tiros que saem da tela
+        for (int i = 0; i < tiros.size(); i++) {
+            Tiro tiro = tiros.get(i);
+            if (tiro.getVisivel()) {
+                tiro.atualizar();
             } else {
-                tiro.atualizar();                       //Se não, o elemento é atualizado
+                tiros.remove(i);
+                i--; // Decrementa o índice para continuar verificando os próximos elementos corretamente
             }
         }
-
-        //Serve para Repintar o componente.
+        
+        Iterator<Inimigo> iterator = inimigos.iterator();
+        while (iterator.hasNext()) {
+            Inimigo inimigo = iterator.next();
+            if (inimigo.getVisivel()) {
+                inimigo.atualizar();
+                
+                // Verificar colisão com o personagem
+                if (personagem.getRetangulo().intersects(inimigo.getRetangulo())) {
+                    System.out.println("Colisão com o personagem");
+                    iterator.remove(); // Remover o inimigo da lista
+                    inimigo.setVisivel(false); // Marcar o inimigo como invisível
+                }
+                
+                // Verificar colisão com os tiros
+                for (Tiro tiro : tiros) {
+                    if (tiro.getRetangulo().intersects(inimigo.getRetangulo())) {
+                        System.out.println("Colisão com o tiro");
+                        // Lógica para tratar a colisão do tiro com o inimigo (pontuação, remoção do inimigo, etc.)
+                        tiros.remove(tiro);
+                        inimigo.setVisivel(false);
+                        iterator.remove();
+                        break;
+                    }
+                }
+            } else {
+                iterator.remove();
+            }
+        }
+        
         repaint();
     }
 }

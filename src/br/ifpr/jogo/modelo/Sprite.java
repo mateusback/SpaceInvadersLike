@@ -6,8 +6,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Sprite {
+
+    //Atributos do Sprite
     private Map<String, Image> imagens;
 
+    //Construtor
     public Sprite() {
         imagens = new HashMap<>();
     }
@@ -19,27 +22,24 @@ public class Sprite {
         imagens.put("padrao", imagemPadrao);
 
         // Carregar as imagens para cada direção
-        ImageIcon iconDireita = new ImageIcon("recursos\\Tiro_Direita.png");
+        ImageIcon iconDireita = new ImageIcon("recursos\\Tiro_Direita.gif");
         Image imagemDireita = iconDireita.getImage();
         imagens.put("direita", imagemDireita);
 
-        ImageIcon iconEsquerda = new ImageIcon("recursos\\Tiro_Esquerda.png");
+        ImageIcon iconEsquerda = new ImageIcon("recursos\\Tiro_Esquerda.gif");
         Image imagemEsquerda = iconEsquerda.getImage();
         imagens.put("esquerda", imagemEsquerda);
 
-        ImageIcon iconCima = new ImageIcon("recursos\\Tiro_Cima.png");
+        ImageIcon iconCima = new ImageIcon("recursos\\Tiro_Cima.gif");
         Image imagemCima = iconCima.getImage();
         imagens.put("cima", imagemCima);
 
-        ImageIcon iconBaixo = new ImageIcon("recursos\\Tiro_Baixo.png");
+        ImageIcon iconBaixo = new ImageIcon("recursos\\Tiro_Baixo.gif");
         Image imagemBaixo = iconBaixo.getImage();
         imagens.put("baixo", imagemBaixo);
-
-        ImageIcon iconSuper = new ImageIcon("recursos\\SuperTiro.png");
-        Image imagemSuper = iconSuper.getImage();
-        imagens.put("super", imagemSuper);
     }
 
+    //método para pegar a imagem com relação a key, se for nula, será carregada a imagem padrão
     public Image getImagem(String direcao) {
         Image imagem = imagens.get(direcao);
         if (imagem == null) {

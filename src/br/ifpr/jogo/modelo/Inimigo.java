@@ -5,57 +5,64 @@ import java.awt.Rectangle;
 
 import javax.swing.ImageIcon;
 
-public class Tiro {
+import br.ifpr.jogo.principal.Personagem;
 
-    //Atributos do Tiro
+public class Inimigo {
+
+    //Atributos do Inimigo
     private int posicaoEmX;
     private int posicaoEmY;
+    private int deslocamentoEmX;
+    private int deslocamentoEmY;
     private Image imagem;
     private int larguraImagem;
     private int alturaImagem;
     private String direcao;
-    private Sprite sprite;
+
     private boolean visivel;
 
-    //Constantes do Tiro
-    public static final int LARGURA_TIRO = 10;
-    public static final int ALTURA_TIRO = 30;
-    private static int VELOCIDADE = 4; //Velocidade de deslocamento
+    private Personagem personagem;
 
-    //Construtor com porâmetros de movimento, e de direção para mudar os sprites.
-    public Tiro(int posicaoPersonagemEmX, int posicaoPersonagemEmY, Sprite sprite, String direcao) {
-        this.posicaoEmX = posicaoPersonagemEmX;
-        this.posicaoEmY = posicaoPersonagemEmY;
-        this.sprite = sprite;
-        this.direcao = direcao;
+    private static int VELOCIDADE = 2;
+
+    //Construtor
+    public Inimigo(int posicaoEmX, int posicaoEmY, Personagem personagem) {
+        this.posicaoEmX = posicaoEmX;
+        this.posicaoEmY = posicaoEmY;
+        this.personagem = personagem;
         this.visivel = true;
     }
-    
-    //Metodo que carrega a imagem do tiro na tela.
+
+    //Carregando na tela com a imagem
     public void carregar() {
-        ImageIcon carregando = new ImageIcon("recursos\\Tiro.png");
+        ImageIcon carregando = new ImageIcon("recursos\\Inimigo.png");
         this.imagem = carregando.getImage();
-        this.alturaImagem = ALTURA_TIRO;
-        this.larguraImagem = LARGURA_TIRO;
-        this.imagem = sprite.getImagem(direcao);
+        this.alturaImagem = this.imagem.getWidth(null);
+        this.larguraImagem = this.imagem.getHeight(null);
     }
 
-    //Metodo para atulaizar um tiro com base na direção escolhida pelo jogador(personagem)
+    //Movimento do Inimigo
     public void atualizar() {
-        if (direcao.equals("direita")) {
-            posicaoEmX += VELOCIDADE;
-        } else if (direcao.equals("cima")) {
-            posicaoEmY -= VELOCIDADE;
-        } else if (direcao.equals("esquerda")) {
-            posicaoEmX -= VELOCIDADE;
-        } else if (direcao.equals("baixo")) {
-            posicaoEmY += VELOCIDADE;
-        } else if (direcao.equals("super")) {
-            posicaoEmX += VELOCIDADE;
+        // Calcula a direção em relação à posição do jogador
+        int deltaX = personagem.getPosicaoEmX() - this.posicaoEmX;
+        int deltaY = personagem.getPosicaoEmY() - this.posicaoEmY;
+
+        // Atualiza a posição do inimigo com base na direção
+        if (deltaX > 0) {
+            this.posicaoEmX += VELOCIDADE;
+        } else if (deltaX < 0) {
+            this.posicaoEmX -= VELOCIDADE;
+        }
+
+        if (deltaY > 0) {
+            this.posicaoEmY += VELOCIDADE;
+        } else if (deltaY < 0) {
+            this.posicaoEmY -= VELOCIDADE;
         }
     }
 
-    //Caixa de Colisão
+    //Caixa de colisão do tamanho da imagem.
+
     public Rectangle getRetangulo() {
         return new Rectangle(posicaoEmX, posicaoEmY, larguraImagem, alturaImagem);
     }
@@ -75,6 +82,22 @@ public class Tiro {
 
     public void setPosicaoEmY(int posicaoEmY) {
         this.posicaoEmY = posicaoEmY;
+    }
+
+    public int getDeslocamentoEmX() {
+        return deslocamentoEmX;
+    }
+
+    public void setDeslocamentoEmX(int deslocamentoEmX) {
+        this.deslocamentoEmX = deslocamentoEmX;
+    }
+
+    public int getDeslocamentoEmY() {
+        return deslocamentoEmY;
+    }
+
+    public void setDeslocamentoEmY(int deslocamentoEmY) {
+        this.deslocamentoEmY = deslocamentoEmY;
     }
 
     public Image getImagem() {
@@ -108,20 +131,13 @@ public class Tiro {
     public void setDirecao(String direcao) {
         this.direcao = direcao;
     }
-
-    public Sprite getSprite() {
-        return sprite;
-    }
-
-    public void setSprite(Sprite sprite) {
-        this.sprite = sprite;
-    }
-
+    
     public boolean getVisivel() {
         return visivel;
     }
-    
+
     public void setVisivel(boolean visivel) {
         this.visivel = visivel;
     }
+    
 }
