@@ -5,9 +5,12 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 
+import br.ifpr.jogo.modelo.Sprite;
 import br.ifpr.jogo.modelo.Tiro;
 
 public class Personagem {
+
+    //Atributos do Personagem
     private int posicaoEmX;
     private int posicaoEmY;
     private int deslocamentoEmX;
@@ -15,7 +18,7 @@ public class Personagem {
     private Image imagem;
     private int larguraImagem;
     private int alturaImagem;
-    private String ultimoMovimento; //Atributo para direcionar o dash
+    private String direcao; //Atributo para direcionar o dash
     private ArrayList<Tiro> tiros;
 
     //Constantes
@@ -23,13 +26,14 @@ public class Personagem {
     private static int POSICAO_INICIAL_EM_Y = 500;
     private static int DESLOCAMENTO = 3;
 
-
+    //Construtor, já carrega a sua posição inicial e inicializa um array de tiros
     public Personagem(){
         this.posicaoEmX = POSICAO_INICIAL_EM_X;
         this.posicaoEmY = POSICAO_INICIAL_EM_Y;
         this.tiros = new ArrayList<Tiro>();
     }
 
+    //Metodo para carregar o jogador na tela
     public void carregar(){
         ImageIcon carregando = new ImageIcon("recursos\\Personagem.png");
         this.imagem = carregando.getImage();
@@ -37,81 +41,140 @@ public class Personagem {
         this.larguraImagem = this.imagem.getHeight(null);
     }
 
+    //Método responsavel por atulalizar o jogador, movimentando caso o deslocamento não seja = 0
     public void atualizar(){
         posicaoEmX += deslocamentoEmX;
         posicaoEmY += deslocamentoEmY;
     }
 
-    public void atirar(KeyEvent tecla){
-        if (tecla.getKeyCode() == KeyEvent.VK_L){
-            int frentedoPersonagem = this.posicaoEmX + this.larguraImagem;
-            int meiodoPersonagem = this.posicaoEmY + (this.alturaImagem / 2);
-            Tiro tiro = new Tiro(frentedoPersonagem,meiodoPersonagem);
-            this.tiros.add(tiro);
-            Tiro.setDirecao("direita");
-        }
-        if(tecla.getKeyCode() == KeyEvent.VK_I){
-            int frentedoPersonagem = this.posicaoEmX + (this.larguraImagem/ 2);
-            int meiodoPersonagem = this.posicaoEmY + this.alturaImagem;
-            Tiro tiro = new Tiro(frentedoPersonagem,meiodoPersonagem);
-            this.tiros.add(tiro);
-            Tiro.setDirecao("cima");
-        }
-    }
-
+    //Metodo responsavel pelo moviemnto do personagem, alterando o deslocamento e setando as direções.
+    //Existe uma atualização do icone do jogador nas condições: baixo, direta e esquerda.
+    //Há um dash ao pressionar o a tecla espaço
     public void mover(KeyEvent tecla){
         int codigo = tecla.getKeyCode();
 
-        if(codigo ==KeyEvent.VK_W || codigo == KeyEvent.VK_UP){
+        //Cima
+        if(codigo ==KeyEvent.VK_W){
             deslocamentoEmY = - DESLOCAMENTO;
+            this.setDirecao("cima");
         }
-        if(codigo ==KeyEvent.VK_S || codigo == KeyEvent.VK_DOWN){
+
+        //Baixo
+        if(codigo ==KeyEvent.VK_S){
             deslocamentoEmY = DESLOCAMENTO;
+            this.setDirecao("baixo");
             ImageIcon carregando = new ImageIcon("recursos\\PersonagemFrente.png");
             this.imagem = carregando.getImage();
         }
-        if(codigo ==KeyEvent.VK_A || codigo == KeyEvent.VK_LEFT){
+
+        //Esquerda
+        if(codigo ==KeyEvent.VK_A){
             deslocamentoEmX = - DESLOCAMENTO;
-            ultimoMovimento = "esquerda";
+            this.setDirecao("esquerda");
             ImageIcon carregando = new ImageIcon("recursos\\PersonagemEsquerdo.png");
             this.imagem = carregando.getImage();
+
+        //Direita
         }
-        if(codigo == KeyEvent.VK_D || codigo == KeyEvent.VK_RIGHT){
+        if(codigo == KeyEvent.VK_D){
             deslocamentoEmX = DESLOCAMENTO;
-            ultimoMovimento = "direita";
+            this.setDirecao("direita");
             ImageIcon carregando = new ImageIcon("recursos\\PersonagemDireito.png");
             this.imagem = carregando.getImage();
         }
 
-        //dash
-        if(codigo == KeyEvent.VK_SPACE && ultimoMovimento == "esquerda"){
+        //Dash
+        if(codigo == KeyEvent.VK_SPACE && direcao == "esquerda"){
             posicaoEmX -= 100;
         }
-        if(codigo == KeyEvent.VK_SPACE && ultimoMovimento == "direita"){ 
+        if(codigo == KeyEvent.VK_SPACE && direcao == "direita"){ 
             posicaoEmX += 100;
         }
     }
 
+    //Metodo responsavel por parar o personagem ao finalizar o movimento.
+    //Este metodo está carregando a imagem padrão do personagem para que ela volte ao deixar o personagem imovél
     public void parar(KeyEvent tecla){
         int codigo = tecla.getKeyCode();
 
-        ImageIcon carregando = new ImageIcon("recursos\\Personagem.png");
-        this.imagem = carregando.getImage();
+        //Cima
+        if(codigo ==KeyEvent.VK_W){
+            deslocamentoEmY = 0;
+            ImageIcon carregando = new ImageIcon("recursos\\Personagem.png");
+            this.imagem = carregando.getImage();
+        }
 
-        if(codigo ==KeyEvent.VK_W || codigo == KeyEvent.VK_UP){
+        //Baixo
+        if(codigo ==KeyEvent.VK_S){
             deslocamentoEmY = 0;
+            ImageIcon carregando = new ImageIcon("recursos\\Personagem.png");
+            this.imagem = carregando.getImage();
         }
-        if(codigo ==KeyEvent.VK_S || codigo == KeyEvent.VK_DOWN){
-            deslocamentoEmY = 0;
-        }
-        if(codigo ==KeyEvent.VK_A || codigo == KeyEvent.VK_LEFT){
+
+        //Esquerda
+        if(codigo ==KeyEvent.VK_A){
             deslocamentoEmX = 0;
+            ImageIcon carregando = new ImageIcon("recursos\\Personagem.png");
+            this.imagem = carregando.getImage();
         }
-        if(codigo ==KeyEvent.VK_D || codigo == KeyEvent.VK_RIGHT){
+
+        //Direita
+        if(codigo ==KeyEvent.VK_D){
             deslocamentoEmX = 0;
+            ImageIcon carregando = new ImageIcon("recursos\\Personagem.png");
+            this.imagem = carregando.getImage();
         }
     }
 
+    //Este metodo é responsavel pela ação de tiro do jogador. Foi o metodo mais trabalhoso até agora
+    //Ao atirar, a direção do tiro também é setada para que ele saia na direção desejada
+    public void atirar(KeyEvent tecla) {
+        // Crie uma instância de Sprite
+        Sprite sprite = new Sprite();
+        sprite.carregar();
+        // Tiro para a Direita
+        if (tecla.getKeyCode() == KeyEvent.VK_RIGHT) {
+            int frenteDoPersonagem = this.posicaoEmX + this.larguraImagem;
+            int meioDoPersonagem = this.posicaoEmY + (this.alturaImagem / 2);
+            Tiro tiro = new Tiro(frenteDoPersonagem, meioDoPersonagem, sprite, "direita");
+            this.tiros.add(tiro);
+        }
+
+        // Tiro para Cima
+        if (tecla.getKeyCode() == KeyEvent.VK_UP) {
+            int frenteDoPersonagem = this.posicaoEmX + (this.larguraImagem / 2);
+            int meioDoPersonagem = this.posicaoEmY + this.alturaImagem;
+            Tiro tiro = new Tiro(frenteDoPersonagem, meioDoPersonagem, sprite, "cima");
+            this.tiros.add(tiro);
+        }
+
+        // Tiro para a Esquerda
+        if (tecla.getKeyCode() == KeyEvent.VK_LEFT) {
+            int frenteDoPersonagem = this.posicaoEmX - Tiro.LARGURA_TIRO;
+            int meioDoPersonagem = this.posicaoEmY + (this.alturaImagem / 2);
+            Tiro tiro = new Tiro(frenteDoPersonagem, meioDoPersonagem, sprite, "esquerda");
+            this.tiros.add(tiro);
+        }
+
+        // Tiro para Baixo
+        if (tecla.getKeyCode() == KeyEvent.VK_DOWN) {
+            int frenteDoPersonagem = this.posicaoEmX + (this.larguraImagem / 2);
+            int meioDoPersonagem = this.posicaoEmY - Tiro.ALTURA_TIRO;
+            Tiro tiro = new Tiro(frenteDoPersonagem, meioDoPersonagem, sprite, "baixo");
+            this.tiros.add(tiro);
+        }
+
+        //Super Tiro
+        if (tecla.getKeyCode() == KeyEvent.VK_F) {
+            int frenteDoPersonagem = this.posicaoEmX + (this.larguraImagem / 2);
+            int meioDoPersonagem = this.posicaoEmY - Tiro.ALTURA_TIRO;
+            Tiro tiro = new Tiro(frenteDoPersonagem, meioDoPersonagem, sprite, "super");
+            this.tiros.add(tiro);
+        }
+    }
+
+
+    //Getters e Setters
     public int getPosicaoEmX() {
         return posicaoEmX;
     }
@@ -174,6 +237,10 @@ public class Personagem {
 
     public void setTiros(ArrayList<Tiro> tiros) {
         this.tiros = tiros;
+    }
+
+    public void setDirecao(String direcao) {
+    this.direcao = direcao;
     }
     
 }
