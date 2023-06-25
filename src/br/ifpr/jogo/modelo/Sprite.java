@@ -5,6 +5,8 @@ import java.awt.Image;
 import java.util.HashMap;
 import java.util.Map;
 
+// A clase Sprite está sendo utilizada somente para o tiro no momento,
+// Mas eu gostaria de implementa-la nas demais entidades no futuro.
 public class Sprite {
 
     //Atributos do Sprite

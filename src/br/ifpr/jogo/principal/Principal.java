@@ -4,7 +4,7 @@ import javax.swing.JFrame;
 
 import br.ifpr.jogo.modelo.Fase;;
 
-public class Principal extends JFrame{
+public class Principal extends JFrame {
 
     public Principal() {
         Fase fase = new Fase();
@@ -16,6 +16,7 @@ public class Principal extends JFrame{
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
     }
+
     public static void main(String[] args) {
         Principal principal = new Principal();
 

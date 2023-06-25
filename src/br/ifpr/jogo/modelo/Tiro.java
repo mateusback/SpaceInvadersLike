@@ -1,26 +1,16 @@
 package br.ifpr.jogo.modelo;
 
-import java.awt.Image;
-import java.awt.Rectangle;
-
 import javax.swing.ImageIcon;
 
-public class Tiro {
+public class Tiro extends Entidade{
 
     //Atributos do Tiro
-    private int posicaoEmX;
-    private int posicaoEmY;
-    private Image imagem;
-    private int larguraImagem;
-    private int alturaImagem;
-    private String direcao;
     private Sprite sprite;
     private boolean visivel;
 
     //Constantes do Tiro
     public static final int LARGURA_TIRO = 10;
     public static final int ALTURA_TIRO = 30;
-    private static int VELOCIDADE = 4; //Velocidade de deslocamento
 
     //Construtor com porâmetros de movimento, e de direção para mudar os sprites.
     public Tiro(int posicaoPersonagemEmX, int posicaoPersonagemEmY, Sprite sprite, String direcao) {
@@ -29,9 +19,11 @@ public class Tiro {
         this.sprite = sprite;
         this.direcao = direcao;
         this.visivel = true;
+        this.velocidade = 4;
     }
     
     //Metodo que carrega a imagem do tiro na tela.
+    @Override
     public void carregar() {
         ImageIcon carregando = new ImageIcon("recursos\\Tiro.png");
         this.imagem = carregando.getImage();
@@ -41,87 +33,29 @@ public class Tiro {
     }
 
     //Metodo para atulaizar um tiro com base na direção escolhida pelo jogador(personagem)
+    @Override
     public void atualizar() {
         if (direcao.equals("direita")) {
-            posicaoEmX += VELOCIDADE;
+            posicaoEmX += velocidade;
         } else if (direcao.equals("cima")) {
-            posicaoEmY -= VELOCIDADE;
+            posicaoEmY -= velocidade;
         } else if (direcao.equals("esquerda")) {
-            posicaoEmX -= VELOCIDADE;
+            posicaoEmX -= velocidade;
         } else if (direcao.equals("baixo")) {
-            posicaoEmY += VELOCIDADE;
+            posicaoEmY += velocidade;
         } else if (direcao.equals("super")) {
-            posicaoEmX += VELOCIDADE;
+            posicaoEmX += velocidade;
         }
     }
 
-    //Caixa de Colisão
-    public Rectangle getRetangulo() {
-        return new Rectangle(posicaoEmX, posicaoEmY, larguraImagem, alturaImagem);
-    }
-
     //Getters e Setters
-    public int getPosicaoEmX() {
-        return posicaoEmX;
-    }
-
-    public void setPosicaoEmX(int posicaoEmX) {
-        this.posicaoEmX = posicaoEmX;
-    }
-
-    public int getPosicaoEmY() {
-        return posicaoEmY;
-    }
-
-    public void setPosicaoEmY(int posicaoEmY) {
-        this.posicaoEmY = posicaoEmY;
-    }
-
-    public Image getImagem() {
-        return imagem;
-    }
-
-    public void setImagem(Image imagem) {
-        this.imagem = imagem;
-    }
-
-    public int getLarguraImagem() {
-        return larguraImagem;
-    }
-
-    public void setLarguraImagem(int larguraImagem) {
-        this.larguraImagem = larguraImagem;
-    }
-
-    public int getAlturaImagem() {
-        return alturaImagem;
-    }
-
-    public void setAlturaImagem(int alturaImagem) {
-        this.alturaImagem = alturaImagem;
-    }
-
-    public String getDirecao() {
-        return direcao;
-    }
-
-    public void setDirecao(String direcao) {
-        this.direcao = direcao;
-    }
-
-    public Sprite getSprite() {
-        return sprite;
-    }
-
-    public void setSprite(Sprite sprite) {
-        this.sprite = sprite;
-    }
-
-    public boolean getVisivel() {
-        return visivel;
-    }
-    
-    public void setVisivel(boolean visivel) {
-        this.visivel = visivel;
+    @Override
+    public boolean isVisivel() {
+        if(this.posicaoEmX>1600 || this.posicaoEmX<0 || this.posicaoEmY<0 || this.posicaoEmY>1000){
+            this.visivel = false;
+        } else{
+            this.visivel = true;
+        }
+        return this.visivel;
     }
 }
