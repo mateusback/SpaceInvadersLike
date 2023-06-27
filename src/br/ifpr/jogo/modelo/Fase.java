@@ -2,7 +2,6 @@ package br.ifpr.jogo.modelo;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -11,22 +10,24 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import br.ifpr.jogo.modelo.Sprites.SpriteFundo;
 import br.ifpr.jogo.modelo.itens.ItemTiroRapido;
 import br.ifpr.jogo.modelo.itens.ItemVelocidade;
 
 public class Fase extends JPanel implements KeyListener, ActionListener {
-
     // Atributos da Fase
-    private Image fundo;
     private Personagem personagem;
     private Timer timer;
     private List<Inimigo> inimigos;
     private ItemTiroRapido itemTiroRapido;
     private ItemVelocidade itemVelocidade;
+    private SpriteFundo spriteFundo;
+
+    private int offsetX = 0;
+    private int offsetY = 0;
 
     // Constante para controlar a velocidade de uma fase
     private static final int DELAY = 5;
@@ -36,14 +37,10 @@ public class Fase extends JPanel implements KeyListener, ActionListener {
         setFocusable(true);
         setDoubleBuffered(true);
 
-        // Carregando a imagem de fundo.
-        ImageIcon carregando = new ImageIcon("recursos\\Fundo.png");
-        this.fundo = carregando.getImage();
-
         // Istanciando o jogador e carregando sua imagem.
         personagem = new Personagem();
         personagem.carregar();
-
+        spriteFundo = new SpriteFundo();
         // Instanciando o teclado.
         addKeyListener(this);
 
@@ -77,8 +74,9 @@ public class Fase extends JPanel implements KeyListener, ActionListener {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D graficos = (Graphics2D) g;
+        graficos.translate(offsetX, offsetY);
         // Carrega o Fundo.
-        graficos.drawImage(fundo, 0, 0, null);
+        spriteFundo.carregarFase1(g, personagem);
 
         // Carrega o persosangem.
         graficos.drawImage(personagem.getImagem(), personagem.getPosicaoEmX(), personagem.getPosicaoEmY(), null);
@@ -134,9 +132,12 @@ public class Fase extends JPanel implements KeyListener, ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
+        
+
         // O Personagem sempre será atualizado
         personagem.atualizar();
 
+        spriteFundo.atualizarJogo(personagem);
         List<Tiro> tiros = personagem.getTiros();
 
         // Remover tiros que saem da tela, se eles não forem mais visíveis.

@@ -1,7 +1,5 @@
 package br.ifpr.jogo.modelo;
 
-import java.util.Iterator;
-
 import javax.swing.ImageIcon;
 
 public class Inimigo extends Entidade {

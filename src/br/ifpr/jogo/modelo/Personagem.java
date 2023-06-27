@@ -40,8 +40,14 @@ public class Personagem extends Entidade {
     // não seja = 0
     @Override
     public void atualizar() {
-        this.posicaoEmX += deslocamentoEmX;
-        this.posicaoEmY += deslocamentoEmY;
+        if(this.getPosicaoEmX() < 0 || this.getPosicaoEmX() > 1600){
+            deslocamentoEmX = 0;
+        }
+        if(this.getPosicaoEmY() < 0 || this.getPosicaoEmX() > 1000){
+            deslocamentoEmY = 0;
+        } 
+            this.posicaoEmX += deslocamentoEmX;
+            this.posicaoEmY += deslocamentoEmY;
     }
 
     // Metodo responsavel pelo moviemnto do personagem, alterando o deslocamento e
@@ -53,7 +59,7 @@ public class Personagem extends Entidade {
         int codigo = tecla.getKeyCode();
 
         // Cima
-        if (codigo == KeyEvent.VK_W) {
+        if (codigo == KeyEvent.VK_W ) {
             deslocamentoEmY = - velocidade;
             this.setDirecao("cima");
             ImageIcon carregando = new ImageIcon("recursos\\Personagem_Cima.gif");
