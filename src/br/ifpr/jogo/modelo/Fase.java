@@ -188,25 +188,19 @@ public class Fase extends JPanel implements KeyListener, ActionListener {
 
         // Lógica do Item de velocidade de ataque.
         // Se ele for visível e nõa for nulo e o jogador encostar nele.
-        if (itemTiroRapido != null && itemTiroRapido.isVisivel() && personagem.getRetangulo().intersects(itemTiroRapido.getRetangulo())) {
-            //Vai ser setado como não visível
-            itemTiroRapido.setVisivel(false);
-            System.out.println("Colisão com item");
-            //Vai ativar o método de aplicar o efeito ao personagem.
-            itemTiroRapido.aplicarEfeito(personagem);
-            // Se o item nõa for visível, transformar o item em nulo.
-            if (!itemTiroRapido.isVisivel()) {
+        if (itemTiroRapido != null) {
+            itemTiroRapido.verificarColisao(personagem);
+
+            if (itemTiroRapido.isColetado()) {
                 itemTiroRapido = null;
             }
         }
-        if (itemVelocidade != null && itemVelocidade.isVisivel() && personagem.getRetangulo().intersects(itemVelocidade.getRetangulo())) {
-            //Vai ser setado como não visível
-            itemVelocidade.setVisivel(false);
-            System.out.println("Colisão com item");
-            //Vai ativar o método de aplicar o efeito ao personagem.
-            itemVelocidade.aplicarEfeito(personagem);
-            // Se o item nõa for visível, transformar o item em nulo.
-            if (!itemVelocidade.isVisivel()) {
+
+        // Lógica do Item de velocidade.
+        if (itemVelocidade != null) {
+            itemVelocidade.verificarColisao(personagem);
+
+            if (itemVelocidade.isColetado()) {
                 itemVelocidade = null;
             }
         }

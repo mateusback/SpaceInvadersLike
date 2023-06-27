@@ -1,5 +1,7 @@
 package br.ifpr.jogo.modelo;
 
+import java.util.Iterator;
+
 import javax.swing.ImageIcon;
 
 public class Inimigo extends Entidade {
@@ -26,6 +28,7 @@ public class Inimigo extends Entidade {
     }
 
     // Movimento do Inimigo
+
     @Override
     public void atualizar() {
         // Calcula a direção em relação a posição do jogador.

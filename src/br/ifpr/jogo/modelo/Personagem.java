@@ -154,7 +154,7 @@ public class Personagem extends Entidade {
         sprite.carregar();
         // Tiro para a Direita
         if (tecla.getKeyCode() == KeyEvent.VK_RIGHT || tecla.getKeyCode() == KeyEvent.VK_L) {
-            int frenteDoPersonagem = this.posicaoEmX + this.larguraImagem;
+            int frenteDoPersonagem = this.posicaoEmX + (this.larguraImagem/2);
             int meioDoPersonagem = this.posicaoEmY + (this.alturaImagem / 2);
             Tiro tiro = new Tiro(frenteDoPersonagem, meioDoPersonagem, sprite, "direita");
             this.tiros.add(tiro);
@@ -162,8 +162,8 @@ public class Personagem extends Entidade {
 
         // Tiro para Cima
         if (tecla.getKeyCode() == KeyEvent.VK_UP || tecla.getKeyCode() == KeyEvent.VK_I) {
-            int frenteDoPersonagem = this.posicaoEmX + (this.larguraImagem / 2);
-            int meioDoPersonagem = this.posicaoEmY + this.alturaImagem;
+            int frenteDoPersonagem = this.posicaoEmX + (this.larguraImagem / 2) - (Tiro.LARGURA_TIRO / 2);
+            int meioDoPersonagem = this.posicaoEmY - (this.alturaImagem/2);
             Tiro tiro = new Tiro(frenteDoPersonagem, meioDoPersonagem, sprite, "cima");
             this.tiros.add(tiro);
         }
@@ -178,8 +178,8 @@ public class Personagem extends Entidade {
 
         // Tiro para Baixo
         if (tecla.getKeyCode() == KeyEvent.VK_DOWN || tecla.getKeyCode() == KeyEvent.VK_K) {
-            int frenteDoPersonagem = this.posicaoEmX + (this.larguraImagem / 2);
-            int meioDoPersonagem = this.posicaoEmY - Tiro.ALTURA_TIRO;
+            int frenteDoPersonagem = this.posicaoEmX + (this.larguraImagem / 2) - (Tiro.LARGURA_TIRO / 2);
+            int meioDoPersonagem = this.posicaoEmY + this.alturaImagem;
             Tiro tiro = new Tiro(frenteDoPersonagem, meioDoPersonagem, sprite, "baixo");
             this.tiros.add(tiro);
         }
