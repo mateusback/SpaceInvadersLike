@@ -10,6 +10,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import br.ifpr.jogo.modelo.Entidade;
 import br.ifpr.jogo.modelo.Personagem;
 
 public class SpriteFundo implements ImageObserver {
@@ -20,12 +21,11 @@ public class SpriteFundo implements ImageObserver {
     private BufferedImage terraGramaEsquerda;
     private BufferedImage terraGramaBaixo;
     private BufferedImage terraGramaCentro;
-    private BufferedImage terraDiagonalEsquerdaCima;
-    private BufferedImage terraDiagonalDireitaCima;
-    private BufferedImage terraDiagonalDireitaBaixo;
-    private BufferedImage terraDiagonalEsquerdaBaixo;
-    private int offsetX; // Deslocamento horizontal da câmera
-    private int offsetY; // Deslocamento vertical da câmera
+    private BufferedImage terraPura;
+    public int offsetX; // Deslocamento horizontal da câmera
+    public int offsetY; // Deslocamento vertical da câmera
+
+    // BLOCO DE TELA 50 X 27
 
     int LARGURA_TELA = 1600;
     int ALTURA_TELA = 960;
@@ -52,10 +52,7 @@ public class SpriteFundo implements ImageObserver {
             this.terraGramaEsquerda = spriteSheet.getSubimage(256, 0, 64, 64);
             this.terraGramaBaixo = spriteSheet.getSubimage(320, 0, 64, 64);
             this.terraGramaCentro = spriteSheet.getSubimage(384, 0, 64, 64);
-            this.terraDiagonalEsquerdaCima = spriteSheet.getSubimage(448, 0, 64, 64);
-            this.terraDiagonalDireitaCima = spriteSheet.getSubimage(512, 0, 64, 64);
-            this.terraDiagonalDireitaBaixo = spriteSheet.getSubimage(0, 64, 64, 64);
-            this.terraDiagonalEsquerdaBaixo = spriteSheet.getSubimage(64, 64, 64, 64);
+            this.terraPura = spriteSheet.getSubimage(448, 0, 64, 64);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -65,8 +62,8 @@ public class SpriteFundo implements ImageObserver {
         Graphics2D graficos = (Graphics2D) g;
 
         // Tamanho da fase
-        int larguraFase = 200 * LARGURA_BLOCO;
-        int alturaFase = 200 * ALTURA_BLOCO;
+        int larguraFase = 50 * LARGURA_BLOCO;
+        int alturaFase = 32 * ALTURA_BLOCO;
 
         // Número de blocos horizontal e vertical
         int numBlocosHorizontal = larguraFase / LARGURA_BLOCO;
@@ -83,18 +80,8 @@ public class SpriteFundo implements ImageObserver {
 
                 // Define o bloco de acordo com as coordenadas i e j
                 Image bloco;
-                if (j < 3 || j > 20 || i < 3 || i > 196) {
-                    bloco = grama;
-                } else if (j == 3 && (i >= 3 && i <= 197)) {
-                    bloco = terraGramaCima;
-                } else if ((j > 3 && j < 197) && (i == 3 || i == 196)) {
-                    bloco = terraGramaEsquerda;
-                } else if (j == 196 && (i >= 3 && i <= 197)) {
-                    bloco = terraGramaBaixo;
-                } else if ((j > 3 && j < 197) && (i == 195)) {
-                    bloco = terraGramaDireita;
-                } else if (j >= 5 && j <= 195 && i >= 4 && i <= 196) {
-                    bloco = terraGramaCentro;
+                if (i == 1) {
+                    bloco = terra;
                 } else {
                     bloco = grama;
                 }
@@ -106,7 +93,6 @@ public class SpriteFundo implements ImageObserver {
     }
 
     public void atualizarJogo(Personagem personagem) {
-        // Restante do código de atualização do jogo
 
         // Atualiza o deslocamento da câmera com base na posição do personagem
         offsetX = personagem.getPosicaoEmX() - LARGURA_TELA / 2;

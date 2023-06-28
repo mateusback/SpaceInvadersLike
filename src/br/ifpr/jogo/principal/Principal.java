@@ -3,7 +3,6 @@ package br.ifpr.jogo.principal;
 import javax.swing.JFrame;
 
 import br.ifpr.jogo.modelo.Fase;;
-
 public class Principal extends JFrame {
 
     public Principal() {

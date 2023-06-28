@@ -12,7 +12,7 @@ public class Personagem extends Entidade {
     private long tempoUltimoTiro;
     private long delayTiro;
     private Item itemEquipado;
-    
+
     // Constantes
     private static int POSICAO_INICIAL_EM_X = 800;
     private static int POSICAO_INICIAL_EM_Y = 500;
@@ -40,14 +40,8 @@ public class Personagem extends Entidade {
     // não seja = 0
     @Override
     public void atualizar() {
-        if(this.getPosicaoEmX() < 0 || this.getPosicaoEmX() > 1600){
-            deslocamentoEmX = 0;
-        }
-        if(this.getPosicaoEmY() < 0 || this.getPosicaoEmX() > 1000){
-            deslocamentoEmY = 0;
-        } 
-            this.posicaoEmX += deslocamentoEmX;
-            this.posicaoEmY += deslocamentoEmY;
+        this.posicaoEmX += deslocamentoEmX;
+        this.posicaoEmY += deslocamentoEmY;
     }
 
     // Metodo responsavel pelo moviemnto do personagem, alterando o deslocamento e
@@ -59,8 +53,8 @@ public class Personagem extends Entidade {
         int codigo = tecla.getKeyCode();
 
         // Cima
-        if (codigo == KeyEvent.VK_W ) {
-            deslocamentoEmY = - velocidade;
+        if (codigo == KeyEvent.VK_W) {
+            deslocamentoEmY = -velocidade;
             this.setDirecao("cima");
             ImageIcon carregando = new ImageIcon("recursos\\Personagem_Cima.gif");
             this.imagem = carregando.getImage();
@@ -149,7 +143,7 @@ public class Personagem extends Entidade {
     // desejada.
     // O tiro também tem um delay básico.
     public void atirar(KeyEvent tecla) {
-        //Vá
+        // Vá
         long tempoAtual = System.currentTimeMillis();
 
         if (tempoAtual - tempoUltimoTiro < delayTiro) {
@@ -160,7 +154,7 @@ public class Personagem extends Entidade {
         sprite.carregar();
         // Tiro para a Direita
         if (tecla.getKeyCode() == KeyEvent.VK_RIGHT || tecla.getKeyCode() == KeyEvent.VK_L) {
-            int frenteDoPersonagem = this.posicaoEmX + (this.larguraImagem/2);
+            int frenteDoPersonagem = this.posicaoEmX + (this.larguraImagem / 2);
             int meioDoPersonagem = this.posicaoEmY + (this.alturaImagem / 2);
             Tiro tiro = new Tiro(frenteDoPersonagem, meioDoPersonagem, sprite, "direita");
             this.tiros.add(tiro);
@@ -169,7 +163,7 @@ public class Personagem extends Entidade {
         // Tiro para Cima
         if (tecla.getKeyCode() == KeyEvent.VK_UP || tecla.getKeyCode() == KeyEvent.VK_I) {
             int frenteDoPersonagem = this.posicaoEmX + (this.larguraImagem / 2) - (Tiro.LARGURA_TIRO / 2);
-            int meioDoPersonagem = this.posicaoEmY - (this.alturaImagem/2);
+            int meioDoPersonagem = this.posicaoEmY - (this.alturaImagem / 2);
             Tiro tiro = new Tiro(frenteDoPersonagem, meioDoPersonagem, sprite, "cima");
             this.tiros.add(tiro);
         }
@@ -198,6 +192,22 @@ public class Personagem extends Entidade {
             this.tiros.add(tiro);
         }
         tempoUltimoTiro = tempoAtual;
+    }
+
+    public void colisaoBorda() {
+        if (this.getPosicaoEmX() < 0) {
+            this.setPosicaoEmX(0); // POSIÇÃO MÍNIMA X
+        } else if (this.getPosicaoEmX() + this.getAlturaImagem() > 1600) {
+            int maximoEmX = 1600 - this.getAlturaImagem(); // CALCULA A POSIÇÃO MÁXIMA
+            this.setPosicaoEmX(maximoEmX);
+        }
+        // VERIFICA COLISÃO COM A BORDA EM 'Y'
+        if (this.getPosicaoEmY() < 0) {
+            this.setPosicaoEmY(0); // POSIÇÃO MÍNIMA Y
+        } else if (this.getPosicaoEmY() + this.getAlturaImagem() > 960) {
+            int maximoEmY = 960 - this.getAlturaImagem();
+            this.setPosicaoEmY(maximoEmY);
+        }
     }
 
     public void equiparItem(Item item) {

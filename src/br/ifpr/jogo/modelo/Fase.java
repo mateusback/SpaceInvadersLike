@@ -28,6 +28,7 @@ public class Fase extends JPanel implements KeyListener, ActionListener {
 
     private int offsetX = 0;
     private int offsetY = 0;
+    private ArrayList<Entidade> listaEntidades;
 
     // Constante para controlar a velocidade de uma fase
     private static final int DELAY = 5;
@@ -36,7 +37,7 @@ public class Fase extends JPanel implements KeyListener, ActionListener {
     public Fase() {
         setFocusable(true);
         setDoubleBuffered(true);
-
+        listaEntidades = new ArrayList<>();
         // Istanciando o jogador e carregando sua imagem.
         personagem = new Personagem();
         personagem.carregar();
@@ -65,6 +66,9 @@ public class Fase extends JPanel implements KeyListener, ActionListener {
         itemTiroRapido.carregar();
         itemVelocidade = new ItemVelocidade(805, 130);
         itemVelocidade.carregar();
+        listaEntidades.add(itemTiroRapido);
+        listaEntidades.add(itemVelocidade);
+
     }
 
     // Metodo utilizado para desenhar os elementos no painel.
@@ -75,7 +79,7 @@ public class Fase extends JPanel implements KeyListener, ActionListener {
         super.paintComponent(g);
         Graphics2D graficos = (Graphics2D) g;
         graficos.translate(offsetX, offsetY);
-        // Carrega o Fundo.
+
         spriteFundo.carregarFase1(g, personagem);
 
         // Carrega o persosangem.
@@ -96,12 +100,12 @@ public class Fase extends JPanel implements KeyListener, ActionListener {
 
         // Carrega o item se ele não for nulo e for visível
         if (itemTiroRapido != null && itemTiroRapido.isVisivel()) {
-            graficos.drawImage(itemTiroRapido.getImagem(), itemTiroRapido.getPosicaoEmX(),
-                    itemTiroRapido.getPosicaoEmY(), this);
+            graficos.drawImage(itemTiroRapido.getImagem(), itemTiroRapido.getPosicaoEmX() - offsetX,
+                            itemTiroRapido.getPosicaoEmY() - offsetY, this);
         }
         if (itemVelocidade != null && itemVelocidade.isVisivel()) {
-            graficos.drawImage(itemVelocidade.getImagem(), itemVelocidade.getPosicaoEmX(),
-                    itemVelocidade.getPosicaoEmY(), this);
+            graficos.drawImage(itemVelocidade.getImagem(), itemVelocidade.getPosicaoEmX() - offsetX,
+                            itemVelocidade.getPosicaoEmY() - offsetY, this);
         }
         // Solta os elementos na tela
         g.dispose();
@@ -129,6 +133,15 @@ public class Fase extends JPanel implements KeyListener, ActionListener {
     // Nesse caso, está puxando os metodos de atualização do personagem e dos tiros.
     // Há uma condição para atualizar os tiros, eles devem estar na tela. Se
     // estiverem fora, serão removidos para economizar recursos.
+    public void atualizarEntidades(SpriteFundo spriteFundo, Personagem personagem) {
+        // Atualiza a posição das entidades em relação ao deslocamento da câmera
+        for (Entidade entidade : listaEntidades) {
+            entidade.setPosicao(entidade.getPosicaoEmX() - spriteFundo.offsetX,
+                                entidade.getPosicaoEmY() - spriteFundo.offsetY);
+        }
+    }
+
+
     @Override
     public void actionPerformed(ActionEvent e) {
 
@@ -205,7 +218,8 @@ public class Fase extends JPanel implements KeyListener, ActionListener {
                 itemVelocidade = null;
             }
         }
-
+        personagem.colisaoBorda();
+        atualizarEntidades(spriteFundo, personagem);
         repaint();
     }
 }
