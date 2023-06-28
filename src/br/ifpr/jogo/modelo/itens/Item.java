@@ -6,6 +6,8 @@ import br.ifpr.jogo.modelo.Personagem;
 public abstract class Item extends Entidade {
     // Atributo para identificar se o item foi coletado ou não.
     private boolean coletado;
+    protected int posicaoEmX;
+    protected int posicaoEmY;
 
     // Construtor, informando que os itens não começam coletados.
     // > Nota: Isso pode dar problema caso eu queria criar novas fases, revisar esse
@@ -27,7 +29,6 @@ public abstract class Item extends Entidade {
             }
         }
     }
-
     // Getters e Setters
     public boolean isColetado() {
         return coletado;
@@ -36,5 +37,22 @@ public abstract class Item extends Entidade {
     public void setColetado(boolean coletado) {
         this.coletado = coletado;
     }
+
+    public int getPosicaoEmX() {
+        return posicaoEmX;
+    }
+
+    public void setPosicaoEmX(int posicaoEmX) {
+        this.posicaoEmX = posicaoEmX;
+    }
+
+    public int getPosicaoEmY() {
+        return posicaoEmY;
+    }
+
+    public void setPosicaoEmY(int posicaoEmY) {
+        this.posicaoEmY = posicaoEmY;
+    }
+    
 
 }

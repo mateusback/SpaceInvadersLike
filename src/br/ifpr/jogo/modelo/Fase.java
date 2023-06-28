@@ -25,11 +25,8 @@ public class Fase extends JPanel implements KeyListener, ActionListener {
     private ItemTiroRapido itemTiroRapido;
     private ItemVelocidade itemVelocidade;
     private SpriteFundo spriteFundo;
-
-    private int offsetX = 0;
-    private int offsetY = 0;
-    private ArrayList<Entidade> listaEntidades;
-
+    private int offsetX;
+    private int offsetY;
     // Constante para controlar a velocidade de uma fase
     private static final int DELAY = 5;
 
@@ -37,7 +34,6 @@ public class Fase extends JPanel implements KeyListener, ActionListener {
     public Fase() {
         setFocusable(true);
         setDoubleBuffered(true);
-        listaEntidades = new ArrayList<>();
         // Istanciando o jogador e carregando sua imagem.
         personagem = new Personagem();
         personagem.carregar();
@@ -66,9 +62,6 @@ public class Fase extends JPanel implements KeyListener, ActionListener {
         itemTiroRapido.carregar();
         itemVelocidade = new ItemVelocidade(805, 130);
         itemVelocidade.carregar();
-        listaEntidades.add(itemTiroRapido);
-        listaEntidades.add(itemVelocidade);
-
     }
 
     // Metodo utilizado para desenhar os elementos no painel.
@@ -100,12 +93,12 @@ public class Fase extends JPanel implements KeyListener, ActionListener {
 
         // Carrega o item se ele não for nulo e for visível
         if (itemTiroRapido != null && itemTiroRapido.isVisivel()) {
-            graficos.drawImage(itemTiroRapido.getImagem(), itemTiroRapido.getPosicaoEmX() - offsetX,
-                            itemTiroRapido.getPosicaoEmY() - offsetY, this);
+            graficos.drawImage(itemTiroRapido.getImagem(), itemTiroRapido.getPosicaoEmX(),
+                    itemTiroRapido.getPosicaoEmY(), this);
         }
         if (itemVelocidade != null && itemVelocidade.isVisivel()) {
-            graficos.drawImage(itemVelocidade.getImagem(), itemVelocidade.getPosicaoEmX() - offsetX,
-                            itemVelocidade.getPosicaoEmY() - offsetY, this);
+            graficos.drawImage(itemVelocidade.getImagem(), itemVelocidade.getPosicaoEmX(),
+                    itemVelocidade.getPosicaoEmY(), this);
         }
         // Solta os elementos na tela
         g.dispose();
@@ -133,37 +126,27 @@ public class Fase extends JPanel implements KeyListener, ActionListener {
     // Nesse caso, está puxando os metodos de atualização do personagem e dos tiros.
     // Há uma condição para atualizar os tiros, eles devem estar na tela. Se
     // estiverem fora, serão removidos para economizar recursos.
-    public void atualizarEntidades(SpriteFundo spriteFundo, Personagem personagem) {
-        // Atualiza a posição das entidades em relação ao deslocamento da câmera
-        for (Entidade entidade : listaEntidades) {
-            entidade.setPosicao(entidade.getPosicaoEmX() - spriteFundo.offsetX,
-                                entidade.getPosicaoEmY() - spriteFundo.offsetY);
-        }
-    }
-
 
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        
-
         // O Personagem sempre será atualizado
         personagem.atualizar();
-
         spriteFundo.atualizarJogo(personagem);
+
         List<Tiro> tiros = personagem.getTiros();
 
         // Remover tiros que saem da tela, se eles não forem mais visíveis.
 
         Iterator<Tiro> iteratorTiro = tiros.iterator();
 
-        //Enquanto houver outro item na lista.
+        // Enquanto houver outro item na lista.
         while (iteratorTiro.hasNext()) {
             Tiro tiro = iteratorTiro.next();
             // Se forem visíveis, eles serão atualizados.
             if (tiro.isVisivel()) {
                 tiro.atualizar();
-            // Se não, serão removidos.
+                // Se não, serão removidos.
             } else {
                 iteratorTiro.remove();
                 System.out.println("Tiro Removido");
@@ -188,7 +171,7 @@ public class Fase extends JPanel implements KeyListener, ActionListener {
                 for (Tiro tiro : tiros) {
                     if (tiro.getRetangulo().intersects(inimigo.getRetangulo())) {
                         System.out.println("Colisão com o tiro");
-                        //Aqui ele remove o tiro também.
+                        // Aqui ele remove o tiro também.
                         tiros.remove(tiro);
                         inimigo.setVisivel(false);
                         iteratorInimigo.remove();
@@ -218,8 +201,8 @@ public class Fase extends JPanel implements KeyListener, ActionListener {
                 itemVelocidade = null;
             }
         }
+        spriteFundo.atualizarJogo(personagem);
         personagem.colisaoBorda();
-        atualizarEntidades(spriteFundo, personagem);
         repaint();
     }
 }

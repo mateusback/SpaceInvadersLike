@@ -10,9 +10,6 @@ public abstract class Entidade {
     protected int posicaoEmX;
     protected int posicaoEmY;
 
-    public int offsetX; // Deslocamento horizontal da câmera
-    public int offsetY; // Deslocamento vertical da câmera
-
     // Velocidade:
     protected int deslocamentoEmX;
     protected int deslocamentoEmY;
@@ -42,11 +39,6 @@ public abstract class Entidade {
     // Caixa de Colisão
     public Rectangle getRetangulo() {
         return new Rectangle(posicaoEmX, posicaoEmY, larguraImagem, alturaImagem);
-    }
-
-    public void setPosicao(int x, int y) {
-    this.posicaoEmX = x;
-    this.posicaoEmY = y;
     }
     // Getters e Setters de uma entidade.
     public int getPosicaoEmX() {

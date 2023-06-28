@@ -4,6 +4,7 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 
+import br.ifpr.jogo.modelo.Sprites.SpriteTiro;
 import br.ifpr.jogo.modelo.itens.Item;
 
 public class Personagem extends Entidade {
@@ -150,7 +151,7 @@ public class Personagem extends Entidade {
             return; // Ainda não passou tempo suficiente desde o último tiro
         }
         // Criando uma instância de Sprite
-        Sprite sprite = new Sprite();
+        SpriteTiro sprite = new SpriteTiro();
         sprite.carregar();
         // Tiro para a Direita
         if (tecla.getKeyCode() == KeyEvent.VK_RIGHT || tecla.getKeyCode() == KeyEvent.VK_L) {
@@ -197,10 +198,11 @@ public class Personagem extends Entidade {
     public void colisaoBorda() {
         if (this.getPosicaoEmX() < 0) {
             this.setPosicaoEmX(0); // POSIÇÃO MÍNIMA X
-        } else if (this.getPosicaoEmX() + this.getAlturaImagem() > 1600) {
-            int maximoEmX = 1600 - this.getAlturaImagem(); // CALCULA A POSIÇÃO MÁXIMA
+        } else if (this.getPosicaoEmX() + this.getLarguraImagem() > 1600) {
+            int maximoEmX = 1600 - this.getLarguraImagem(); // CALCULA A POSIÇÃO MÁXIMA
             this.setPosicaoEmX(maximoEmX);
         }
+
         // VERIFICA COLISÃO COM A BORDA EM 'Y'
         if (this.getPosicaoEmY() < 0) {
             this.setPosicaoEmY(0); // POSIÇÃO MÍNIMA Y

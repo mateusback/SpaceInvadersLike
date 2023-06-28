@@ -2,10 +2,12 @@ package br.ifpr.jogo.modelo;
 
 import javax.swing.ImageIcon;
 
+import br.ifpr.jogo.modelo.Sprites.SpriteTiro;
+
 public class Tiro extends Entidade{
 
     //Atributos do Tiro
-    private Sprite sprite;
+    private SpriteTiro sprite;
     private boolean visivel;
 
     //Constantes do Tiro
@@ -13,7 +15,7 @@ public class Tiro extends Entidade{
     public static final int ALTURA_TIRO = 30;
 
     //Construtor com porâmetros de movimento, e de direção para mudar os sprites.
-    public Tiro(int posicaoPersonagemEmX, int posicaoPersonagemEmY, Sprite sprite, String direcao) {
+    public Tiro(int posicaoPersonagemEmX, int posicaoPersonagemEmY, SpriteTiro sprite, String direcao) {
         this.posicaoEmX = posicaoPersonagemEmX;
         this.posicaoEmY = posicaoPersonagemEmY;
         this.sprite = sprite;

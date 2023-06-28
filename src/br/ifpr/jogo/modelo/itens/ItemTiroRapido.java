@@ -10,6 +10,11 @@ public class ItemTiroRapido extends Item {
 
     // Construtor informando a posicão e definindo o delay.
     public ItemTiroRapido(int posicaoEmX, int posicaoEmY) {
+        int tamanhoTile = 64;
+        int posX = posicaoEmX * tamanhoTile;
+        int posY = posicaoEmY * tamanhoTile;
+        setPosicaoEmX(posX);
+        setPosicaoEmY(posY);
         this.posicaoEmX = posicaoEmX;
         this.posicaoEmY = posicaoEmY;
         this.reducaoDelay = 400;
@@ -44,4 +49,11 @@ public class ItemTiroRapido extends Item {
         this.reducaoDelay = reducaoDelay;
     }
 
+    public void definirPosicaoNoMapa(int xTile, int yTile) {
+        int tamanhoTile = 64;
+        int posX = xTile * tamanhoTile;
+        int posY = yTile * tamanhoTile;
+        setPosicaoEmX(posX);
+        setPosicaoEmY(posY);
+    }
 }

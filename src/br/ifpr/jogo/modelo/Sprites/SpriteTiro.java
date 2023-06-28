@@ -1,4 +1,4 @@
-package br.ifpr.jogo.modelo;
+package br.ifpr.jogo.modelo.Sprites;
 
 import javax.swing.ImageIcon;
 import java.awt.Image;
@@ -7,13 +7,13 @@ import java.util.Map;
 
 // A clase Sprite está sendo utilizada somente para o tiro no momento,
 // Mas eu gostaria de implementa-la nas demais entidades no futuro.
-public class Sprite {
+public class SpriteTiro {
 
     //Atributos do Sprite
     private Map<String, Image> imagens;
 
     //Construtor
-    public Sprite() {
+    public SpriteTiro() {
         imagens = new HashMap<>();
     }
 
