@@ -3,13 +3,14 @@ package br.ifpr.jogo.principal;
 import javax.swing.JFrame;
 
 import br.ifpr.jogo.modelo.Fase;;
+
 public class Principal extends JFrame {
 
     public Principal() {
         Fase fase = new Fase();
         add(fase);
         setVisible(true);
-        setTitle("Space Invaders");
+        setTitle("Farm Invaders");
         setResizable(false);
         setSize(1600, 960);
         setDefaultCloseOperation(EXIT_ON_CLOSE);

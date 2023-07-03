@@ -1,52 +1,68 @@
 package br.ifpr.jogo.modelo;
 
+import java.util.Random;
+
 import javax.swing.ImageIcon;
 
-public class Inimigo extends Entidade {
+import br.ifpr.jogo.modelo.itens.GerenciadorItem;
+import br.ifpr.jogo.modelo.itens.Item;
+import br.ifpr.jogo.modelo.itens.ItemTiroRapido;
+import br.ifpr.jogo.modelo.itens.ItemVelocidade;
 
-    // Atributos do Inimigo
+public class Inimigo extends Entidade {
     private Personagem personagem;
 
+    private static final int VELOCIDADE = 2;
 
-    // Construtor
     public Inimigo(int posicaoEmX, int posicaoEmY, Personagem personagem) {
-        this.posicaoEmX = posicaoEmX;
-        this.posicaoEmY = posicaoEmY;
+        super();
+        super.setPosicaoEmX(posicaoEmX);
+        super.setPosicaoEmY(posicaoEmY);
         this.personagem = personagem;
-        this.velocidade = 2;
+        super.setVelocidade(VELOCIDADE);
     }
 
-    // Carregando na tela com a imagem
     @Override
     public void carregar() {
         ImageIcon carregando = new ImageIcon("recursos\\Inimigo.png");
-        this.imagem = carregando.getImage();
-        this.alturaImagem = this.imagem.getWidth(null);
-        this.larguraImagem = this.imagem.getHeight(null);
+        super.setImagem(carregando.getImage());
+        super.setAlturaImagem(super.getImagem().getWidth(null));
+        super.setLarguraImagem(super.getImagem().getHeight(null));
     }
 
-    // Movimento do Inimigo
-
+    // Movimento do inimigo
     @Override
     public void atualizar() {
-        // Calcula a direção em relação a posição do jogador.
-        int deltaX = personagem.getPosicaoEmX() - this.posicaoEmX;
-        int deltaY = personagem.getPosicaoEmY() - this.posicaoEmY;
+        int deltaX = personagem.getPosicaoEmX() - super.getPosicaoEmX();
+        int deltaY = personagem.getPosicaoEmY() - super.getPosicaoEmY();
 
         // Atualiza a posição do inimigo com base na direção.
         if (deltaX > 0) {
-            this.posicaoEmX += velocidade;
+            super.setPosicaoEmX(super.getPosicaoEmX() + VELOCIDADE);
         } else if (deltaX < 0) {
-            this.posicaoEmX -= velocidade;
+            super.setPosicaoEmX(super.getPosicaoEmX() - VELOCIDADE);
         }
 
         if (deltaY > 0) {
-            this.posicaoEmY += velocidade;
+            super.setPosicaoEmY(super.getPosicaoEmY() + VELOCIDADE);
         } else if (deltaY < 0) {
-            this.posicaoEmY -= velocidade;
+            super.setPosicaoEmY(super.getPosicaoEmY() - VELOCIDADE);
         }
     }
 
-    // Getters e Setters
-
+    public void dropItem(GerenciadorItem gerenciadorItem) {
+        Random rand = new Random();
+        int chance = rand.nextInt(100) + 1; // Gera um número aleatório entre 1 e 100
+        if (chance <= 100) { // Chance de 30% de dropar um item
+            // Código para escolher um item aleatório e adicioná-lo ao gerenciador de itens
+            Item itemDropado;
+            int tipoItem = rand.nextInt(2) + 1; // Gera um número aleatório entre 1 e 2
+            if (tipoItem == 1) {
+                itemDropado = new ItemTiroRapido(getPosicaoEmX(), getPosicaoEmY());
+            } else {
+                itemDropado = new ItemVelocidade(getPosicaoEmX(), getPosicaoEmY());
+            }
+            gerenciadorItem.adicionarItem(itemDropado);
+        }
+    }
 }

@@ -4,43 +4,30 @@ import java.awt.Image;
 import java.awt.Rectangle;
 
 public abstract class Entidade {
-    // Atributos de uma imagem.
+    private int posicaoEmX;
+    private int posicaoEmY;
+    private int deslocamentoEmX;
+    private int deslocamentoEmY;
+    private Image imagem;
+    private boolean visivel;
+    private int larguraImagem;
+    private int alturaImagem;
+    private String direcao;
+    private int velocidade;
+    private int vida;
 
-    // Posição na tela:
-    protected int posicaoEmX;
-    protected int posicaoEmY;
-
-    // Velocidade:
-    protected int deslocamentoEmX;
-    protected int deslocamentoEmY;
-
-    // Visual Básico:
-    protected Image imagem;
-    protected boolean visivel;
-
-    // Tamanho da imagem:
-    protected int larguraImagem;
-    protected int alturaImagem;
-
-    // Para calculos mais especificos ou alteraçao de sprite:
-    protected String direcao;
-    protected int velocidade;
-
-    // Construtor, uma entidade é construida como visivel.
     public Entidade() {
         this.visivel = true;
     }
 
-    // Métodos básicos para load e update na tela de fase.
     public abstract void carregar();
 
     public abstract void atualizar();
 
-    // Caixa de Colisão
     public Rectangle getRetangulo() {
         return new Rectangle(posicaoEmX, posicaoEmY, larguraImagem, alturaImagem);
     }
-    // Getters e Setters de uma entidade.
+
     public int getPosicaoEmX() {
         return posicaoEmX;
     }
@@ -119,6 +106,14 @@ public abstract class Entidade {
 
     public void setVelocidade(int velocidade) {
         this.velocidade = velocidade;
+    }
+
+    public int getVida() {
+        return vida;
+    }
+
+    public void setVida(int vida) {
+        this.vida = vida;
     }
 
 }

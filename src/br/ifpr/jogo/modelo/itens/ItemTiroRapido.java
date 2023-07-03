@@ -5,55 +5,27 @@ import javax.swing.ImageIcon;
 import br.ifpr.jogo.modelo.Personagem;
 
 public class ItemTiroRapido extends Item {
-    // Atributos que o item pode alterar do jogador.
-    private int reducaoDelay;
+    private static final int REDUCAO_DELAY = 200;
 
-    // Construtor informando a posicão e definindo o delay.
     public ItemTiroRapido(int posicaoEmX, int posicaoEmY) {
-        int tamanhoTile = 64;
-        int posX = posicaoEmX * tamanhoTile;
-        int posY = posicaoEmY * tamanhoTile;
-        setPosicaoEmX(posX);
-        setPosicaoEmY(posY);
-        this.posicaoEmX = posicaoEmX;
-        this.posicaoEmY = posicaoEmY;
-        this.reducaoDelay = 400;
+        setPosicaoEmX(posicaoEmX);
+        setPosicaoEmY(posicaoEmY);
     }
 
-    // Sobrescrita de método carregar, para carregar a imagem na tela.
     @Override
     public void carregar() {
         ImageIcon carregando = new ImageIcon("recursos\\ItemTiroRapido.png");
-        this.imagem = carregando.getImage();
-        this.alturaImagem = this.imagem.getWidth(null);
-        this.larguraImagem = this.imagem.getHeight(null);
+        super.setImagem(carregando.getImage());
+        super.setAlturaImagem(super.getImagem().getWidth(null));
+        super.setLarguraImagem(super.getImagem().getHeight(null));
     }
 
-    // Atualizar pode ser vazio, pois o item ficará parado na tela.
     @Override
     public void atualizar() {
     }
 
-    // Metodo para aplicar o efeito do item no jogador.
     @Override
     public void aplicarEfeito(Personagem personagem) {
-        personagem.setDelayTiro(personagem.getDelayTiro() - reducaoDelay);
-    }
-
-    // Getters e Setters
-    public int getReducaoDelay() {
-        return this.reducaoDelay;
-    }
-
-    public void setReducaoDelay(int reducaoDelay) {
-        this.reducaoDelay = reducaoDelay;
-    }
-
-    public void definirPosicaoNoMapa(int xTile, int yTile) {
-        int tamanhoTile = 64;
-        int posX = xTile * tamanhoTile;
-        int posY = yTile * tamanhoTile;
-        setPosicaoEmX(posX);
-        setPosicaoEmY(posY);
+        personagem.setDelayTiro(personagem.getDelayTiro() - REDUCAO_DELAY);
     }
 }

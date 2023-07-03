@@ -39,6 +39,10 @@ public class SpriteTiro {
         ImageIcon iconBaixo = new ImageIcon("recursos\\Tiro_Baixo.gif");
         Image imagemBaixo = iconBaixo.getImage();
         imagens.put("baixo", imagemBaixo);
+
+        ImageIcon iconSuper = new ImageIcon("recursos\\SuperTiro.png");
+        Image imagemSuper = iconSuper.getImage();
+        imagens.put("super", imagemSuper);
     }
 
     //método para pegar a imagem com relação a key, se for nula, será carregada a imagem padrão

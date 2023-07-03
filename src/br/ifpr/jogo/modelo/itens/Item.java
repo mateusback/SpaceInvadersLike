@@ -4,19 +4,12 @@ import br.ifpr.jogo.modelo.Entidade;
 import br.ifpr.jogo.modelo.Personagem;
 
 public abstract class Item extends Entidade {
-    // Atributo para identificar se o item foi coletado ou não.
-    private boolean coletado;
-    protected int posicaoEmX;
-    protected int posicaoEmY;
+    private boolean coletado;;
 
-    // Construtor, informando que os itens não começam coletados.
-    // > Nota: Isso pode dar problema caso eu queria criar novas fases, revisar esse
-    // código depois.
     public Item() {
         this.coletado = false;
     }
 
-    // Método abistrado para aplicar o efeito do item no personagem.
     public abstract void aplicarEfeito(Personagem personagem);
 
     public void verificarColisao(Personagem personagem) {
@@ -28,7 +21,9 @@ public abstract class Item extends Entidade {
                 this.setColetado(true);
             }
         }
+
     }
+
     // Getters e Setters
     public boolean isColetado() {
         return coletado;
@@ -38,21 +33,13 @@ public abstract class Item extends Entidade {
         this.coletado = coletado;
     }
 
-    public int getPosicaoEmX() {
-        return posicaoEmX;
+    @Override
+    public void carregar() {
+        throw new UnsupportedOperationException("Unimplemented method 'carregar'");
     }
 
-    public void setPosicaoEmX(int posicaoEmX) {
-        this.posicaoEmX = posicaoEmX;
+    @Override
+    public void atualizar() {
+        throw new UnsupportedOperationException("Unimplemented method 'atualizar'");
     }
-
-    public int getPosicaoEmY() {
-        return posicaoEmY;
-    }
-
-    public void setPosicaoEmY(int posicaoEmY) {
-        this.posicaoEmY = posicaoEmY;
-    }
-    
-
 }

@@ -5,7 +5,9 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -16,104 +18,6 @@ public class SpriteFundo implements ImageObserver {
         private int offsetX; // Deslocamento horizontal da câmera
         private int offsetY; // Deslocamento vertical da câmera
         private BufferedImage[] tile;
-        private int[][] tiles;
-        private int mapTileNum[][] = {
-                        { 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8,
-                                        8, 8, 8, 8,
-                                        8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8 },
-                        { 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8,
-                                        8, 8, 8, 8,
-                                        8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8 },
-                        { 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8,
-                                        8, 8, 8, 8,
-                                        8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8 },
-                        { 8, 8, 8, 0, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8,
-                                        8, 8, 8, 8,
-                                        8, 8, 0, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8 },
-                        { 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8,
-                                        8, 0, 8, 8,
-                                        8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8 },
-                        { 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8,
-                                        8, 8, 8, 8,
-                                        9, 3, 3, 3, 3, 3, 3, 3, 10, 8, 8, 8, 8, 8, 8 },
-                        { 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8,
-                                        8, 8, 8, 8,
-                                        4, 1, 7, 7, 7, 7, 7, 7, 2, 8, 8, 8, 8, 8, 8 },
-                        { 8, 8, 8, 8, 8, 8, 8, 8, 8, 6, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8,
-                                        8, 8, 8, 8,
-                                        4, 7, 7, 7, 7, 7, 1, 7, 2, 8, 8, 8, 8, 8, 8 },
-                        { 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8,
-                                        8, 8, 8, 8,
-                                        4, 7, 7, 1, 7, 7, 7, 7, 2, 8, 8, 8, 8, 8, 8 },
-                        { 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8,
-                                        8, 8, 8, 8,
-                                        4, 7, 7, 7, 7, 1, 7, 7, 2, 8, 8, 8, 8, 8, 8 },
-                        { 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8,
-                                        8, 8, 8, 8,
-                                        11, 5, 5, 5, 5, 5, 5, 5, 12, 8, 8, 8, 8, 8, 8 },
-                        { 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 0, 8, 8,
-                                        8, 8, 8, 8,
-                                        8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8 },
-                        { 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8,
-                                        8, 8, 8, 8,
-                                        8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8 },
-                        { 8, 8, 8, 8, 8, 8, 8, 8, 6, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8,
-                                        8, 8, 8, 8,
-                                        8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8 },
-                        { 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8,
-                                        8, 8, 8, 8,
-                                        8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8 },
-                        { 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8,
-                                        8, 8, 8, 8,
-                                        8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8 },
-                        { 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 0, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8,
-                                        8, 8, 8, 8,
-                                        8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8 },
-                        { 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 0, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 0, 8,
-                                        8, 8, 8, 8,
-                                        8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8 },
-                        { 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8,
-                                        8, 8, 8, 8,
-                                        8, 8, 8, 8, 8, 8, 8, 6, 8, 8, 8, 8, 8, 8, 8 },
-                        { 8, 8, 8, 8, 8, 8, 9, 3, 3, 3, 10, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8,
-                                        8, 8, 8, 8,
-                                        8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8 },
-                        { 8, 8, 8, 8, 8, 8, 4, 7, 7, 7, 7, 10, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8,
-                                        8, 8, 8, 8,
-                                        8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8 },
-                        { 8, 8, 8, 8, 8, 8, 4, 7, 1, 7, 7, 7, 3, 3, 10, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8,
-                                        8, 8, 8, 8,
-                                        8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8 },
-                        { 8, 8, 8, 8, 8, 8, 4, 7, 7, 7, 7, 1, 7, 7, 2, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8,
-                                        8, 8, 8, 8,
-                                        8, 8, 0, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8 },
-                        { 8, 8, 8, 8, 8, 8, 11, 7, 7, 1, 7, 7, 7, 7, 2, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8,
-                                        8, 8, 8, 8,
-                                        8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8 },
-                        { 8, 8, 8, 8, 8, 8, 8, 11, 1, 7, 7, 7, 7, 7, 12, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8,
-                                        8, 8, 8, 8,
-                                        8, 8, 8, 8, 8, 8, 8, 8, 8, 6, 8, 8, 8, 8, 8 },
-                        { 8, 8, 8, 8, 8, 8, 8, 8, 11, 5, 5, 5, 5, 12, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8,
-                                        8, 8, 8, 8,
-                                        8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8 },
-                        { 8, 8, 8, 8, 8, 8, 8, 6, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8,
-                                        8, 0, 8, 8,
-                                        8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8 },
-                        { 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8,
-                                        8, 8, 8, 6,
-                                        8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8 },
-                        { 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8,
-                                        8, 8, 8, 8,
-                                        8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8 },
-                        { 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8,
-                                        8, 8, 8, 8,
-                                        8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 6, 8, 8, 8, 8 },
-                        { 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8,
-                                        8, 8, 8, 8,
-                                        8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8 },
-                        { 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8,
-                                        8, 8, 8, 8,
-                                        8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8 } };
 
         private static int LARGURA_TELA = 1600;
         private static int ALTURA_TELA = 960;
@@ -129,13 +33,12 @@ public class SpriteFundo implements ImageObserver {
         private int yInicial;
 
         public SpriteFundo() {
-                tiles = new int[50][32];
                 tile = new BufferedImage[13];
                 try {
                         BufferedImage spriteSheet = ImageIO.read(new File("recursos\\SpriteSheet.png"));
-                        tile[0] = spriteSheet.getSubimage(0, 0, 64, 64);
-                        tile[1] = spriteSheet.getSubimage(64, 0, 64, 64);
-                        tile[2] = spriteSheet.getSubimage(128, 0, 64, 64);
+                        tile[0] = spriteSheet.getSubimage(0, 0, 64, 64); // Grama com efeitos
+                        tile[1] = spriteSheet.getSubimage(64, 0, 64, 64); // Terra Com efeitos
+                        tile[2] = spriteSheet.getSubimage(128, 0, 64, 64); //
                         tile[3] = spriteSheet.getSubimage(192, 0, 64, 64);
                         tile[4] = spriteSheet.getSubimage(256, 0, 64, 64);
                         tile[5] = spriteSheet.getSubimage(320, 0, 64, 64);
@@ -152,26 +55,30 @@ public class SpriteFundo implements ImageObserver {
         }
 
         public void carregarFase1(Graphics g, Personagem personagem) {
-                Graphics2D graficos = (Graphics2D) g;
-                // Tamanho da fase
-                int larguraFase = 50 * LARGURA_BLOCO;
-                int alturaFase = 32 * ALTURA_BLOCO;
+                try {
+                        int[][] mapa = carregarMapa("recursos\\map.txt");
 
-                // Número de blocos horizontal e vertical
+                        Graphics2D graficos = (Graphics2D) g;
+                        // Tamanho da fase
+                        int larguraFase = 50 * LARGURA_BLOCO;
+                        int alturaFase = 32 * ALTURA_BLOCO;
 
-                // Posição inicial dos blocos para centralizar na tela
-                xInicial = (LARGURA_TELA - larguraFase) / 2;
-                yInicial = (ALTURA_TELA - alturaFase) / 2;
-                for (int i = 0; i < mapTileNum.length; i++) {
-                        for (int j = 0; j < mapTileNum[i].length; j++) {
-                                int tileNum = mapTileNum[i][j];
-                                int tipoTile = getTile(j, i);
-                                int xBloco = xInicial + j * LARGURA_BLOCO - offsetX;
-                                int yBloco = yInicial + i * ALTURA_BLOCO - offsetY;
+                        // Posição inicial dos blocos para centralizar na tela
+                        xInicial = (LARGURA_TELA - larguraFase) / 2;
+                        yInicial = (ALTURA_TELA - alturaFase) / 2;
+                        for (int posY = 0; posY < mapa.length; posY++) {
+                                for (int posX = 0; posX < mapa[posY].length; posX++) {
+                                        int tileNum = mapa[posY][posX];
+                                        int xBloco = xInicial + posX * LARGURA_BLOCO - offsetX;
+                                        int yBloco = yInicial + posY * ALTURA_BLOCO - offsetY;
 
-                                graficos.drawImage(tile[tileNum], xBloco, yBloco, this);
-
+                                        if (tileNum >= 0 && tileNum < tile.length) {
+                                                graficos.drawImage(tile[tileNum], xBloco, yBloco, this);
+                                        }
+                                }
                         }
+                } catch (IOException e) {
+                        e.printStackTrace();
                 }
         }
 
@@ -181,15 +88,41 @@ public class SpriteFundo implements ImageObserver {
                 offsetY = personagem.getPosicaoEmY() - ALTURA_TELA / 2;
         }
 
+        public static int[][] carregarMapa(String arquivo) throws IOException {
+                BufferedReader reader = new BufferedReader(new FileReader(arquivo));
+                String linha;
+                int linhas = 0;
+                int colunas = 0;
+                // Primeira passagem para obter o tamanho do mapa
+                while ((linha = reader.readLine()) != null) {
+                        linhas++;
+                        colunas = linha.trim().split(" ").length;
+                }
+
+                reader.close();
+
+                // Segunda passagem para carregar os dados do mapa
+                int[][] mapa = new int[linhas][colunas];
+                reader = new BufferedReader(new FileReader(arquivo));
+
+                int i = 0;
+                while ((linha = reader.readLine()) != null) {
+                        String[] numeros = linha.trim().split("\\s+");
+
+                        for (int j = 0; j < colunas; j++) {
+                                mapa[i][j] = Integer.parseInt(numeros[j]);
+                        }
+
+                        i++;
+                }
+
+                reader.close();
+
+                return mapa;
+        }
+
         @Override
         public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
                 throw new UnsupportedOperationException("Unimplemented method 'imageUpdate'");
-        }
-
-        public int getTile(int x, int y) {
-                return tiles[x][y];
-        }
-        public void setTile(int x, int y, int tipoTile) {
-                tiles[x][y] = tipoTile;
         }
 }

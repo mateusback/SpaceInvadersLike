@@ -1,214 +1,183 @@
 package br.ifpr.jogo.modelo;
 
+import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+
 import javax.swing.ImageIcon;
 
 import br.ifpr.jogo.modelo.Sprites.SpriteTiro;
 import br.ifpr.jogo.modelo.itens.Item;
 
 public class Personagem extends Entidade {
-    // Atributos do Personagem
     private ArrayList<Tiro> tiros;
+    private ArrayList<SuperTiro> superTiros;
     private long tempoUltimoTiro;
     private long delayTiro;
     private Item itemEquipado;
+    private boolean tudoSolto[] = new boolean[4];
+    private long tempoAtual;
 
-    // Constantes
-    private static int POSICAO_INICIAL_EM_X = 800;
-    private static int POSICAO_INICIAL_EM_Y = 500;
+    private static final int VIDA_BASE = 3;
+    private static final int DELAY_BASE = 500;
+    private static final int POSICAO_INICIAL_EM_X = 800;
+    private static final int POSICAO_INICIAL_EM_Y = 500;
+    private static final int VELOCIDADE = 3;
+    private static final ImageIcon CORACAO_CHEIO = new ImageIcon("recursos\\CoracaoCheio.png");
+    private static final ImageIcon CORACAO_VAZIO = new ImageIcon("recursos\\CoracaoVazio.png");
 
-    // Construtor, já carrega a sua posição inicial, inicializa um array de tiros
-    // e seta o delay entre os tiros
+
     public Personagem() {
-        this.posicaoEmX = POSICAO_INICIAL_EM_X;
-        this.posicaoEmY = POSICAO_INICIAL_EM_Y;
+        super.setPosicaoEmX(POSICAO_INICIAL_EM_X);
+        super.setPosicaoEmY(POSICAO_INICIAL_EM_Y);
         this.tiros = new ArrayList<Tiro>();
-        this.delayTiro = 500;
-        this.velocidade = 3;
+        this.superTiros = new ArrayList<SuperTiro>();
+        this.delayTiro = DELAY_BASE;
+        super.setVelocidade(VELOCIDADE);
+        super.setVida(VIDA_BASE);
     }
 
-    // Metodo para carregar o jogador na tela
     @Override
     public void carregar() {
         ImageIcon carregando = new ImageIcon("recursos\\Personagem_Parado.png");
-        this.imagem = carregando.getImage();
-        this.alturaImagem = this.imagem.getWidth(null);
-        this.larguraImagem = this.imagem.getHeight(null);
+        super.setImagem(carregando.getImage());
+        super.setAlturaImagem(super.getImagem().getWidth(null));
+        super.setLarguraImagem(super.getImagem().getHeight(null));
     }
 
-    // Método responsavel por atulalizar o jogador, movimentando caso o deslocamento
-    // não seja = 0
     @Override
     public void atualizar() {
-        this.posicaoEmX += deslocamentoEmX;
-        this.posicaoEmY += deslocamentoEmY;
+        super.setPosicaoEmX(super.getPosicaoEmX() + super.getDeslocamentoEmX());
+        super.setPosicaoEmY(super.getPosicaoEmY() + super.getDeslocamentoEmY());
     }
 
-    // Metodo responsavel pelo moviemnto do personagem, alterando o deslocamento e
-    // setando as direções.
-    // Existe uma atualização do icone do jogador nas condições: baixo, direta e
-    // esquerda.
-    // Há um dash ao pressionar o a tecla espaço
     public void mover(KeyEvent tecla) {
         int codigo = tecla.getKeyCode();
 
-        // Cima
         if (codigo == KeyEvent.VK_W) {
-            deslocamentoEmY = -velocidade;
-            this.setDirecao("cima");
+            super.setDeslocamentoEmY(super.getDeslocamentoEmY() - VELOCIDADE);
+            super.setDirecao("cima");
             ImageIcon carregando = new ImageIcon("recursos\\Personagem_Cima.gif");
-            this.imagem = carregando.getImage();
+            super.setImagem(carregando.getImage());
+            tudoSolto[0] = false;
         }
 
-        // Baixo
         if (codigo == KeyEvent.VK_S) {
-            deslocamentoEmY = velocidade;
+            super.setDeslocamentoEmY(VELOCIDADE);
             this.setDirecao("baixo");
             ImageIcon carregando = new ImageIcon("recursos\\Personagem_Baixo.gif");
-            this.imagem = carregando.getImage();
+            super.setImagem(carregando.getImage());
+            tudoSolto[1] = false;
         }
 
-        // Esquerda
         if (codigo == KeyEvent.VK_A) {
-            deslocamentoEmX = -velocidade;
+            super.setDeslocamentoEmX(super.getDeslocamentoEmX() - VELOCIDADE);
             this.setDirecao("esquerda");
             ImageIcon carregando = new ImageIcon("recursos\\Personagem_Esquerda.gif");
-            this.imagem = carregando.getImage();
+            super.setImagem(carregando.getImage());
+            tudoSolto[2] = false;
 
-            // Direita
         }
         if (codigo == KeyEvent.VK_D) {
-            deslocamentoEmX = velocidade;
+            super.setDeslocamentoEmX(VELOCIDADE);
             this.setDirecao("direita");
             ImageIcon carregando = new ImageIcon("recursos\\Personagem_Direita.gif");
-            this.imagem = carregando.getImage();
+            super.setImagem(carregando.getImage());
+            tudoSolto[3] = false;
         }
 
         // Dash
-        if (codigo == KeyEvent.VK_SPACE && direcao == "esquerda") {
-            this.posicaoEmX -= 100;
+        if (codigo == KeyEvent.VK_SPACE && super.getDirecao() == "esquerda") {
+            super.setPosicaoEmX(super.getPosicaoEmX() - 100);
         }
-        if (codigo == KeyEvent.VK_SPACE && direcao == "direita") {
-            this.posicaoEmX += 100;
+        if (codigo == KeyEvent.VK_SPACE && super.getDirecao() == "direita") {
+            super.setPosicaoEmX(super.getPosicaoEmX() + 100);
         }
-        if (codigo == KeyEvent.VK_SPACE && direcao == "cima") {
-            this.posicaoEmY -= 100;
+        if (codigo == KeyEvent.VK_SPACE && super.getDirecao() == "cima") {
+            super.setPosicaoEmY(super.getPosicaoEmY() - 100);
         }
-        if (codigo == KeyEvent.VK_SPACE && direcao == "baixo") {
-            this.posicaoEmY += 100;
+        if (codigo == KeyEvent.VK_SPACE && super.getDirecao() == "baixo") {
+            super.setPosicaoEmY(super.getPosicaoEmY() + 100);
         }
     }
 
-    // Metodo responsavel por parar o personagem ao finalizar o movimento.
-    // Este metodo está carregando a imagem padrão do personagem para que ela volte
-    // ao deixar o personagem imovél
     public void parar(KeyEvent tecla) {
         int codigo = tecla.getKeyCode();
-        boolean tudoSolto[] = new boolean[4];
-        // Cima
         if (codigo == KeyEvent.VK_W) {
-            deslocamentoEmY = 0;
+            super.setDeslocamentoEmY(0);
             tudoSolto[0] = true;
         }
-
-        // Baixo
         if (codigo == KeyEvent.VK_S) {
-            deslocamentoEmY = 0;
+            super.setDeslocamentoEmY(0);
             tudoSolto[1] = true;
         }
-
-        // Esquerda
         if (codigo == KeyEvent.VK_A) {
-            deslocamentoEmX = 0;
+            super.setDeslocamentoEmX(0);
             tudoSolto[2] = true;
         }
-
-        // Direita
         if (codigo == KeyEvent.VK_D) {
-            deslocamentoEmX = 0;
+            super.setDeslocamentoEmX(0);
             tudoSolto[3] = true;
         }
 
-        // Isso é uma tentativa de fazer com que a imagem mude caso o personagem solte
-        // todas as teclas.
         if (tudoSolto[0] == true && tudoSolto[1] == true && tudoSolto[2] == true && tudoSolto[3] == true) {
             ImageIcon carregando = new ImageIcon("recursos\\Personagem_Parado.png");
-            this.imagem = carregando.getImage();
+            super.setImagem(carregando.getImage());
         }
     }
 
-    // Este metodo é responsavel pela ação de tiro do jogador. Foi o metodo mais
-    // trabalhoso até agora.
-    // Ao atirar, a direção do tiro também é setada para que ele saia na direção
-    // desejada.
-    // O tiro também tem um delay básico.
     public void atirar(KeyEvent tecla) {
-        // Vá
-        long tempoAtual = System.currentTimeMillis();
+        tempoAtual = System.currentTimeMillis();
 
         if (tempoAtual - tempoUltimoTiro < delayTiro) {
-            return; // Ainda não passou tempo suficiente desde o último tiro
+            return;
         }
-        // Criando uma instância de Sprite
         SpriteTiro sprite = new SpriteTiro();
         sprite.carregar();
-        // Tiro para a Direita
+
+            int centroPersonagemX = super.getPosicaoEmX() + (super.getLarguraImagem() / 2);
+            int centroPersonagemY = super.getPosicaoEmY() + (super.getAlturaImagem() / 2);
+
         if (tecla.getKeyCode() == KeyEvent.VK_RIGHT || tecla.getKeyCode() == KeyEvent.VK_L) {
-            int frenteDoPersonagem = this.posicaoEmX + (this.larguraImagem / 2);
-            int meioDoPersonagem = this.posicaoEmY + (this.alturaImagem / 2);
-            Tiro tiro = new Tiro(frenteDoPersonagem, meioDoPersonagem, sprite, "direita");
+            Tiro tiro = new Tiro(centroPersonagemX, centroPersonagemY, sprite, "direita");
             this.tiros.add(tiro);
         }
 
-        // Tiro para Cima
         if (tecla.getKeyCode() == KeyEvent.VK_UP || tecla.getKeyCode() == KeyEvent.VK_I) {
-            int frenteDoPersonagem = this.posicaoEmX + (this.larguraImagem / 2) - (Tiro.LARGURA_TIRO / 2);
-            int meioDoPersonagem = this.posicaoEmY - (this.alturaImagem / 2);
-            Tiro tiro = new Tiro(frenteDoPersonagem, meioDoPersonagem, sprite, "cima");
+            Tiro tiro = new Tiro(centroPersonagemX, (centroPersonagemY - super.getAlturaImagem()), sprite, "cima");
             this.tiros.add(tiro);
         }
 
-        // Tiro para a Esquerda
         if (tecla.getKeyCode() == KeyEvent.VK_LEFT || tecla.getKeyCode() == KeyEvent.VK_J) {
-            int frenteDoPersonagem = this.posicaoEmX - Tiro.LARGURA_TIRO;
-            int meioDoPersonagem = this.posicaoEmY + (this.alturaImagem / 2);
-            Tiro tiro = new Tiro(frenteDoPersonagem, meioDoPersonagem, sprite, "esquerda");
+            Tiro tiro = new Tiro((centroPersonagemX - super.getLarguraImagem()), centroPersonagemY, sprite, "esquerda");
             this.tiros.add(tiro);
         }
 
-        // Tiro para Baixo
         if (tecla.getKeyCode() == KeyEvent.VK_DOWN || tecla.getKeyCode() == KeyEvent.VK_K) {
-            int frenteDoPersonagem = this.posicaoEmX + (this.larguraImagem / 2) - (Tiro.LARGURA_TIRO / 2);
-            int meioDoPersonagem = this.posicaoEmY + this.alturaImagem;
-            Tiro tiro = new Tiro(frenteDoPersonagem, meioDoPersonagem, sprite, "baixo");
+            Tiro tiro = new Tiro(centroPersonagemX, centroPersonagemY, sprite, "baixo");
             this.tiros.add(tiro);
         }
 
-        // Super Tiro
         if (tecla.getKeyCode() == KeyEvent.VK_F) {
-            int frenteDoPersonagem = this.posicaoEmX + (this.larguraImagem / 2);
-            int meioDoPersonagem = this.posicaoEmY - Tiro.ALTURA_TIRO;
-            Tiro tiro = new Tiro(frenteDoPersonagem, meioDoPersonagem, sprite, "super");
-            this.tiros.add(tiro);
+            SuperTiro superTiro = new SuperTiro(centroPersonagemX, centroPersonagemY, sprite, "super", this);
+            this.superTiros.add(superTiro);
         }
         tempoUltimoTiro = tempoAtual;
     }
 
-    public void colisaoBorda() {
-        if (this.getPosicaoEmX() < 0) {
-            this.setPosicaoEmX(0); // POSIÇÃO MÍNIMA X
-        } else if (this.getPosicaoEmX() + this.getLarguraImagem() > 1600) {
-            int maximoEmX = 1600 - this.getLarguraImagem(); // CALCULA A POSIÇÃO MÁXIMA
-            this.setPosicaoEmX(maximoEmX);
+    public void verificarColisaoBorda() {
+        if (super.getPosicaoEmX() < 0) {
+            super.setPosicaoEmX(0);
+        } else if (super.getPosicaoEmX() + super.getLarguraImagem() > 1600) {
+            int maximoEmX = 1600 - super.getLarguraImagem(); // CALCULA A POSIÇÃO MÁXIMA
+            super.setPosicaoEmX(maximoEmX);
         }
 
-        // VERIFICA COLISÃO COM A BORDA EM 'Y'
-        if (this.getPosicaoEmY() < 0) {
-            this.setPosicaoEmY(0); // POSIÇÃO MÍNIMA Y
-        } else if (this.getPosicaoEmY() + this.getAlturaImagem() > 960) {
-            int maximoEmY = 960 - this.getAlturaImagem();
-            this.setPosicaoEmY(maximoEmY);
+        if (super.getPosicaoEmY() < 0) {
+            super.setPosicaoEmY(0);
+        } else if (super.getPosicaoEmY() + super.getAlturaImagem() > 960) {
+            int maximoEmY = 960 - super.getAlturaImagem();
+            super.setPosicaoEmY(maximoEmY);
         }
     }
 
@@ -221,14 +190,37 @@ public class Personagem extends Entidade {
             itemEquipado.aplicarEfeito(this);
         }
     }
-    // Getters e Setters
 
+    public void sofrerDano(int dano){
+        super.setVida(super.getVida() - dano);
+        if(super.getVida()<=0){
+            
+        }
+    }
+    public void desenharVida(Graphics2D g) {
+    int coracaoLargura = CORACAO_CHEIO.getIconWidth();
+    int vidaCheia = getVida();
+    
+    for (int i = 0; i < VIDA_BASE; i++) {
+        ImageIcon icone = (i < vidaCheia) ? CORACAO_CHEIO : CORACAO_VAZIO;
+        g.drawImage(icone.getImage(), 10 + (i * coracaoLargura), 10, null);
+    }
+}
+    // Getters e Setters
     public ArrayList<Tiro> getTiros() {
         return tiros;
     }
 
     public void setTiros(ArrayList<Tiro> tiros) {
         this.tiros = tiros;
+    }
+    
+    public ArrayList<SuperTiro> getSuperTiros() {
+        return superTiros;
+    }
+
+    public void setSuperTiros(ArrayList<SuperTiro> superTiros) {
+        this.superTiros = superTiros;
     }
 
     public long getTempoUltimoTiro() {
