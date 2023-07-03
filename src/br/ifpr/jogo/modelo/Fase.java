@@ -126,9 +126,16 @@ public class Fase extends JPanel implements KeyListener, ActionListener {
         personagem.desenharVida(graficos);
 
         desenharGameOver(graficos);
+        desenharPontos(graficos);
 
         g.dispose();
         repaint();
+    }
+
+    public void desenharPontos(Graphics g) {
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Arial", Font.BOLD, 20));
+        g.drawString("Pontuação: " + personagem.getPontos(), getWidth() - 150, 30);
     }
 
     public void desenharGameOver(Graphics g) {
@@ -261,6 +268,7 @@ public class Fase extends JPanel implements KeyListener, ActionListener {
                         System.out.println("Colisão com o tiro");
                         // Aqui ele remove o tiro também.
                         inimigo.dropItem(gerenciadorItem);
+                        personagem.adicionarPontos(100);
                         tiros.remove(tiro);
                         inimigo.setVisivel(false);
                         iteratorInimigo.remove();
@@ -273,6 +281,7 @@ public class Fase extends JPanel implements KeyListener, ActionListener {
                     SuperTiro superTiro = iteratorSuperTiro2.next();
                     if (superTiro.getRetangulo().intersects(inimigo.getRetangulo())) {
                         System.out.println("Colisão com o tiro");
+                        personagem.adicionarPontos(100);
                         contHits++;
                         // Aqui ele remove o tiro também.
                         if (contHits == 3) {

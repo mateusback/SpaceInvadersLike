@@ -5,7 +5,7 @@ import javax.swing.ImageIcon;
 import br.ifpr.jogo.modelo.Personagem;
 
 public class ItemTiroRapido extends Item {
-    private static final int REDUCAO_DELAY = 200;
+    private static final int REDUCAO_DELAY = 300;
 
     public ItemTiroRapido(int posicaoEmX, int posicaoEmY) {
         setPosicaoEmX(posicaoEmX);

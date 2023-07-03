@@ -13,7 +13,6 @@ public class GerenciadorItem {
     public void adicionarItem(Item item) {
         itens.add(item);
     }
-
     
     public List<Item> getItens() {
         return itens;

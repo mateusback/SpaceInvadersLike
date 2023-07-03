@@ -4,10 +4,11 @@ import br.ifpr.jogo.modelo.Entidade;
 import br.ifpr.jogo.modelo.Personagem;
 
 public abstract class Item extends Entidade {
-    private boolean coletado;;
+    private boolean coletado;
 
     public Item() {
         this.coletado = false;
+        super.setVisivel(true);
     }
 
     public abstract void aplicarEfeito(Personagem personagem);

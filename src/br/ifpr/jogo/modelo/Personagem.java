@@ -17,6 +17,7 @@ public class Personagem extends Entidade {
     private Item itemEquipado;
     private boolean tudoSolto[] = new boolean[4];
     private long tempoAtual;
+    private int pontos;
 
     private static final int VIDA_BASE = 3;
     private static final int DELAY_BASE = 500;
@@ -26,7 +27,6 @@ public class Personagem extends Entidade {
     private static final ImageIcon CORACAO_CHEIO = new ImageIcon("recursos\\CoracaoCheio.png");
     private static final ImageIcon CORACAO_VAZIO = new ImageIcon("recursos\\CoracaoVazio.png");
 
-
     public Personagem() {
         super.setPosicaoEmX(POSICAO_INICIAL_EM_X);
         super.setPosicaoEmY(POSICAO_INICIAL_EM_Y);
@@ -35,6 +35,7 @@ public class Personagem extends Entidade {
         this.delayTiro = DELAY_BASE;
         super.setVelocidade(VELOCIDADE);
         super.setVida(VIDA_BASE);
+        this.pontos = 0;
     }
 
     @Override
@@ -128,15 +129,14 @@ public class Personagem extends Entidade {
 
     public void atirar(KeyEvent tecla) {
         tempoAtual = System.currentTimeMillis();
-
         if (tempoAtual - tempoUltimoTiro < delayTiro) {
             return;
         }
         SpriteTiro sprite = new SpriteTiro();
         sprite.carregar();
 
-            int centroPersonagemX = super.getPosicaoEmX() + (super.getLarguraImagem() / 2);
-            int centroPersonagemY = super.getPosicaoEmY() + (super.getAlturaImagem() / 2);
+        int centroPersonagemX = super.getPosicaoEmX() + (super.getLarguraImagem() / 2);
+        int centroPersonagemY = super.getPosicaoEmY() + (super.getAlturaImagem() / 2);
 
         if (tecla.getKeyCode() == KeyEvent.VK_RIGHT || tecla.getKeyCode() == KeyEvent.VK_L) {
             Tiro tiro = new Tiro(centroPersonagemX, centroPersonagemY, sprite, "direita");
@@ -158,9 +158,10 @@ public class Personagem extends Entidade {
             this.tiros.add(tiro);
         }
 
-        if (tecla.getKeyCode() == KeyEvent.VK_F) {
-            SuperTiro superTiro = new SuperTiro(centroPersonagemX, centroPersonagemY, sprite, "super", this);
-            this.superTiros.add(superTiro);
+        if (tecla.getKeyCode() == KeyEvent.VK_F && this.getPontos() >= 500) {
+            SuperTiro tiro = new SuperTiro(centroPersonagemX, centroPersonagemY, sprite, "super", this);
+            this.superTiros.add(tiro);
+            this.setPontos(this.getPontos()-500);
         }
         tempoUltimoTiro = tempoAtual;
     }
@@ -191,21 +192,27 @@ public class Personagem extends Entidade {
         }
     }
 
-    public void sofrerDano(int dano){
+    public void sofrerDano(int dano) {
         super.setVida(super.getVida() - dano);
-        if(super.getVida()<=0){
-            
+        if (super.getVida() <= 0) {
+
         }
     }
+
     public void desenharVida(Graphics2D g) {
-    int coracaoLargura = CORACAO_CHEIO.getIconWidth();
-    int vidaCheia = getVida();
-    
-    for (int i = 0; i < VIDA_BASE; i++) {
-        ImageIcon icone = (i < vidaCheia) ? CORACAO_CHEIO : CORACAO_VAZIO;
-        g.drawImage(icone.getImage(), 10 + (i * coracaoLargura), 10, null);
+        int coracaoLargura = CORACAO_CHEIO.getIconWidth();
+        int vidaCheia = getVida();
+
+        for (int i = 0; i < VIDA_BASE; i++) {
+            ImageIcon icone = (i < vidaCheia) ? CORACAO_CHEIO : CORACAO_VAZIO;
+            g.drawImage(icone.getImage(), 10 + (i * coracaoLargura), 10, null);
+        }
     }
-}
+
+    public void adicionarPontos(int quantidade) {
+        pontos += quantidade;
+    }
+
     // Getters e Setters
     public ArrayList<Tiro> getTiros() {
         return tiros;
@@ -214,9 +221,17 @@ public class Personagem extends Entidade {
     public void setTiros(ArrayList<Tiro> tiros) {
         this.tiros = tiros;
     }
-    
+
     public ArrayList<SuperTiro> getSuperTiros() {
         return superTiros;
+    }
+
+    public int getPontos() {
+        return pontos;
+    }
+
+    public void setPontos(int pontos) {
+        this.pontos = pontos;
     }
 
     public void setSuperTiros(ArrayList<SuperTiro> superTiros) {
