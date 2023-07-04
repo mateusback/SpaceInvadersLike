@@ -1,20 +1,22 @@
 package br.ifpr.jogo.modelo.itens;
 
+import javax.swing.ImageIcon;
+
 import br.ifpr.jogo.modelo.Entidade;
 import br.ifpr.jogo.modelo.Personagem;
 
 public abstract class Item extends Entidade {
-    // Atributo para identificar se o item foi coletado ou não.
     private boolean coletado;
 
-    // Construtor, informando que os itens não começam coletados.
-    // > Nota: Isso pode dar problema caso eu queria criar novas fases, revisar esse
-    // código depois.
     public Item() {
         this.coletado = false;
+        ImageIcon carregando = new ImageIcon("recursos\\ItemBase.png");
+        super.setVisivel(true);
+        super.setImagem(carregando.getImage());
+        super.setAlturaImagem(super.getImagem().getWidth(null));
+        super.setLarguraImagem(super.getImagem().getHeight(null));
     }
 
-    // Método abistrado para aplicar o efeito do item no personagem.
     public abstract void aplicarEfeito(Personagem personagem);
 
     public void verificarColisao(Personagem personagem) {
@@ -26,6 +28,7 @@ public abstract class Item extends Entidade {
                 this.setColetado(true);
             }
         }
+
     }
 
     // Getters e Setters
@@ -37,4 +40,13 @@ public abstract class Item extends Entidade {
         this.coletado = coletado;
     }
 
+    @Override
+    public void carregar() {
+        throw new UnsupportedOperationException("Unimplemented method 'carregar'");
+    }
+
+    @Override
+    public void atualizar() {
+        throw new UnsupportedOperationException("Unimplemented method 'atualizar'");
+    }
 }

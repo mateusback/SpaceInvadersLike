@@ -1,21 +1,27 @@
 package br.ifpr.jogo.modelo;
 
+
 import br.ifpr.jogo.modelo.Sprites.SpriteTiro;
 
-public class Tiro extends Entidade {
+
+public class SuperTiro extends Entidade{
 
     private SpriteTiro sprite;
+    private Personagem personagem;
+    private long tempoInicial;
     public static final int LARGURA_TIRO = 10;
     public static final int ALTURA_TIRO = 30;
     public static final int VELOCIDADE = 4;
 
-    public Tiro(int posicaoPersonagemEmX, int posicaoPersonagemEmY, SpriteTiro sprite, String direcao) {
+    public SuperTiro(int posicaoPersonagemEmX, int posicaoPersonagemEmY, SpriteTiro sprite, String direcao, Personagem personagem) {
         super.setPosicaoEmX(posicaoPersonagemEmX);
         super.setPosicaoEmY(posicaoPersonagemEmY);
         this.sprite = sprite;
         super.setDirecao(direcao);
         super.setVisivel(true);
         super.setVelocidade(VELOCIDADE);
+        this.personagem = personagem;
+        this.tempoInicial = System.currentTimeMillis();
     }
 
     @Override
@@ -27,29 +33,31 @@ public class Tiro extends Entidade {
 
     @Override
     public void atualizar() {
+        long tempoAtual = System.currentTimeMillis();
+        long tempoDecorrido = tempoAtual - tempoInicial;
+        if (tempoDecorrido >= 5000) { // 5000 ms = 5 segundos
+            super.setVisivel(false);
+        } else {
+            double angulo = (tempoDecorrido / 1000.0) * Math.PI * 2;
+            int raio = 100;
 
-        if (super.getDirecao().equals("direita")) {
-            super.setPosicaoEmX(super.getPosicaoEmX() + VELOCIDADE);
-        } else if (super.getDirecao().equals("cima")) {
-            super.setPosicaoEmY(super.getPosicaoEmY() - VELOCIDADE);
-        } else if (super.getDirecao().equals("esquerda")) {
-            super.setPosicaoEmX(super.getPosicaoEmX() - VELOCIDADE);
-        } else if (super.getDirecao().equals("baixo")) {
-            super.setPosicaoEmY(super.getPosicaoEmY() + VELOCIDADE);
+            int posX = (int) (Math.cos(angulo) * raio) + personagem.getPosicaoEmX();
+            int posY = (int) (Math.sin(angulo) * raio) + personagem.getPosicaoEmY();
+
+            super.setPosicaoEmX(posX);
+            super.setPosicaoEmY(posY);
         }
     }
 
     // Corrigir este método
     public boolean verificarVisibilidade() {
-        boolean visivel;
+        boolean visivel = super.isVisivel(); // obtém o valor padrão de visibilidade da classe pai
+
         if (super.getPosicaoEmX() > 1600 || super.getPosicaoEmX() < 0 || super.getPosicaoEmY() < 0
                 || super.getPosicaoEmY() > 960) {
             visivel = false;
-            super.setVisivel(visivel);
-        } else {
-            visivel = true;
-            super.setVisivel(visivel);
         }
+
         return visivel;
     }
 

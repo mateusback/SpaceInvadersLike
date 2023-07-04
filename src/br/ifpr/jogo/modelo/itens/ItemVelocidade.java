@@ -4,44 +4,30 @@ import javax.swing.ImageIcon;
 
 import br.ifpr.jogo.modelo.Personagem;
 
-public class ItemVelocidade extends Item{
-    // Atributos que o item pode alterar do jogador.
-    private int aumentoVelocidade;
+public class ItemVelocidade extends Item {
+    private static final int AUMENTO_VELOCIDADE = 4;
 
-    // Construtor informando a posição e definindo o acelerador.
     public ItemVelocidade(int posicaoEmX, int posicaoEmY) {
-        this.posicaoEmX = posicaoEmX;
-        this.posicaoEmY = posicaoEmY;
-        this.aumentoVelocidade = 3;
+        setPosicaoEmX(posicaoEmX);
+        setPosicaoEmY(posicaoEmY);
+        this.carregar();
     }
 
-    // Sobrescrita de método carregar, para carregar a imagem na tela.
     @Override
     public void carregar() {
         ImageIcon carregando = new ImageIcon("recursos\\ItemVelocidade.png");
-        this.imagem = carregando.getImage();
-        this.alturaImagem = this.imagem.getWidth(null);
-        this.larguraImagem = this.imagem.getHeight(null);
+        super.setImagem(carregando.getImage());
+        super.setAlturaImagem(super.getImagem().getWidth(null));
+        super.setLarguraImagem(super.getImagem().getHeight(null));
     }
 
-    // Atualizar pode ser vazio, pois o item ficará parado na tela.
     @Override
     public void atualizar() {
     }
 
-    // Metodo para aplicar o efeito do item no jogador.
     @Override
     public void aplicarEfeito(Personagem personagem) {
-        personagem.setVelocidade(personagem.getVelocidade() + aumentoVelocidade);
-    }
-
-    // Getters e Setters
-    public int getAumentoVelocidade() {
-        return aumentoVelocidade;
-    }
-
-    public void setAumentoVelocidade(int aumentoVelocidade) {
-        this.aumentoVelocidade = aumentoVelocidade;
+        personagem.setVelocidade(personagem.getVelocidade() + AUMENTO_VELOCIDADE);
     }
 
 }

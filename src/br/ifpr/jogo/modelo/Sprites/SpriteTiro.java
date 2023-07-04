@@ -1,4 +1,4 @@
-package br.ifpr.jogo.modelo;
+package br.ifpr.jogo.modelo.Sprites;
 
 import javax.swing.ImageIcon;
 import java.awt.Image;
@@ -7,13 +7,13 @@ import java.util.Map;
 
 // A clase Sprite está sendo utilizada somente para o tiro no momento,
 // Mas eu gostaria de implementa-la nas demais entidades no futuro.
-public class Sprite {
+public class SpriteTiro {
 
     //Atributos do Sprite
     private Map<String, Image> imagens;
 
     //Construtor
-    public Sprite() {
+    public SpriteTiro() {
         imagens = new HashMap<>();
     }
 
@@ -39,6 +39,10 @@ public class Sprite {
         ImageIcon iconBaixo = new ImageIcon("recursos\\Tiro_Baixo.gif");
         Image imagemBaixo = iconBaixo.getImage();
         imagens.put("baixo", imagemBaixo);
+
+        ImageIcon iconSuper = new ImageIcon("recursos\\SuperTiro.png");
+        Image imagemSuper = iconSuper.getImage();
+        imagens.put("super", imagemSuper);
     }
 
     //método para pegar a imagem com relação a key, se for nula, será carregada a imagem padrão

@@ -10,9 +10,9 @@ public class Principal extends JFrame {
         Fase fase = new Fase();
         add(fase);
         setVisible(true);
-        setTitle("Space Invaders");
+        setTitle("Farm Invaders");
         setResizable(false);
-        setSize(1600, 1000);
+        setSize(1600, 960);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
     }
