@@ -18,7 +18,6 @@ public class SpriteFundo implements ImageObserver {
         private int offsetX; // Deslocamento horizontal da câmera
         private int offsetY; // Deslocamento vertical da câmera
         private BufferedImage[] tile;
-
         private static int LARGURA_TELA = 1600;
         private static int ALTURA_TELA = 960;
 
@@ -119,6 +118,22 @@ public class SpriteFundo implements ImageObserver {
                 reader.close();
 
                 return mapa;
+        }
+
+        public int getOffsetX() {
+                return offsetX;
+        }
+
+        public void setOffsetX(int offsetX) {
+                this.offsetX = offsetX;
+        }
+
+        public int getOffsetY() {
+                return offsetY;
+        }
+
+        public void setOffsetY(int offsetY) {
+                this.offsetY = offsetY;
         }
 
         @Override

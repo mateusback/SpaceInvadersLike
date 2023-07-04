@@ -26,8 +26,7 @@ public class Fase extends JPanel implements KeyListener, ActionListener {
     private Timer timer;
     private List<Inimigo> inimigos;
     private SpriteFundo spriteFundo;
-    private int offsetX;
-    private int offsetY;
+
     private GerenciadorItem gerenciadorItem;
     private int contadorInimigos;
 
@@ -45,12 +44,10 @@ public class Fase extends JPanel implements KeyListener, ActionListener {
         setDoubleBuffered(true);
         // Instanciando o teclado.
         addKeyListener(this);
-        offsetX = 0;
-        offsetY = 0;
+        spriteFundo = new SpriteFundo();
         // Istanciando o jogador e carregando sua imagem.
         personagem = new Personagem();
         personagem.carregar();
-        spriteFundo = new SpriteFundo();
 
         // Definindo a velocidade do jogo.
         timer = new Timer(DELAY, this);
@@ -58,6 +55,7 @@ public class Fase extends JPanel implements KeyListener, ActionListener {
         gerenciadorItem = new GerenciadorItem();
         // Adicionando inimigos
         inimigos = new ArrayList<>();
+
     }
 
     // Metodo utilizado para desenhar os elementos no painel.
@@ -66,7 +64,6 @@ public class Fase extends JPanel implements KeyListener, ActionListener {
     // como forma de array.
     public void paintComponent(Graphics g) {
         Graphics2D graficos = (Graphics2D) g;
-        graficos.translate(offsetX, offsetY);
         super.paintComponent(g);
         spriteFundo.carregarFase1(g, personagem);
 
@@ -100,15 +97,29 @@ public class Fase extends JPanel implements KeyListener, ActionListener {
 
         desenharGameOver(graficos);
         desenharPontos(graficos);
+        desenharVelocidiade(graficos);
+        desenharDelay(graficos);
 
-        g.dispose();
         repaint();
+        g.dispose();
     }
 
     public void desenharPontos(Graphics g) {
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.BOLD, 20));
         g.drawString("Pontuação: " + personagem.getPontos(), getWidth() - 300, 30);
+    }
+
+    public void desenharDelay(Graphics g) {
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Arial", Font.BOLD, 20));
+        g.drawString("Delay Tiro: " + personagem.getDelayTiro(), getWidth() - 300, 50);
+    }
+
+    public void desenharVelocidiade(Graphics g) {
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Arial", Font.BOLD, 20));
+        g.drawString("Velocidade: " + personagem.getVelocidade(), getWidth() - 300, 70);
     }
 
     public void desenharGameOver(Graphics g) {
@@ -245,14 +256,15 @@ public class Fase extends JPanel implements KeyListener, ActionListener {
                     if (superTiro.getRetangulo().intersects(inimigo.getRetangulo())) {
                         System.out.println("Colisão com o tiro");
                         personagem.adicionarPontos(100);
-                        contHits++;
-                        // Aqui ele remove o tiro também.
+                        inimigo.dropItem(gerenciadorItem);
                         if (contHits == 3) {
-                            iteratorSuperTiro2.remove();
+                            iteratorSuperTiro2.remove(); // Remover o superTiro após 4 acertos (0, 1, 2, 3 = 4 acertos)
                         }
+
                         inimigo.setVisivel(false);
-                        iteratorSuperTiro2.remove();
-                        break;
+                        contHits++; // Incrementar a contagem dos acertos após a verificação
+
+                        break; // Sair do loop após acertar o inimigo
                     }
                 }
             } else {

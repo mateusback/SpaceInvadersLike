@@ -5,7 +5,7 @@ import javax.swing.ImageIcon;
 import br.ifpr.jogo.modelo.Personagem;
 
 public class ItemVelocidade extends Item {
-    private static final int AUMENTO_VELOCIDADE = 4;
+    private static final int AUMENTO_VELOCIDADE = 1;
 
     public ItemVelocidade(int posicaoEmX, int posicaoEmY) {
         setPosicaoEmX(posicaoEmX);

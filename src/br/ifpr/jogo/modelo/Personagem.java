@@ -56,7 +56,7 @@ public class Personagem extends Entidade {
         int codigo = tecla.getKeyCode();
 
         if (codigo == KeyEvent.VK_W) {
-            super.setDeslocamentoEmY(super.getDeslocamentoEmY() - VELOCIDADE);
+            super.setDeslocamentoEmY(super.getDeslocamentoEmY() - super.getVelocidade());
             super.setDirecao("cima");
             ImageIcon carregando = new ImageIcon("recursos\\Personagem_Cima.gif");
             super.setImagem(carregando.getImage());
@@ -64,7 +64,7 @@ public class Personagem extends Entidade {
         }
 
         if (codigo == KeyEvent.VK_S) {
-            super.setDeslocamentoEmY(VELOCIDADE);
+            super.setDeslocamentoEmY(super.getVelocidade());
             this.setDirecao("baixo");
             ImageIcon carregando = new ImageIcon("recursos\\Personagem_Baixo.gif");
             super.setImagem(carregando.getImage());
@@ -72,7 +72,7 @@ public class Personagem extends Entidade {
         }
 
         if (codigo == KeyEvent.VK_A) {
-            super.setDeslocamentoEmX(super.getDeslocamentoEmX() - VELOCIDADE);
+            super.setDeslocamentoEmX(super.getDeslocamentoEmX() - super.getVelocidade());
             this.setDirecao("esquerda");
             ImageIcon carregando = new ImageIcon("recursos\\Personagem_Esquerda.gif");
             super.setImagem(carregando.getImage());
@@ -80,7 +80,7 @@ public class Personagem extends Entidade {
 
         }
         if (codigo == KeyEvent.VK_D) {
-            super.setDeslocamentoEmX(VELOCIDADE);
+            super.setDeslocamentoEmX(super.getVelocidade());
             this.setDirecao("direita");
             ImageIcon carregando = new ImageIcon("recursos\\Personagem_Direita.gif");
             super.setImagem(carregando.getImage());
@@ -260,6 +260,14 @@ public class Personagem extends Entidade {
 
     public void setItemEquipado(Item itemEquipado) {
         this.itemEquipado = itemEquipado;
+    }
+    @Override
+    public void setVelocidade(int velocidade){
+        if(super.getVelocidade() > 10){
+            return;
+        }else{
+            super.setVelocidade(velocidade);
+        }
     }
 
 }
