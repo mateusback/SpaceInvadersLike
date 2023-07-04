@@ -52,11 +52,10 @@ public class Inimigo extends Entidade {
 
     public void dropItem(GerenciadorItem gerenciadorItem) {
         Random rand = new Random();
-        int chance = rand.nextInt(100) + 1; // Gera um número aleatório entre 1 e 100
-        if (chance <= 100) { // Chance de 30% de dropar um item
-            // Código para escolher um item aleatório e adicioná-lo ao gerenciador de itens
+        int chance = rand.nextInt(100) + 1;
+        if (chance <= 30) { 
             Item itemDropado;
-            int tipoItem = rand.nextInt(2) + 1; // Gera um número aleatório entre 1 e 2
+            int tipoItem = rand.nextInt(2) + 1;
             if (tipoItem == 1) {
                 itemDropado = new ItemTiroRapido(getPosicaoEmX(), getPosicaoEmY());
             } else {

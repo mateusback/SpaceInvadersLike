@@ -19,20 +19,15 @@ import javax.swing.Timer;
 import br.ifpr.jogo.modelo.Sprites.SpriteFundo;
 import br.ifpr.jogo.modelo.itens.GerenciadorItem;
 import br.ifpr.jogo.modelo.itens.Item;
-import br.ifpr.jogo.modelo.itens.ItemTiroRapido;
-import br.ifpr.jogo.modelo.itens.ItemVelocidade;
 
 public class Fase extends JPanel implements KeyListener, ActionListener {
     // Atributos da Fase
     private Personagem personagem;
     private Timer timer;
     private List<Inimigo> inimigos;
-    private ItemTiroRapido itemTiroRapido;
-    private ItemVelocidade itemVelocidade;
     private SpriteFundo spriteFundo;
     private int offsetX;
     private int offsetY;
-    private List<Item> itensDropados;
     private GerenciadorItem gerenciadorItem;
     private int contadorInimigos;
 
@@ -60,21 +55,9 @@ public class Fase extends JPanel implements KeyListener, ActionListener {
         // Definindo a velocidade do jogo.
         timer = new Timer(DELAY, this);
         timer.start();
-
+        gerenciadorItem = new GerenciadorItem();
         // Adicionando inimigos
         inimigos = new ArrayList<>();
-
-        itensDropados = new ArrayList<>();
-        gerenciadorItem = new GerenciadorItem();
-        // Adicionando o item de tiro rápido a fase.
-        itemTiroRapido = new ItemTiroRapido(1293, 434);
-        itemTiroRapido.carregar();
-        gerenciadorItem.adicionarItem(itemTiroRapido);
-
-        // Adicionando o item de velocidade ao gerenciador de itens
-        itemVelocidade = new ItemVelocidade(805, 130);
-        itemVelocidade.carregar();
-        gerenciadorItem.adicionarItem(itemVelocidade);
     }
 
     // Metodo utilizado para desenhar os elementos no painel.
@@ -106,23 +89,13 @@ public class Fase extends JPanel implements KeyListener, ActionListener {
             graficos.drawImage(inimigo.getImagem(), inimigo.getPosicaoEmX(), inimigo.getPosicaoEmY(), null);
         }
 
-        // Carrega o item se ele não for nulo e for visível
-        if (itemTiroRapido != null && itemTiroRapido.isVisivel()) {
-            graficos.drawImage(itemTiroRapido.getImagem(), itemTiroRapido.getPosicaoEmX() - offsetX,
-                    itemTiroRapido.getPosicaoEmY() - offsetY, this);
-        }
-
-        if (itemVelocidade != null && itemVelocidade.isVisivel()) {
-            graficos.drawImage(itemVelocidade.getImagem(), itemVelocidade.getPosicaoEmX() - offsetX,
-                    itemVelocidade.getPosicaoEmY() - offsetY, this);
-        }
-
-        for (Item item : itensDropados) {
-            if (item.isVisivel()) {
-                graficos.drawImage(item.getImagem(), item.getPosicaoEmX(), item.getPosicaoEmY(), null);
+        if (!(gerenciadorItem == null)) {
+            for (Item item : gerenciadorItem.getItens()) {
+                if (item.isVisivel()) {
+                    graficos.drawImage(item.getImagem(), item.getPosicaoEmX(), item.getPosicaoEmY(), null);
+                }
             }
         }
-
         personagem.desenharVida(graficos);
 
         desenharGameOver(graficos);
@@ -135,7 +108,7 @@ public class Fase extends JPanel implements KeyListener, ActionListener {
     public void desenharPontos(Graphics g) {
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.BOLD, 20));
-        g.drawString("Pontuação: " + personagem.getPontos(), getWidth() - 150, 30);
+        g.drawString("Pontuação: " + personagem.getPontos(), getWidth() - 300, 30);
     }
 
     public void desenharGameOver(Graphics g) {
@@ -145,10 +118,6 @@ public class Fase extends JPanel implements KeyListener, ActionListener {
             g.setColor(Color.RED);
             g.drawString("Game Over", LARGURA_TELA / 2 - 100, ALTURA_TELA / 2);
         }
-    }
-
-    public void adicionarItemDropado(Item itemDropado) {
-        itensDropados.add(itemDropado);
     }
 
     // Puxa metodos para quando as teclas são pressionadas.
@@ -196,19 +165,13 @@ public class Fase extends JPanel implements KeyListener, ActionListener {
             }
             this.contadorInimigos = 0;
         }
-
-        for (Item item : gerenciadorItem.getItens()) {
-            if (item.isVisivel() && personagem.getRetangulo().intersects(item.getRetangulo())) {
-                System.out.println("Colisão com item: " + item.getClass().getSimpleName());
-                item.aplicarEfeito(personagem);
-                item.setVisivel(false);
-            }
-        }
-
-        for (Item item : itensDropados) {
-            if (item.isVisivel() && personagem.getRetangulo().intersects(item.getRetangulo())) {
-                item.aplicarEfeito(personagem);
-                item.setVisivel(false);
+        if (!(gerenciadorItem == null)) {
+            for (Item item : gerenciadorItem.getItens()) {
+                if (item.isVisivel() && personagem.getRetangulo().intersects(item.getRetangulo())) {
+                    System.out.println("Colisão com item: " + item.getClass().getSimpleName());
+                    item.aplicarEfeito(personagem);
+                    item.setVisivel(false);
+                }
             }
         }
         List<Tiro> tiros = this.personagem.getTiros();
@@ -299,22 +262,6 @@ public class Fase extends JPanel implements KeyListener, ActionListener {
 
         // Lógica do Item de velocidade de ataque.
         // Se ele for visível e nõa for nulo e o jogador encostar nele.
-        if (itemTiroRapido != null) {
-            itemTiroRapido.verificarColisao(personagem);
-
-            if (itemTiroRapido.isColetado()) {
-                itemTiroRapido = null;
-            }
-        }
-
-        // Lógica do Item de velocidade.
-        if (itemVelocidade != null) {
-            itemVelocidade.verificarColisao(personagem);
-
-            if (itemVelocidade.isColetado()) {
-                itemVelocidade = null;
-            }
-        }
         spriteFundo.atualizarJogo(personagem);
         personagem.verificarColisaoBorda();
 

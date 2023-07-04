@@ -1,5 +1,7 @@
 package br.ifpr.jogo.modelo.itens;
 
+import javax.swing.ImageIcon;
+
 import br.ifpr.jogo.modelo.Entidade;
 import br.ifpr.jogo.modelo.Personagem;
 
@@ -8,7 +10,11 @@ public abstract class Item extends Entidade {
 
     public Item() {
         this.coletado = false;
+        ImageIcon carregando = new ImageIcon("recursos\\ItemBase.png");
         super.setVisivel(true);
+        super.setImagem(carregando.getImage());
+        super.setAlturaImagem(super.getImagem().getWidth(null));
+        super.setLarguraImagem(super.getImagem().getHeight(null));
     }
 
     public abstract void aplicarEfeito(Personagem personagem);
