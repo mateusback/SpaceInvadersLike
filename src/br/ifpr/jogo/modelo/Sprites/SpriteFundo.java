@@ -32,7 +32,7 @@ public class SpriteFundo implements ImageObserver {
         private int yInicial;
 
         public SpriteFundo() {
-                tile = new BufferedImage[13];
+                tile = new BufferedImage[19];
                 try {
                         BufferedImage spriteSheet = ImageIO.read(new File("recursos\\SpriteSheet.png"));
                         tile[0] = spriteSheet.getSubimage(0, 0, 64, 64); // Grama com efeitos
@@ -48,6 +48,12 @@ public class SpriteFundo implements ImageObserver {
                         tile[10] = spriteSheet.getSubimage(64, 64, 64, 64);
                         tile[11] = spriteSheet.getSubimage(0, 128, 64, 64);
                         tile[12] = spriteSheet.getSubimage(64, 128, 64, 64);
+                        tile[13] = spriteSheet.getSubimage(128, 64, 64, 64);
+                        tile[14] = spriteSheet.getSubimage(128, 128, 64, 64);
+                        tile[15] = spriteSheet.getSubimage(192, 64, 64, 64);
+                        tile[16] = spriteSheet.getSubimage(192, 128, 64, 64);
+                        tile[17] = spriteSheet.getSubimage(256, 64, 64, 64);
+                        tile[18] = spriteSheet.getSubimage(256, 128, 64, 64);
                 } catch (IOException e) {
                         e.printStackTrace();
                 }
