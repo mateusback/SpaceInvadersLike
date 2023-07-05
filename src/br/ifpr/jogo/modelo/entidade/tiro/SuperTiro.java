@@ -1,7 +1,9 @@
-package br.ifpr.jogo.modelo;
+package br.ifpr.jogo.modelo.entidade.tiro;
 
 
-import br.ifpr.jogo.modelo.Sprites.SpriteTiro;
+import br.ifpr.jogo.modelo.entidade.Entidade;
+import br.ifpr.jogo.modelo.entidade.Personagem;
+import br.ifpr.jogo.modelo.sprite.SpriteTiro;
 
 
 public class SuperTiro extends Entidade{

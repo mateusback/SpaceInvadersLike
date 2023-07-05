@@ -1,4 +1,4 @@
-package br.ifpr.jogo.modelo.Sprites;
+package br.ifpr.jogo.modelo.sprite;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -12,7 +12,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import br.ifpr.jogo.modelo.Personagem;
+import br.ifpr.jogo.modelo.entidade.Personagem;
 
 public class SpriteFundo implements ImageObserver {
         private int offsetX; // Deslocamento horizontal da câmera

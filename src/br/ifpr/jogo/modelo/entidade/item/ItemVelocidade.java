@@ -1,13 +1,13 @@
-package br.ifpr.jogo.modelo.itens;
+package br.ifpr.jogo.modelo.entidade.item;
 
 import javax.swing.ImageIcon;
 
-import br.ifpr.jogo.modelo.Personagem;
+import br.ifpr.jogo.modelo.entidade.Personagem;
 
-public class ItemTiroRapido extends Item {
-    private static final int REDUCAO_DELAY = 20;
+public class ItemVelocidade extends Item {
+    private static final int AUMENTO_VELOCIDADE = 1;
 
-    public ItemTiroRapido(int posicaoEmX, int posicaoEmY) {
+    public ItemVelocidade(int posicaoEmX, int posicaoEmY) {
         setPosicaoEmX(posicaoEmX);
         setPosicaoEmY(posicaoEmY);
         this.carregar();
@@ -15,7 +15,7 @@ public class ItemTiroRapido extends Item {
 
     @Override
     public void carregar() {
-        ImageIcon carregando = new ImageIcon("recursos\\ItemTiroRapido.png");
+        ImageIcon carregando = new ImageIcon("recursos\\ItemVelocidade.png");
         super.setImagem(carregando.getImage());
         super.setAlturaImagem(super.getImagem().getWidth(null));
         super.setLarguraImagem(super.getImagem().getHeight(null));
@@ -27,6 +27,9 @@ public class ItemTiroRapido extends Item {
 
     @Override
     public void aplicarEfeito(Personagem personagem) {
-        personagem.setDelayTiro(personagem.getDelayTiro() - REDUCAO_DELAY);
+        if (personagem.getVelocidade() < 7) {
+            personagem.setVelocidade(personagem.getVelocidade() + AUMENTO_VELOCIDADE);
+        }
     }
+
 }

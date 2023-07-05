@@ -1,9 +1,9 @@
-package br.ifpr.jogo.modelo.itens;
+package br.ifpr.jogo.modelo.entidade.item;
 
 import javax.swing.ImageIcon;
 
-import br.ifpr.jogo.modelo.Entidade;
-import br.ifpr.jogo.modelo.Personagem;
+import br.ifpr.jogo.modelo.entidade.Personagem;
+import br.ifpr.jogo.modelo.entidade.Entidade;
 
 public abstract class Item extends Entidade {
     private boolean coletado;

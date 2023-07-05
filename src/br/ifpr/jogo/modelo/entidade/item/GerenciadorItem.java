@@ -1,4 +1,4 @@
-package br.ifpr.jogo.modelo.itens;
+package br.ifpr.jogo.modelo.entidade.item;
 
 import java.util.ArrayList;
 import java.util.List;

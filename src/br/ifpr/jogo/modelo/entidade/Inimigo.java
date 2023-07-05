@@ -1,13 +1,14 @@
-package br.ifpr.jogo.modelo;
+package br.ifpr.jogo.modelo.entidade;
 
 import java.util.Random;
 
 import javax.swing.ImageIcon;
 
-import br.ifpr.jogo.modelo.itens.GerenciadorItem;
-import br.ifpr.jogo.modelo.itens.Item;
-import br.ifpr.jogo.modelo.itens.ItemTiroRapido;
-import br.ifpr.jogo.modelo.itens.ItemVelocidade;
+import br.ifpr.jogo.modelo.entidade.item.GerenciadorItem;
+import br.ifpr.jogo.modelo.entidade.item.Item;
+import br.ifpr.jogo.modelo.entidade.item.ItemTiroRapido;
+import br.ifpr.jogo.modelo.entidade.item.ItemVelocidade;
+import br.ifpr.jogo.modelo.entidade.item.ItemVida;
 
 public class Inimigo extends Entidade {
     private Personagem personagem;
@@ -53,13 +54,15 @@ public class Inimigo extends Entidade {
     public void dropItem(GerenciadorItem gerenciadorItem) {
         Random rand = new Random();
         int chance = rand.nextInt(100) + 1;
-        if (chance <= 30) { 
+        if (chance <= 25) { 
             Item itemDropado;
-            int tipoItem = rand.nextInt(2) + 1;
+            int tipoItem = rand.nextInt(3) + 1;
             if (tipoItem == 1) {
-                itemDropado = new ItemTiroRapido(getPosicaoEmX(), getPosicaoEmY());
-            } else {
-                itemDropado = new ItemVelocidade(getPosicaoEmX(), getPosicaoEmY());
+                itemDropado = new ItemTiroRapido(super.getPosicaoEmX(), super.getPosicaoEmY());
+            } else if(tipoItem == 2) {
+                itemDropado = new ItemVelocidade(super.getPosicaoEmX(), super.getPosicaoEmY());
+            } else{
+                itemDropado = new ItemVida(super.getPosicaoEmX(), super.getPosicaoEmY());
             }
             gerenciadorItem.adicionarItem(itemDropado);
         }

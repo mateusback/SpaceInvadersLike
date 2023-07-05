@@ -1,4 +1,4 @@
-package br.ifpr.jogo.modelo;
+package br.ifpr.jogo.modelo.entidade;
 
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
@@ -6,8 +6,10 @@ import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 
-import br.ifpr.jogo.modelo.Sprites.SpriteTiro;
-import br.ifpr.jogo.modelo.itens.Item;
+import br.ifpr.jogo.modelo.sprite.SpriteTiro;
+import br.ifpr.jogo.modelo.entidade.item.Item;
+import br.ifpr.jogo.modelo.entidade.tiro.SuperTiro;
+import br.ifpr.jogo.modelo.entidade.tiro.Tiro;
 
 public class Personagem extends Entidade {
     private ArrayList<Tiro> tiros;
@@ -161,7 +163,7 @@ public class Personagem extends Entidade {
         if (tecla.getKeyCode() == KeyEvent.VK_F && this.getPontos() >= 500) {
             SuperTiro tiro = new SuperTiro(centroPersonagemX, centroPersonagemY, sprite, "super", this);
             this.superTiros.add(tiro);
-            this.setPontos(this.getPontos()-500);
+            this.setPontos(this.getPontos() - 500);
         }
         tempoUltimoTiro = tempoAtual;
     }
@@ -260,14 +262,6 @@ public class Personagem extends Entidade {
 
     public void setItemEquipado(Item itemEquipado) {
         this.itemEquipado = itemEquipado;
-    }
-    @Override
-    public void setVelocidade(int velocidade){
-        if(super.getVelocidade() > 10){
-            return;
-        }else{
-            super.setVelocidade(velocidade);
-        }
     }
 
 }

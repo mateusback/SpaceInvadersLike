@@ -1,13 +1,13 @@
-package br.ifpr.jogo.modelo.itens;
+package br.ifpr.jogo.modelo.entidade.item;
 
 import javax.swing.ImageIcon;
 
-import br.ifpr.jogo.modelo.Personagem;
+import br.ifpr.jogo.modelo.entidade.Personagem;
 
-public class ItemVelocidade extends Item {
-    private static final int AUMENTO_VELOCIDADE = 1;
+public class ItemVida extends Item {
+    private final int AUMENTO_VIDA = 1;
 
-    public ItemVelocidade(int posicaoEmX, int posicaoEmY) {
+    public ItemVida(int posicaoEmX, int posicaoEmY) {
         setPosicaoEmX(posicaoEmX);
         setPosicaoEmY(posicaoEmY);
         this.carregar();
@@ -15,19 +15,17 @@ public class ItemVelocidade extends Item {
 
     @Override
     public void carregar() {
-        ImageIcon carregando = new ImageIcon("recursos\\ItemVelocidade.png");
+        ImageIcon carregando = new ImageIcon("recursos\\ItemVida.png");
         super.setImagem(carregando.getImage());
         super.setAlturaImagem(super.getImagem().getWidth(null));
         super.setLarguraImagem(super.getImagem().getHeight(null));
     }
 
     @Override
-    public void atualizar() {
-    }
-
-    @Override
     public void aplicarEfeito(Personagem personagem) {
-        personagem.setVelocidade(personagem.getVelocidade() + AUMENTO_VELOCIDADE);
+        if (personagem.getVida() < 3) {
+            personagem.setVida(personagem.getVida() + AUMENTO_VIDA);
+        }
     }
 
 }
