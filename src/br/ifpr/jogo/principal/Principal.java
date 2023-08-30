@@ -5,6 +5,8 @@ import javax.swing.JFrame;
 import br.ifpr.jogo.modelo.Fase;;
 
 public class Principal extends JFrame {
+    public static int ALTURA_DA_JANELA = 960;
+    public static int LARGURA_DA_JANELA = 1600;
 
     public Principal() {
         Fase fase = new Fase();
@@ -12,7 +14,7 @@ public class Principal extends JFrame {
         setVisible(true);
         setTitle("Farm Invaders");
         setResizable(false);
-        setSize(1600, 960);
+        setSize(1600, ALTURA_DA_JANELA);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
     }

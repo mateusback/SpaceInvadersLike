@@ -17,12 +17,14 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import br.ifpr.jogo.modelo.elementosgraficos.Inimigo;
+import br.ifpr.jogo.modelo.elementosgraficos.Nuvem;
 import br.ifpr.jogo.modelo.elementosgraficos.Personagem;
 import br.ifpr.jogo.modelo.elementosgraficos.itens.GerenciadorItem;
 import br.ifpr.jogo.modelo.elementosgraficos.itens.Item;
 import br.ifpr.jogo.modelo.elementosgraficos.tiros.SuperTiro;
 import br.ifpr.jogo.modelo.elementosgraficos.tiros.Tiro;
 import br.ifpr.jogo.modelo.sprites.SpriteFundo;
+import br.ifpr.jogo.principal.Principal;
 
 public class Fase extends JPanel implements KeyListener, ActionListener {
     // Atributos da Fase
@@ -33,12 +35,11 @@ public class Fase extends JPanel implements KeyListener, ActionListener {
 
     private GerenciadorItem gerenciadorItem;
     private int contadorInimigos;
-
+    private ArrayList<Nuvem> nuvens;
     private boolean jogoAcabou = false;
 
-    private final int LARGURA_TELA = 1600;
-    private final int ALTURA_TELA = 960;
     private final int LIMITE_INIMIGOS = 50;
+    private static final int QTDE_DE_NUVENS = 7;
     // Constante para controlar a velocidade de uma fase
     private static final int DELAY = 5;
 
@@ -53,6 +54,7 @@ public class Fase extends JPanel implements KeyListener, ActionListener {
         personagem = new Personagem();
         personagem.carregar();
 
+        this.inicializaElementosGraficosAdicionais();
         // Definindo a velocidade do jogo.
         timer = new Timer(DELAY, this);
         timer.start();
@@ -70,7 +72,6 @@ public class Fase extends JPanel implements KeyListener, ActionListener {
         Graphics2D graficos = (Graphics2D) g;
         super.paintComponent(g);
         spriteFundo.carregarFase1(g, personagem);
-
         graficos.drawImage(personagem.getImagem(), personagem.getPosicaoEmX(), personagem.getPosicaoEmY(), null);
 
         ArrayList<Tiro> tiros = personagem.getTiros();
@@ -97,6 +98,11 @@ public class Fase extends JPanel implements KeyListener, ActionListener {
                 }
             }
         }
+
+        for (Nuvem nuvem : nuvens) {
+            graficos.drawImage(nuvem.getImagem(), nuvem.getPosicaoEmX(), nuvem.getPosicaoEmY(), this);
+        }
+
         personagem.desenharVida(graficos);
 
         desenharGameOver(graficos);
@@ -131,7 +137,17 @@ public class Fase extends JPanel implements KeyListener, ActionListener {
             Font fonteGameOver = new Font("Arial", Font.BOLD, 48);
             g.setFont(fonteGameOver);
             g.setColor(Color.RED);
-            g.drawString("Game Over", LARGURA_TELA / 2 - 100, ALTURA_TELA / 2);
+            g.drawString("Game Over", Principal.LARGURA_DA_JANELA / 2 - 100, Principal.ALTURA_DA_JANELA / 2);
+        }
+    }
+
+    public void inicializaElementosGraficosAdicionais() {
+        this.nuvens = new ArrayList<Nuvem>();
+        for (int i = 0; i < QTDE_DE_NUVENS; i++) {
+            int x = (int) (Math.random() * Principal.LARGURA_DA_JANELA);
+            int y = (int) (Math.random() * Principal.ALTURA_DA_JANELA);
+            Nuvem nuvem = new Nuvem(x, y);
+            this.nuvens.add(nuvem);
         }
     }
 
@@ -153,7 +169,7 @@ public class Fase extends JPanel implements KeyListener, ActionListener {
         // vazio
     }
 
-    // Puxa os metoods quando acóes especificas são realizadas.
+    // Puxa os metodos quando acóes especificas são realizadas.
     // Nesse caso, está puxando os metodos de atualização do personagem e dos tiros.
     // Há uma condição para atualizar os tiros, eles devem estar na tela. Se
     // estiverem fora, serão removidos para economizar recursos.
@@ -166,7 +182,9 @@ public class Fase extends JPanel implements KeyListener, ActionListener {
         }
         this.personagem.atualizar();
         this.spriteFundo.atualizarJogo(personagem);
-
+        for (Nuvem nuvem : this.nuvens) {
+            nuvem.atualizar();
+        }
         this.contadorInimigos++;
 
         if (this.contadorInimigos >= this.LIMITE_INIMIGOS) {
