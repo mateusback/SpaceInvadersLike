@@ -1,9 +1,9 @@
-package br.ifpr.jogo.modelo.entidade;
+package br.ifpr.jogo.modelo.elementosgraficos;
 
 import java.awt.Image;
 import java.awt.Rectangle;
 
-public abstract class Entidade {
+public abstract class ElementoGrafico {
     private int posicaoEmX;
     private int posicaoEmY;
     private int deslocamentoEmX;
@@ -16,7 +16,7 @@ public abstract class Entidade {
     private int velocidade;
     private int vida;
 
-    public Entidade() {
+    public ElementoGrafico() {
         this.visivel = true;
     }
 

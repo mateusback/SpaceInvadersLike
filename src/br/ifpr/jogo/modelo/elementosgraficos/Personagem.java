@@ -1,4 +1,4 @@
-package br.ifpr.jogo.modelo.entidade;
+package br.ifpr.jogo.modelo.elementosgraficos;
 
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
@@ -6,12 +6,12 @@ import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 
-import br.ifpr.jogo.modelo.sprite.SpriteTiro;
-import br.ifpr.jogo.modelo.entidade.item.Item;
-import br.ifpr.jogo.modelo.entidade.tiro.SuperTiro;
-import br.ifpr.jogo.modelo.entidade.tiro.Tiro;
+import br.ifpr.jogo.modelo.elementosgraficos.itens.Item;
+import br.ifpr.jogo.modelo.elementosgraficos.tiros.SuperTiro;
+import br.ifpr.jogo.modelo.elementosgraficos.tiros.Tiro;
+import br.ifpr.jogo.modelo.sprites.SpriteTiro;
 
-public class Personagem extends Entidade {
+public class Personagem extends ElementoGrafico {
     private ArrayList<Tiro> tiros;
     private ArrayList<SuperTiro> superTiros;
     private long tempoUltimoTiro;

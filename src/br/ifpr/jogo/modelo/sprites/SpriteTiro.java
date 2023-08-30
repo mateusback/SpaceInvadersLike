@@ -1,4 +1,4 @@
-package br.ifpr.jogo.modelo.sprite;
+package br.ifpr.jogo.modelo.sprites;
 
 import javax.swing.ImageIcon;
 import java.awt.Image;

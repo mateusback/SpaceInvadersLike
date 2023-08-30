@@ -16,13 +16,13 @@ import java.util.Random;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import br.ifpr.jogo.modelo.sprite.SpriteFundo;
-import br.ifpr.jogo.modelo.entidade.Inimigo;
-import br.ifpr.jogo.modelo.entidade.Personagem;
-import br.ifpr.jogo.modelo.entidade.item.GerenciadorItem;
-import br.ifpr.jogo.modelo.entidade.item.Item;
-import br.ifpr.jogo.modelo.entidade.tiro.Tiro;
-import br.ifpr.jogo.modelo.entidade.tiro.SuperTiro;
+import br.ifpr.jogo.modelo.elementosgraficos.Inimigo;
+import br.ifpr.jogo.modelo.elementosgraficos.Personagem;
+import br.ifpr.jogo.modelo.elementosgraficos.itens.GerenciadorItem;
+import br.ifpr.jogo.modelo.elementosgraficos.itens.Item;
+import br.ifpr.jogo.modelo.elementosgraficos.tiros.SuperTiro;
+import br.ifpr.jogo.modelo.elementosgraficos.tiros.Tiro;
+import br.ifpr.jogo.modelo.sprites.SpriteFundo;
 
 public class Fase extends JPanel implements KeyListener, ActionListener {
     // Atributos da Fase

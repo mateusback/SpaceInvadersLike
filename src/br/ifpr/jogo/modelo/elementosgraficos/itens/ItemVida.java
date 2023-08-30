@@ -1,8 +1,8 @@
-package br.ifpr.jogo.modelo.entidade.item;
+package br.ifpr.jogo.modelo.elementosgraficos.itens;
 
 import javax.swing.ImageIcon;
 
-import br.ifpr.jogo.modelo.entidade.Personagem;
+import br.ifpr.jogo.modelo.elementosgraficos.Personagem;
 
 public class ItemVida extends Item {
     private final int AUMENTO_VIDA = 1;

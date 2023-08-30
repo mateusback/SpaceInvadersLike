@@ -1,8 +1,8 @@
-package br.ifpr.jogo.modelo.entidade.item;
+package br.ifpr.jogo.modelo.elementosgraficos.itens;
 
 import javax.swing.ImageIcon;
 
-import br.ifpr.jogo.modelo.entidade.Personagem;
+import br.ifpr.jogo.modelo.elementosgraficos.Personagem;
 
 public class ItemTiroRapido extends Item {
     private static final int REDUCAO_DELAY = 20;

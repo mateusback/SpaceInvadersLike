@@ -1,11 +1,11 @@
-package br.ifpr.jogo.modelo.entidade.item;
+package br.ifpr.jogo.modelo.elementosgraficos.itens;
 
 import javax.swing.ImageIcon;
 
-import br.ifpr.jogo.modelo.entidade.Personagem;
-import br.ifpr.jogo.modelo.entidade.Entidade;
+import br.ifpr.jogo.modelo.elementosgraficos.ElementoGrafico;
+import br.ifpr.jogo.modelo.elementosgraficos.Personagem;
 
-public abstract class Item extends Entidade {
+public abstract class Item extends ElementoGrafico {
     private boolean coletado;
 
     public Item() {

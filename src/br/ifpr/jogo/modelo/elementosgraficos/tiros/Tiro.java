@@ -1,9 +1,9 @@
-package br.ifpr.jogo.modelo.entidade.tiro;
+package br.ifpr.jogo.modelo.elementosgraficos.tiros;
 
-import br.ifpr.jogo.modelo.entidade.Entidade;
-import br.ifpr.jogo.modelo.sprite.SpriteTiro;
+import br.ifpr.jogo.modelo.elementosgraficos.ElementoGrafico;
+import br.ifpr.jogo.modelo.sprites.SpriteTiro;
 
-public class Tiro extends Entidade {
+public class Tiro extends ElementoGrafico {
 
     private SpriteTiro sprite;
     public static final int LARGURA_TIRO = 10;

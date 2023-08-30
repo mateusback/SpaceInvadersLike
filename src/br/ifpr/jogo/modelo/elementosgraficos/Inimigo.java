@@ -1,16 +1,16 @@
-package br.ifpr.jogo.modelo.entidade;
+package br.ifpr.jogo.modelo.elementosgraficos;
 
 import java.util.Random;
 
 import javax.swing.ImageIcon;
 
-import br.ifpr.jogo.modelo.entidade.item.GerenciadorItem;
-import br.ifpr.jogo.modelo.entidade.item.Item;
-import br.ifpr.jogo.modelo.entidade.item.ItemTiroRapido;
-import br.ifpr.jogo.modelo.entidade.item.ItemVelocidade;
-import br.ifpr.jogo.modelo.entidade.item.ItemVida;
+import br.ifpr.jogo.modelo.elementosgraficos.itens.GerenciadorItem;
+import br.ifpr.jogo.modelo.elementosgraficos.itens.Item;
+import br.ifpr.jogo.modelo.elementosgraficos.itens.ItemTiroRapido;
+import br.ifpr.jogo.modelo.elementosgraficos.itens.ItemVelocidade;
+import br.ifpr.jogo.modelo.elementosgraficos.itens.ItemVida;
 
-public class Inimigo extends Entidade {
+public class Inimigo extends ElementoGrafico {
     private Personagem personagem;
 
     private static final int VELOCIDADE = 2;
