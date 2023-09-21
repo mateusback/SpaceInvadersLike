@@ -2,7 +2,7 @@ package br.ifpr.jogo.principal;
 
 import javax.swing.JFrame;
 
-import br.ifpr.jogo.modelo.Fase;;
+import br.ifpr.jogo.modelo.Fase;
 
 public class Principal extends JFrame {
     public static int ALTURA_DA_JANELA = 960;
