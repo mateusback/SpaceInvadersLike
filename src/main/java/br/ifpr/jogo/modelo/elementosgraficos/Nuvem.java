@@ -14,7 +14,7 @@ public class Nuvem extends ElementoGrafico{
     }
     @Override
     public void carregar() {
-        ImageIcon carregando = new ImageIcon("recursos\\Nuvem.png");
+        ImageIcon carregando = new ImageIcon(getClass().getResource("/Nuvem.png"));
         super.setImagem(carregando.getImage());
     }
 

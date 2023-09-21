@@ -10,7 +10,7 @@ public abstract class Item extends ElementoGrafico {
 
     public Item() {
         this.coletado = false;
-        ImageIcon carregando = new ImageIcon("recursos\\ItemBase.png");
+        ImageIcon carregando = new ImageIcon(getClass().getResource("/ItemBase.png"));
         super.setVisivel(true);
         super.setImagem(carregando.getImage());
         super.setAlturaImagem(super.getImagem().getWidth(null));

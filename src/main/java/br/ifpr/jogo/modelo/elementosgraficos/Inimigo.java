@@ -25,7 +25,7 @@ public class Inimigo extends ElementoGrafico {
 
     @Override
     public void carregar() {
-        ImageIcon carregando = new ImageIcon("recursos\\Inimigo.png");
+        ImageIcon carregando = new ImageIcon(getClass().getResource("/Inimigo.png"));
         super.setImagem(carregando.getImage());
         super.setAlturaImagem(super.getImagem().getWidth(null));
         super.setLarguraImagem(super.getImagem().getHeight(null));

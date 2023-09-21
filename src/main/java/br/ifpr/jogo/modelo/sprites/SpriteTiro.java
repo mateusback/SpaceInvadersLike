@@ -19,28 +19,28 @@ public class SpriteTiro {
 
     public void carregar() {
         // Carregar a imagem padrão
-        ImageIcon icon = new ImageIcon("recursos\\Tiro.png");
+        ImageIcon icon = new ImageIcon(getClass().getResource("/Tiro.png"));
         Image imagemPadrao = icon.getImage();
         imagens.put("padrao", imagemPadrao);
 
         // Carregar as imagens para cada direção
-        ImageIcon iconDireita = new ImageIcon("recursos\\Tiro_Direita.gif");
+        ImageIcon iconDireita = new ImageIcon(getClass().getResource("/Tiro_Direita.gif"));
         Image imagemDireita = iconDireita.getImage();
         imagens.put("direita", imagemDireita);
 
-        ImageIcon iconEsquerda = new ImageIcon("recursos\\Tiro_Esquerda.gif");
+        ImageIcon iconEsquerda = new ImageIcon(getClass().getResource("/Tiro_Esquerda.gif"));
         Image imagemEsquerda = iconEsquerda.getImage();
         imagens.put("esquerda", imagemEsquerda);
 
-        ImageIcon iconCima = new ImageIcon("recursos\\Tiro_Cima.gif");
+        ImageIcon iconCima = new ImageIcon(getClass().getResource("/Tiro_Cima.gif"));
         Image imagemCima = iconCima.getImage();
         imagens.put("cima", imagemCima);
 
-        ImageIcon iconBaixo = new ImageIcon("recursos\\Tiro_Baixo.gif");
+        ImageIcon iconBaixo = new ImageIcon(getClass().getResource("/Tiro_Baixo.gif"));
         Image imagemBaixo = iconBaixo.getImage();
         imagens.put("baixo", imagemBaixo);
 
-        ImageIcon iconSuper = new ImageIcon("recursos\\SuperTiro.png");
+        ImageIcon iconSuper = new ImageIcon(getClass().getResource("/SuperTiro.png"));
         Image imagemSuper = iconSuper.getImage();
         imagens.put("super", imagemSuper);
     }

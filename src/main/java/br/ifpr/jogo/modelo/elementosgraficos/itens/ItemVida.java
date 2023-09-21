@@ -4,10 +4,10 @@ import javax.swing.ImageIcon;
 
 import br.ifpr.jogo.modelo.elementosgraficos.Personagem;
 
-public class ItemTiroRapido extends Item {
-    private static final int REDUCAO_DELAY = 20;
+public class ItemVida extends Item {
+    private final int AUMENTO_VIDA = 1;
 
-    public ItemTiroRapido(int posicaoEmX, int posicaoEmY) {
+    public ItemVida(int posicaoEmX, int posicaoEmY) {
         setPosicaoEmX(posicaoEmX);
         setPosicaoEmY(posicaoEmY);
         this.carregar();
@@ -15,7 +15,7 @@ public class ItemTiroRapido extends Item {
 
     @Override
     public void carregar() {
-        ImageIcon carregando = new ImageIcon("recursos\\ItemTiroRapido.png");
+        ImageIcon carregando = new ImageIcon(getClass().getResource("/ItemVida.png"));
         super.setImagem(carregando.getImage());
         super.setAlturaImagem(super.getImagem().getWidth(null));
         super.setLarguraImagem(super.getImagem().getHeight(null));
@@ -23,8 +23,9 @@ public class ItemTiroRapido extends Item {
 
     @Override
     public void aplicarEfeito(Personagem personagem) {
-        if (personagem.getDelayTiro() > 0) {
-            personagem.setDelayTiro(personagem.getDelayTiro() - REDUCAO_DELAY);
+        if (personagem.getVida() < 3) {
+            personagem.setVida(personagem.getVida() + AUMENTO_VIDA);
         }
     }
+
 }

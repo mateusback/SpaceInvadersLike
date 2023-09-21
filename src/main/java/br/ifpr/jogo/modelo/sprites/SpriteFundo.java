@@ -34,7 +34,7 @@ public class SpriteFundo implements ImageObserver {
         public SpriteFundo() {
                 tile = new BufferedImage[19];
                 try {
-                        BufferedImage spriteSheet = ImageIO.read(new File("recursos\\SpriteSheet.png"));
+                        BufferedImage spriteSheet = ImageIO.read(new File("src\\main\\resources\\SpriteSheet.png"));
                         tile[0] = spriteSheet.getSubimage(0, 0, 64, 64); // Grama com efeitos
                         tile[1] = spriteSheet.getSubimage(64, 0, 64, 64); // Terra Com efeitos
                         tile[2] = spriteSheet.getSubimage(128, 0, 64, 64); //
@@ -61,7 +61,7 @@ public class SpriteFundo implements ImageObserver {
 
         public void carregarFase1(Graphics g, Personagem personagem) {
                 try {
-                        int[][] mapa = carregarMapa("recursos\\map.txt");
+                        int[][] mapa = carregarMapa("src\\main\\resources\\map.txt");
 
                         Graphics2D graficos = (Graphics2D) g;
                         // Tamanho da fase

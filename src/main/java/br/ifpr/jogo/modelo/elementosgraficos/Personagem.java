@@ -26,8 +26,8 @@ public class Personagem extends ElementoGrafico {
     private static final int POSICAO_INICIAL_EM_X = 800;
     private static final int POSICAO_INICIAL_EM_Y = 500;
     private static final int VELOCIDADE = 3;
-    private static final ImageIcon CORACAO_CHEIO = new ImageIcon("recursos\\CoracaoCheio.png");
-    private static final ImageIcon CORACAO_VAZIO = new ImageIcon("recursos\\CoracaoVazio.png");
+    private final ImageIcon CORACAO_CHEIO = new ImageIcon(getClass().getResource("/CoracaoCheio.png"));
+    private final ImageIcon CORACAO_VAZIO = new ImageIcon(getClass().getResource("/CoracaoVazio.png"));
 
     public Personagem() {
         super.setPosicaoEmX(POSICAO_INICIAL_EM_X);
@@ -42,7 +42,7 @@ public class Personagem extends ElementoGrafico {
 
     @Override
     public void carregar() {
-        ImageIcon carregando = new ImageIcon("recursos\\Personagem_Parado.png");
+        ImageIcon carregando = new ImageIcon(getClass().getResource("/Personagem_Parado.png"));
         super.setImagem(carregando.getImage());
         super.setAlturaImagem(super.getImagem().getWidth(null));
         super.setLarguraImagem(super.getImagem().getHeight(null));
@@ -60,7 +60,7 @@ public class Personagem extends ElementoGrafico {
         if (codigo == KeyEvent.VK_W) {
             super.setDeslocamentoEmY(super.getDeslocamentoEmY() - super.getVelocidade());
             super.setDirecao("cima");
-            ImageIcon carregando = new ImageIcon("recursos\\Personagem_Cima.gif");
+            ImageIcon carregando = new ImageIcon(getClass().getResource("/Personagem_Cima.gif"));
             super.setImagem(carregando.getImage());
             tudoSolto[0] = false;
         }
@@ -68,7 +68,7 @@ public class Personagem extends ElementoGrafico {
         if (codigo == KeyEvent.VK_S) {
             super.setDeslocamentoEmY(super.getVelocidade());
             this.setDirecao("baixo");
-            ImageIcon carregando = new ImageIcon("recursos\\Personagem_Baixo.gif");
+            ImageIcon carregando = new ImageIcon(getClass().getResource("/Personagem_Baixo.gif"));
             super.setImagem(carregando.getImage());
             tudoSolto[1] = false;
         }
@@ -76,7 +76,7 @@ public class Personagem extends ElementoGrafico {
         if (codigo == KeyEvent.VK_A) {
             super.setDeslocamentoEmX(super.getDeslocamentoEmX() - super.getVelocidade());
             this.setDirecao("esquerda");
-            ImageIcon carregando = new ImageIcon("recursos\\Personagem_Esquerda.gif");
+            ImageIcon carregando = new ImageIcon(getClass().getResource("/Personagem_Esquerda.gif"));
             super.setImagem(carregando.getImage());
             tudoSolto[2] = false;
 
@@ -84,7 +84,7 @@ public class Personagem extends ElementoGrafico {
         if (codigo == KeyEvent.VK_D) {
             super.setDeslocamentoEmX(super.getVelocidade());
             this.setDirecao("direita");
-            ImageIcon carregando = new ImageIcon("recursos\\Personagem_Direita.gif");
+            ImageIcon carregando = new ImageIcon(getClass().getResource("/Personagem_Direita.gif"));
             super.setImagem(carregando.getImage());
             tudoSolto[3] = false;
         }
@@ -124,7 +124,7 @@ public class Personagem extends ElementoGrafico {
         }
 
         if (tudoSolto[0] == true && tudoSolto[1] == true && tudoSolto[2] == true && tudoSolto[3] == true) {
-            ImageIcon carregando = new ImageIcon("recursos\\Personagem_Parado.png");
+            ImageIcon carregando = new ImageIcon(getClass().getResource("/Personagem_Parado.png"));
             super.setImagem(carregando.getImage());
         }
     }
