@@ -14,7 +14,7 @@ public class Principal extends JFrame {
         setVisible(true);
         setTitle("Farm Invaders");
         setResizable(false);
-        setSize(1600, ALTURA_DA_JANELA);
+        setSize(LARGURA_DA_JANELA, ALTURA_DA_JANELA);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
     }
