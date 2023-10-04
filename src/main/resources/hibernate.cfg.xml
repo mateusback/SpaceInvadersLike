@@ -18,7 +18,7 @@
         <property name="hibernate.format_sql">false</property>
         <property name="hbm2ddl.auto">update</property>
         <!-- Classes que serão persistidas no tutorial -->
-        <mapping class="ifpr.paranavai.jogo.modelo.Jogador" />
+        <mapping class="ifpr.paranavai.jogo.modelo.Jogador"/>
         <!-- Classes que serão persistidas em sala e/ou trabalho -->
         <!--
         <mapping class="ifpr.paranavai.jogo.modelo.ElementoGrafico" />
