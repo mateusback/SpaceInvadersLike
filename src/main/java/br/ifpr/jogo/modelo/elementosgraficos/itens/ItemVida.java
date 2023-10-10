@@ -1,9 +1,13 @@
 package br.ifpr.jogo.modelo.elementosgraficos.itens;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.swing.ImageIcon;
 
 import br.ifpr.jogo.modelo.elementosgraficos.Personagem;
 
+@Entity
+@Table(name = "tb_item_vida")
 public class ItemVida extends Item {
     private final int AUMENTO_VIDA = 1;
 

@@ -1,9 +1,13 @@
 package br.ifpr.jogo.modelo.elementosgraficos;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.swing.ImageIcon;
 
 import br.ifpr.jogo.principal.Principal;
 
+@Entity
+@Table(name = "tb_nuvem")
 public class Nuvem extends ElementoGrafico{
     private static int VELOCIDADE = 3;
 

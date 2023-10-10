@@ -2,6 +2,9 @@ package br.ifpr.jogo.modelo.elementosgraficos;
 
 import java.util.Random;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.swing.ImageIcon;
 
 import br.ifpr.jogo.modelo.elementosgraficos.itens.GerenciadorItem;
@@ -10,7 +13,10 @@ import br.ifpr.jogo.modelo.elementosgraficos.itens.ItemTiroRapido;
 import br.ifpr.jogo.modelo.elementosgraficos.itens.ItemVelocidade;
 import br.ifpr.jogo.modelo.elementosgraficos.itens.ItemVida;
 
+@Entity
+@Table(name = "tb_inimigo")
 public class Inimigo extends ElementoGrafico {
+    @Transient
     private Personagem personagem;
 
     private static final int VELOCIDADE = 2;

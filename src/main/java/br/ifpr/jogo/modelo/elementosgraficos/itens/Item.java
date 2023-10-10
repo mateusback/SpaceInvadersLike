@@ -1,11 +1,17 @@
 package br.ifpr.jogo.modelo.elementosgraficos.itens;
 
+import javax.persistence.*;
 import javax.swing.ImageIcon;
 
 import br.ifpr.jogo.modelo.elementosgraficos.ElementoGrafico;
 import br.ifpr.jogo.modelo.elementosgraficos.Personagem;
 
+@Entity
+@Table(name="tb_item")
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Item extends ElementoGrafico {
+
+    private Integer idItem;
     private boolean coletado;
 
     public Item() {
@@ -49,4 +55,5 @@ public abstract class Item extends ElementoGrafico {
     public void atualizar() {
         throw new UnsupportedOperationException("Unimplemented method 'atualizar'");
     }
+
 }

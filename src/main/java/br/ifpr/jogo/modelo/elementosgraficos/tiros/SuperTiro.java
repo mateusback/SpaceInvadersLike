@@ -5,10 +5,17 @@ import br.ifpr.jogo.modelo.elementosgraficos.ElementoGrafico;
 import br.ifpr.jogo.modelo.elementosgraficos.Personagem;
 import br.ifpr.jogo.modelo.sprites.SpriteTiro;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 
+
+@Entity
+@Table(name = "tb_super_tiro")
 public class SuperTiro extends ElementoGrafico{
-
+    @Transient
     private SpriteTiro sprite;
+    @Transient
     private Personagem personagem;
     private long tempoInicial;
     public static final int LARGURA_TIRO = 10;

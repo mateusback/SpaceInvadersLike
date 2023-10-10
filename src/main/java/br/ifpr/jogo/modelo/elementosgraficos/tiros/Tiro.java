@@ -3,8 +3,14 @@ package br.ifpr.jogo.modelo.elementosgraficos.tiros;
 import br.ifpr.jogo.modelo.elementosgraficos.ElementoGrafico;
 import br.ifpr.jogo.modelo.sprites.SpriteTiro;
 
-public class Tiro extends ElementoGrafico {
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 
+@Entity
+@Table(name = "tb_tiro")
+public class Tiro extends ElementoGrafico {
+    @Transient
     private SpriteTiro sprite;
     public static final int LARGURA_TIRO = 10;
     public static final int ALTURA_TIRO = 30;

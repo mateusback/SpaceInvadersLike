@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
+import javax.persistence.*;
 import javax.swing.ImageIcon;
 
 import br.ifpr.jogo.modelo.elementosgraficos.itens.Item;
@@ -11,14 +12,20 @@ import br.ifpr.jogo.modelo.elementosgraficos.tiros.SuperTiro;
 import br.ifpr.jogo.modelo.elementosgraficos.tiros.Tiro;
 import br.ifpr.jogo.modelo.sprites.SpriteTiro;
 
+@Entity
+@Table(name = "tb_personagem")
 public class Personagem extends ElementoGrafico {
+    @Transient
     private ArrayList<Tiro> tiros;
+    @Transient
     private ArrayList<SuperTiro> superTiros;
     private long tempoUltimoTiro;
     private long delayTiro;
+    @Transient
     private Item itemEquipado;
     private boolean tudoSolto[] = new boolean[4];
     private long tempoAtual;
+    @Column(name="pontuacao")
     private int pontos;
 
     private static final int VIDA_BASE = 3;

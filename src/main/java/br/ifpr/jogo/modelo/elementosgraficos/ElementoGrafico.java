@@ -1,19 +1,40 @@
 package br.ifpr.jogo.modelo.elementosgraficos;
 
+import javax.persistence.*;
 import java.awt.Image;
 import java.awt.Rectangle;
 
+@Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class ElementoGrafico {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name ="id_elemeto_grafico")
+    private Integer idElemetoGrafico;
+
+    @Column(name = "posicao_x")
     private int posicaoEmX;
+    @Column(name = "posicao_y")
     private int posicaoEmY;
+    @Column(name = "deslocamento_x")
     private int deslocamentoEmX;
+    @Column(name = "deslocamento_y")
     private int deslocamentoEmY;
+    @Transient
     private Image imagem;
+    @Column(name = "visivel")
     private boolean visivel;
+    @Column(name = "largura_imagem")
     private int larguraImagem;
+    @Column(name = "altura_imagem")
     private int alturaImagem;
+
+    @Column(name = "direcao")
     private String direcao;
+    @Column(name = "velocidade")
     private int velocidade;
+    @Column(name = "vida")
     private int vida;
 
     public ElementoGrafico() {
@@ -116,4 +137,11 @@ public abstract class ElementoGrafico {
         this.vida = vida;
     }
 
+    public Integer getIdElemetoGrafico() {
+        return idElemetoGrafico;
+    }
+
+    public void setIdElemetoGrafico(Integer idElemetoGrafico) {
+        this.idElemetoGrafico = idElemetoGrafico;
+    }
 }

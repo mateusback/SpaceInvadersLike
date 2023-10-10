@@ -3,6 +3,9 @@ package br.ifpr.jogo.principal;
 import javax.swing.JFrame;
 
 import br.ifpr.jogo.modelo.Fase;
+import org.hibernate.Session;
+
+import static br.ifpr.jogo.conexao.HibernateUtil.getSession;
 
 public class Principal extends JFrame {
     public static int ALTURA_DA_JANELA = 960;
@@ -20,6 +23,7 @@ public class Principal extends JFrame {
     }
 
     public static void main(String[] args) {
+        Session session = getSession();
         Principal principal = new Principal();
 
     }

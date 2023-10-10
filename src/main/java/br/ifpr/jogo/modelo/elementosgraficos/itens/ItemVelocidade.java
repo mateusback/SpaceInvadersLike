@@ -1,9 +1,12 @@
 package br.ifpr.jogo.modelo.elementosgraficos.itens;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.swing.ImageIcon;
 
 import br.ifpr.jogo.modelo.elementosgraficos.Personagem;
-
+@Entity
+@Table(name = "tb_item_velocidade")
 public class ItemVelocidade extends Item {
     private static final int AUMENTO_VELOCIDADE = 1;
 

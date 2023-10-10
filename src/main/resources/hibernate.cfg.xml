@@ -7,22 +7,32 @@
             com.mysql.jdbc.Driver
         </property>
         <property name="hibernate.connection.username">root</property>
-        <property name="hibernate.connection.password"> </property>
+        <property name="hibernate.connection.password"></property>
         <property name="hibernate.connection.url">
-            jdbc:mysql://localhost/bd_jogo
+            jdbc:mysql://localhost:3304/bd_jogo
         </property>
         <property name="hibernate.dialect">
             org.hibernate.dialect.MySQL8Dialect
         </property>
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.format_sql">false</property>
-        <property name="hbm2ddl.auto">update</property>
+        <property name="hbm2ddl.auto">create-drop</property>
         <!-- Classes que serão persistidas no tutorial -->
-        <mapping class="ifpr.paranavai.jogo.modelo.Jogador"/>
+        <mapping class="br.ifpr.jogo.modelo.Jogador"/>
+        <mapping class="br.ifpr.jogo.modelo.elementosgraficos.ElementoGrafico"/>
+        <mapping class="br.ifpr.jogo.modelo.elementosgraficos.Personagem"/>
+        <mapping class="br.ifpr.jogo.modelo.elementosgraficos.Inimigo"/>
+        <mapping class="br.ifpr.jogo.modelo.elementosgraficos.Nuvem"/>
+        <mapping class="br.ifpr.jogo.modelo.elementosgraficos.itens.Item"/>
+        <mapping class="br.ifpr.jogo.modelo.elementosgraficos.itens.ItemTiroRapido"/>
+        <mapping class="br.ifpr.jogo.modelo.elementosgraficos.itens.ItemVelocidade"/>
+        <mapping class="br.ifpr.jogo.modelo.elementosgraficos.itens.ItemVida"/>
+        <mapping class="br.ifpr.jogo.modelo.elementosgraficos.tiros.Tiro"/>
+        <mapping class="br.ifpr.jogo.modelo.elementosgraficos.tiros.SuperTiro"/>
         <!-- Classes que serão persistidas em sala e/ou trabalho -->
         <!--
         <mapping class="ifpr.paranavai.jogo.modelo.ElementoGrafico" />
-        <mapping class="ifpr.paranavai.jogo.modelo.Personagem" />
+
         <mapping class="ifpr.paranavai.jogo.modelo.Inimigo" />
         <mapping class="ifpr.paranavai.jogo.modelo.Tiro" />
         <mapping class="ifpr.paranavai.jogo.modelo.FaseUm" />
