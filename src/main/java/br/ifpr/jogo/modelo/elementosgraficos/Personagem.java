@@ -11,7 +11,9 @@ import br.ifpr.jogo.modelo.elementosgraficos.itens.Item;
 import br.ifpr.jogo.modelo.elementosgraficos.tiros.SuperTiro;
 import br.ifpr.jogo.modelo.elementosgraficos.tiros.Tiro;
 import br.ifpr.jogo.modelo.sprites.SpriteTiro;
+import jdk.jfr.Name;
 
+//
 @Entity
 @Table(name = "tb_personagem")
 public class Personagem extends ElementoGrafico {
@@ -19,11 +21,17 @@ public class Personagem extends ElementoGrafico {
     private ArrayList<Tiro> tiros;
     @Transient
     private ArrayList<SuperTiro> superTiros;
+    @Column
+    @Name("tempo_ultimo_tiro")
     private long tempoUltimoTiro;
+    @Column
+    @Name("delay_tiro")
     private long delayTiro;
     @Transient
     private Item itemEquipado;
+    @Transient
     private boolean tudoSolto[] = new boolean[4];
+    @Column(name="tempo_atual")
     private long tempoAtual;
     @Column(name="pontuacao")
     private int pontos;
@@ -33,8 +41,8 @@ public class Personagem extends ElementoGrafico {
     private static final int POSICAO_INICIAL_EM_X = 800;
     private static final int POSICAO_INICIAL_EM_Y = 500;
     private static final int VELOCIDADE = 3;
-    private final ImageIcon CORACAO_CHEIO = new ImageIcon(getClass().getResource("/CoracaoCheio.png"));
-    private final ImageIcon CORACAO_VAZIO = new ImageIcon(getClass().getResource("/CoracaoVazio.png"));
+    private static final ImageIcon CORACAO_CHEIO = new ImageIcon("src/main/resources/CoracaoCheio.png");
+    private static final ImageIcon CORACAO_VAZIO = new ImageIcon("src/main/resources/CoracaoVazio.png");
 
     public Personagem() {
         super.setPosicaoEmX(POSICAO_INICIAL_EM_X);

@@ -10,8 +10,7 @@ import br.ifpr.jogo.modelo.elementosgraficos.Personagem;
 @Table(name="tb_item")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Item extends ElementoGrafico {
-
-    private Integer idItem;
+    @Column(name="coletado")
     private boolean coletado;
 
     public Item() {

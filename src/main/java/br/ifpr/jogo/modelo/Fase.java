@@ -13,6 +13,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -25,17 +29,31 @@ import br.ifpr.jogo.modelo.elementosgraficos.tiros.SuperTiro;
 import br.ifpr.jogo.modelo.elementosgraficos.tiros.Tiro;
 import br.ifpr.jogo.modelo.sprites.SpriteFundo;
 import br.ifpr.jogo.principal.Principal;
+import jdk.jfr.Name;
 
+//provavelmente Controller
+@Entity
+@Table(name = "tb_fase")
 public class Fase extends JPanel implements KeyListener, ActionListener {
     // Atributos da Fase
+    @Transient
     private Personagem personagem;
+    @Transient
     private Timer timer;
+    @Transient
     private List<Inimigo> inimigos;
+    @Transient
     private SpriteFundo spriteFundo;
 
+    @Transient
     private GerenciadorItem gerenciadorItem;
+
+    @Column(name="contador_inimigos")
     private int contadorInimigos;
+    @Transient
     private ArrayList<Nuvem> nuvens;
+
+    @Transient
     private boolean jogoAcabou = false;
 
     private final int LIMITE_INIMIGOS = 50;

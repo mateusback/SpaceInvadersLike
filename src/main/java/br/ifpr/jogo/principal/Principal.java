@@ -6,7 +6,7 @@ import br.ifpr.jogo.modelo.Fase;
 import org.hibernate.Session;
 
 import static br.ifpr.jogo.conexao.HibernateUtil.getSession;
-
+//View, maybe
 public class Principal extends JFrame {
     public static int ALTURA_DA_JANELA = 960;
     public static int LARGURA_DA_JANELA = 1600;

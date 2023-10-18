@@ -13,6 +13,7 @@ import br.ifpr.jogo.modelo.elementosgraficos.itens.ItemTiroRapido;
 import br.ifpr.jogo.modelo.elementosgraficos.itens.ItemVelocidade;
 import br.ifpr.jogo.modelo.elementosgraficos.itens.ItemVida;
 
+//MODEL
 @Entity
 @Table(name = "tb_inimigo")
 public class Inimigo extends ElementoGrafico {

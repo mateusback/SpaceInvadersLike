@@ -6,6 +6,7 @@ import javax.swing.ImageIcon;
 
 import br.ifpr.jogo.principal.Principal;
 
+//MODEL
 @Entity
 @Table(name = "tb_nuvem")
 public class Nuvem extends ElementoGrafico{

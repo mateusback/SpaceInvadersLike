@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.awt.Image;
 import java.awt.Rectangle;
 
+//MODEL
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class ElementoGrafico {
