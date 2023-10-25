@@ -6,10 +6,12 @@ import javax.swing.ImageIcon;
 
 import br.ifpr.jogo.modelo.elementosgraficos.Personagem;
 
+import static br.ifpr.jogo.util.Constants.*;
+
 @Entity
 @Table(name = "tb_item_vida")
 public class ItemVida extends Item {
-    private final int AUMENTO_VIDA = 1;
+
 
     public ItemVida(int posicaoEmX, int posicaoEmY) {
         setPosicaoEmX(posicaoEmX);
@@ -28,7 +30,7 @@ public class ItemVida extends Item {
     @Override
     public void aplicarEfeito(Personagem personagem) {
         if (personagem.getVida() < 3) {
-            personagem.setVida(personagem.getVida() + AUMENTO_VIDA);
+            personagem.setVida(personagem.getVida() + AUMENTO_VIDA_ITEM);
         }
     }
 

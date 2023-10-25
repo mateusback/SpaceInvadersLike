@@ -14,18 +14,12 @@ import javax.imageio.ImageIO;
 
 import br.ifpr.jogo.modelo.elementosgraficos.Personagem;
 
+import static br.ifpr.jogo.util.Constants.*;
+
 public class SpriteFundo implements ImageObserver {
         private int offsetX; // Deslocamento horizontal da câmera
         private int offsetY; // Deslocamento vertical da câmera
         private BufferedImage[] tile;
-        private static int LARGURA_TELA = 1600;
-        private static int ALTURA_TELA = 960;
-
-        // Dimensões dos blocos
-        private static int LARGURA_BLOCO = 64;
-        private static int ALTURA_BLOCO = 64;
-
-        // Cálculo do número de blocos necessários
 
         // Posição inicial dos blocos para centralizar na tela
         private int xInicial;
@@ -65,17 +59,17 @@ public class SpriteFundo implements ImageObserver {
 
                         Graphics2D graficos = (Graphics2D) g;
                         // Tamanho da fase
-                        int larguraFase = 50 * LARGURA_BLOCO;
-                        int alturaFase = 32 * ALTURA_BLOCO;
+                        int larguraFase = 50 * LARGURA_BLOCO_BACKGROUND;
+                        int alturaFase = 32 * ALTURA_BLOCO_BACKGROUND;
 
                         // Posição inicial dos blocos para centralizar na tela
-                        xInicial = (LARGURA_TELA - larguraFase) / 2;
-                        yInicial = (ALTURA_TELA - alturaFase) / 2;
+                        xInicial = (LARGURA_DA_JANELA - larguraFase) / 2;
+                        yInicial = (ALTURA_DA_JANELA - alturaFase) / 2;
                         for (int posY = 0; posY < mapa.length; posY++) {
                                 for (int posX = 0; posX < mapa[posY].length; posX++) {
                                         int tileNum = mapa[posY][posX];
-                                        int xBloco = xInicial + posX * LARGURA_BLOCO - offsetX;
-                                        int yBloco = yInicial + posY * ALTURA_BLOCO - offsetY;
+                                        int xBloco = xInicial + posX * LARGURA_BLOCO_BACKGROUND - offsetX;
+                                        int yBloco = yInicial + posY * ALTURA_BLOCO_BACKGROUND - offsetY;
 
                                         if (tileNum >= 0 && tileNum < tile.length) {
                                                 graficos.drawImage(tile[tileNum], xBloco, yBloco, this);
@@ -89,8 +83,8 @@ public class SpriteFundo implements ImageObserver {
 
         public void atualizarJogo(Personagem personagem) {
                 // Atualiza o deslocamento da câmera com base na posição do personagem
-                offsetX = personagem.getPosicaoEmX() - LARGURA_TELA / 2;
-                offsetY = personagem.getPosicaoEmY() - ALTURA_TELA / 2;
+                offsetX = personagem.getPosicaoEmX() - LARGURA_DA_JANELA / 2;
+                offsetY = personagem.getPosicaoEmY() - ALTURA_DA_JANELA / 2;
         }
 
         public static int[][] carregarMapa(String arquivo) throws IOException {

@@ -28,8 +28,8 @@ import br.ifpr.jogo.modelo.elementosgraficos.itens.Item;
 import br.ifpr.jogo.modelo.elementosgraficos.tiros.SuperTiro;
 import br.ifpr.jogo.modelo.elementosgraficos.tiros.Tiro;
 import br.ifpr.jogo.modelo.sprites.SpriteFundo;
-import br.ifpr.jogo.principal.Principal;
-import jdk.jfr.Name;
+
+import static br.ifpr.jogo.util.Constants.*;
 
 //provavelmente Controller
 @Entity
@@ -56,11 +56,6 @@ public class Fase extends JPanel implements KeyListener, ActionListener {
     @Transient
     private boolean jogoAcabou = false;
 
-    private final int LIMITE_INIMIGOS = 50;
-    private static final int QTDE_DE_NUVENS = 7;
-    // Constante para controlar a velocidade de uma fase
-    private static final int DELAY = 5;
-
     // Construtor da fase
     public Fase() {
         setFocusable(true);
@@ -74,7 +69,7 @@ public class Fase extends JPanel implements KeyListener, ActionListener {
 
         this.inicializaElementosGraficosAdicionais();
         // Definindo a velocidade do jogo.
-        timer = new Timer(DELAY, this);
+        timer = new Timer(DELAY_JOGO, this);
         timer.start();
         gerenciadorItem = new GerenciadorItem();
         // Adicionando inimigos
@@ -87,64 +82,76 @@ public class Fase extends JPanel implements KeyListener, ActionListener {
     // Já o os tiros, por serem vários, estão sendo instanciados
     // como forma de array.
     public void paintComponent(Graphics g) {
-        Graphics2D graficos = (Graphics2D) g;
+        Graphics2D graphics2D = (Graphics2D) g;
         super.paintComponent(g);
         spriteFundo.carregarFase1(g, personagem);
-        graficos.drawImage(personagem.getImagem(), personagem.getPosicaoEmX(), personagem.getPosicaoEmY(), null);
+        graphics2D.drawImage(personagem.getImagem(), personagem.getPosicaoEmX(), personagem.getPosicaoEmY(), null);
 
-        ArrayList<Tiro> tiros = personagem.getTiros();
-        for (Tiro tiro : tiros) {
-            tiro.carregar();
-            graficos.drawImage(tiro.getImagem(), tiro.getPosicaoEmX(), tiro.getPosicaoEmY(), null);
-        }
 
-        ArrayList<SuperTiro> superTiros = personagem.getSuperTiros();
-        for (SuperTiro superTiro : superTiros) {
-            superTiro.carregar();
-            graficos.drawImage(superTiro.getImagem(), superTiro.getPosicaoEmX(), superTiro.getPosicaoEmY(), null);
-        }
+        drawBullets(graphics2D);
+        drawEnemies(graphics2D);
+        drawItems(graphics2D);
+        drawClouds(graphics2D);
 
-        for (Inimigo inimigo : inimigos) {
-            // Enquanto tiverem inimigos no ArrayList do construtor, eles serão desenhados.
-            graficos.drawImage(inimigo.getImagem(), inimigo.getPosicaoEmX(), inimigo.getPosicaoEmY(), null);
-        }
+        personagem.desenharVida(graphics2D);
 
-        if (!(gerenciadorItem == null)) {
-            for (Item item : gerenciadorItem.getItens()) {
-                if (item.isVisivel()) {
-                    graficos.drawImage(item.getImagem(), item.getPosicaoEmX(), item.getPosicaoEmY(), null);
-                }
-            }
-        }
-
-        for (Nuvem nuvem : nuvens) {
-            graficos.drawImage(nuvem.getImagem(), nuvem.getPosicaoEmX(), nuvem.getPosicaoEmY(), this);
-        }
-
-        personagem.desenharVida(graficos);
-
-        desenharGameOver(graficos);
-        desenharPontos(graficos);
-        desenharVelocidiade(graficos);
-        desenharDelay(graficos);
+        desenharGameOver(graphics2D);
+        drawPoints(graphics2D);
+        drawSpeed(graphics2D);
+        drawShootDelay(graphics2D);
 
         repaint();
         g.dispose();
     }
 
-    public void desenharPontos(Graphics g) {
+    public void drawItems(Graphics g){
+        if (!(gerenciadorItem == null)) {
+            for (Item item : gerenciadorItem.getItens()) {
+                if (item.isVisivel()) {
+                    g.drawImage(item.getImagem(), item.getPosicaoEmX(), item.getPosicaoEmY(), null);
+                }
+            }
+        }
+    }
+    public void drawBullets(Graphics g){
+        ArrayList<Tiro> tiros = personagem.getTiros();
+        for (Tiro tiro : tiros) {
+            tiro.carregar();
+            g.drawImage(tiro.getImagem(), tiro.getPosicaoEmX(), tiro.getPosicaoEmY(), null);
+        }
+
+        //SuperTiros
+        ArrayList<SuperTiro> superTiros = personagem.getSuperTiros();
+        for (SuperTiro superTiro : superTiros) {
+            superTiro.carregar();
+            g.drawImage(superTiro.getImagem(), superTiro.getPosicaoEmX(), superTiro.getPosicaoEmY(), null);
+        }
+    }
+    public void drawEnemies(Graphics g){
+        for (Inimigo inimigo : inimigos) {
+            g.drawImage(inimigo.getImagem(), inimigo.getPosicaoEmX(), inimigo.getPosicaoEmY(), null);
+        }
+    }
+
+    public void drawClouds(Graphics g){
+        for (Nuvem nuvem : nuvens) {
+            g.drawImage(nuvem.getImagem(), nuvem.getPosicaoEmX(), nuvem.getPosicaoEmY(), this);
+        }
+    }
+
+    public void drawPoints(Graphics g) {
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.BOLD, 20));
         g.drawString("Pontuação: " + personagem.getPontos(), getWidth() - 300, 30);
     }
 
-    public void desenharDelay(Graphics g) {
+    public void drawShootDelay(Graphics g) {
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.BOLD, 20));
         g.drawString("Delay Tiro: " + personagem.getDelayTiro(), getWidth() - 300, 50);
     }
 
-    public void desenharVelocidiade(Graphics g) {
+    public void drawSpeed(Graphics g) {
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.BOLD, 20));
         g.drawString("Velocidade: " + personagem.getVelocidade(), getWidth() - 300, 70);
@@ -155,15 +162,118 @@ public class Fase extends JPanel implements KeyListener, ActionListener {
             Font fonteGameOver = new Font("Arial", Font.BOLD, 48);
             g.setFont(fonteGameOver);
             g.setColor(Color.RED);
-            g.drawString("Game Over", Principal.LARGURA_DA_JANELA / 2 - 100, Principal.ALTURA_DA_JANELA / 2);
+            g.drawString("Game Over", LARGURA_DA_JANELA / 2 - 100, ALTURA_DA_JANELA / 2);
+        }
+    }
+
+    public void spawnEnemies(){
+        this.contadorInimigos++;
+
+        if (this.contadorInimigos >= DELAY_INIMIGOS) {
+            Random rn = new Random();
+            int posicaoEmX = rn.nextInt(1599) + 1;
+            int posicaoEmY = rn.nextInt(959) + 1;
+            if (!(posicaoEmX == personagem.getPosicaoEmX() && posicaoEmX == personagem.getPosicaoEmY())) {
+                Inimigo novoInimigo = new Inimigo(posicaoEmX, posicaoEmY, this.personagem);
+                novoInimigo.carregar();
+                inimigos.add(novoInimigo);
+            }
+            this.contadorInimigos = 0;
+        }
+    }
+
+    public void checkItemCollision(){
+        if (!(gerenciadorItem == null)) {
+            for (Item item : gerenciadorItem.getItens()) {
+                if (item.isVisivel() && personagem.getRetangulo().intersects(item.getRetangulo())) {
+                    System.out.println("Colisão com item: " + item.getClass().getSimpleName());
+                    item.aplicarEfeito(personagem);
+                    item.setVisivel(false);
+                }
+            }
+        }
+    }
+
+    public void bulletsRemover(List<Tiro> tiros, List<SuperTiro> superTiros){
+        Iterator<Tiro> iteratorTiro = tiros.iterator();
+
+        while (iteratorTiro.hasNext()) {
+            Tiro tiro = iteratorTiro.next();
+            if (tiro.isVisivel() && tiro.verificarVisibilidade()) {
+                tiro.atualizar();
+            } else {
+                iteratorTiro.remove();
+                System.out.println("Tiro Removido");
+            }
+        }
+
+        Iterator<SuperTiro> iteratorSuperTiro = superTiros.iterator();
+        while (iteratorSuperTiro.hasNext()) {
+            SuperTiro superTiro = iteratorSuperTiro.next();
+            if (superTiro.isVisivel() && superTiro.verificarVisibilidade()) {
+                superTiro.atualizar();
+            } else {
+                iteratorSuperTiro.remove();
+                System.out.println("Tiro Removido");
+
+            }
+        }
+    }
+
+    public void enemiesRemover(List<Tiro> tiros, List<SuperTiro> superTiros){
+        Iterator<Inimigo> iteratorInimigo = inimigos.iterator();
+        while (iteratorInimigo.hasNext()) {
+            Inimigo inimigo = iteratorInimigo.next();
+            if (inimigo.isVisivel()) {
+                inimigo.atualizar();
+
+                if (personagem.getRetangulo().intersects(inimigo.getRetangulo())) {
+                    System.out.println("Colisão com o personagem");
+                    iteratorInimigo.remove(); // Remover o inimigo da lista
+                    inimigo.setVisivel(false); // Marcar o inimigo como invisível
+                    personagem.sofrerDano(1);
+                }
+
+                for (Tiro tiro : tiros) {
+                    if (tiro.getRetangulo().intersects(inimigo.getRetangulo())) {
+                        System.out.println("Colisão com o tiro");
+                        // Aqui ele remove o tiro também.
+                        inimigo.dropItem(gerenciadorItem);
+                        personagem.adicionarPontos(100);
+                        tiros.remove(tiro);
+                        inimigo.setVisivel(false);
+                        iteratorInimigo.remove();
+                        break;
+                    }
+                }
+
+                int contHits = 0;
+                for (Iterator<SuperTiro> iteratorSuperTiro2 = superTiros.iterator(); iteratorSuperTiro2.hasNext();) {
+                    SuperTiro superTiro = iteratorSuperTiro2.next();
+                    if (superTiro.getRetangulo().intersects(inimigo.getRetangulo())) {
+                        System.out.println("Colisão com o tiro");
+                        personagem.adicionarPontos(100);
+                        inimigo.dropItem(gerenciadorItem);
+                        if (contHits == 3) {
+                            iteratorSuperTiro2.remove();
+                        }
+
+                        inimigo.setVisivel(false);
+
+                        break;
+                    }
+                }
+            } else {
+                iteratorInimigo.remove();
+            }
         }
     }
 
     public void inicializaElementosGraficosAdicionais() {
         this.nuvens = new ArrayList<Nuvem>();
         for (int i = 0; i < QTDE_DE_NUVENS; i++) {
-            int x = (int) (Math.random() * Principal.LARGURA_DA_JANELA);
-            int y = (int) (Math.random() * Principal.ALTURA_DA_JANELA);
+            int x = (int) (Math.random() * LARGURA_DA_JANELA);
+            int y = (int) (Math.random() * ALTURA_DA_JANELA);
             Nuvem nuvem = new Nuvem(x, y);
             this.nuvens.add(nuvem);
         }
@@ -187,10 +297,6 @@ public class Fase extends JPanel implements KeyListener, ActionListener {
         // vazio
     }
 
-    // Puxa os metodos quando acóes especificas são realizadas.
-    // Nesse caso, está puxando os metodos de atualização do personagem e dos tiros.
-    // Há uma condição para atualizar os tiros, eles devem estar na tela. Se
-    // estiverem fora, serão removidos para economizar recursos.
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -203,117 +309,14 @@ public class Fase extends JPanel implements KeyListener, ActionListener {
         for (Nuvem nuvem : this.nuvens) {
             nuvem.atualizar();
         }
-        this.contadorInimigos++;
-
-        if (this.contadorInimigos >= this.LIMITE_INIMIGOS) {
-            Random rn = new Random();
-            int posicaoEmX = rn.nextInt(1599) + 1;
-            int posicaoEmY = rn.nextInt(959) + 1;
-            if (!(posicaoEmX == personagem.getPosicaoEmX() && posicaoEmX == personagem.getPosicaoEmY())) {
-                Inimigo novoInimigo = new Inimigo(posicaoEmX, posicaoEmY, this.personagem);
-                novoInimigo.carregar();
-                inimigos.add(novoInimigo);
-            }
-            this.contadorInimigos = 0;
-        }
-        if (!(gerenciadorItem == null)) {
-            for (Item item : gerenciadorItem.getItens()) {
-                if (item.isVisivel() && personagem.getRetangulo().intersects(item.getRetangulo())) {
-                    System.out.println("Colisão com item: " + item.getClass().getSimpleName());
-                    item.aplicarEfeito(personagem);
-                    item.setVisivel(false);
-                }
-            }
-        }
+        List<SuperTiro> superTiros = this.personagem.getSuperTiros();
         List<Tiro> tiros = this.personagem.getTiros();
 
-        // Remover tiros que saem da tela, se eles não forem mais visíveis.
+        spawnEnemies();
+        checkItemCollision();
+        bulletsRemover(tiros, superTiros);
+        enemiesRemover(tiros, superTiros);
 
-        Iterator<Tiro> iteratorTiro = tiros.iterator();
-
-        // Enquanto houver outro item na lista.
-        while (iteratorTiro.hasNext()) {
-            Tiro tiro = iteratorTiro.next();
-            // Se forem visíveis, eles serão atualizados.
-
-            if (tiro.isVisivel() && tiro.verificarVisibilidade()) {
-                tiro.atualizar();
-                // Se não, serão removidos.
-            } else {
-                iteratorTiro.remove();
-                System.out.println("Tiro Removido");
-            }
-        }
-
-        List<SuperTiro> superTiros = this.personagem.getSuperTiros();
-
-        Iterator<SuperTiro> iteratorSuperTiro = superTiros.iterator();
-        while (iteratorSuperTiro.hasNext()) {
-            SuperTiro superTiro = iteratorSuperTiro.next();
-            // Se forem visíveis, eles serão atualizados.
-
-            if (superTiro.isVisivel() && superTiro.verificarVisibilidade()) {
-                superTiro.atualizar();
-                // Se não, serão removidos.
-            } else {
-                iteratorSuperTiro.remove();
-                System.out.println("Tiro Removido");
-
-            }
-        }
-        // Lógica para remover os inimigos, é um pouco mais complexa.
-        Iterator<Inimigo> iteratorInimigo = inimigos.iterator();
-        while (iteratorInimigo.hasNext()) {
-            Inimigo inimigo = iteratorInimigo.next();
-            if (inimigo.isVisivel()) {
-                inimigo.atualizar();
-
-                // Verificar colisão com o personagem
-                if (personagem.getRetangulo().intersects(inimigo.getRetangulo())) {
-                    System.out.println("Colisão com o personagem");
-                    iteratorInimigo.remove(); // Remover o inimigo da lista
-                    inimigo.setVisivel(false); // Marcar o inimigo como invisível
-                    personagem.sofrerDano(1);
-                }
-
-                // Verificar colisão com os tiros
-                for (Tiro tiro : tiros) {
-                    if (tiro.getRetangulo().intersects(inimigo.getRetangulo())) {
-                        System.out.println("Colisão com o tiro");
-                        // Aqui ele remove o tiro também.
-                        inimigo.dropItem(gerenciadorItem);
-                        personagem.adicionarPontos(100);
-                        tiros.remove(tiro);
-                        inimigo.setVisivel(false);
-                        iteratorInimigo.remove();
-                        break;
-                    }
-                }
-
-                int contHits = 0;
-                for (Iterator<SuperTiro> iteratorSuperTiro2 = superTiros.iterator(); iteratorSuperTiro2.hasNext();) {
-                    SuperTiro superTiro = iteratorSuperTiro2.next();
-                    if (superTiro.getRetangulo().intersects(inimigo.getRetangulo())) {
-                        System.out.println("Colisão com o tiro");
-                        personagem.adicionarPontos(100);
-                        inimigo.dropItem(gerenciadorItem);
-                        if (contHits == 3) {
-                            iteratorSuperTiro2.remove(); // Remover o superTiro após 4 acertos (0, 1, 2, 3 = 4 acertos)
-                        }
-
-                        inimigo.setVisivel(false);
-                        contHits++; // Incrementar a contagem dos acertos após a verificação
-
-                        break; // Sair do loop após acertar o inimigo
-                    }
-                }
-            } else {
-                iteratorInimigo.remove();
-            }
-        }
-
-        // Lógica do Item de velocidade de ataque.
-        // Se ele for visível e nõa for nulo e o jogador encostar nele.
         spriteFundo.atualizarJogo(personagem);
         personagem.verificarColisaoBorda();
 

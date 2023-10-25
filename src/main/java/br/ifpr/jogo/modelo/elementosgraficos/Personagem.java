@@ -13,6 +13,8 @@ import br.ifpr.jogo.modelo.elementosgraficos.tiros.Tiro;
 import br.ifpr.jogo.modelo.sprites.SpriteTiro;
 import jdk.jfr.Name;
 
+import static br.ifpr.jogo.util.Constants.*;
+
 //
 @Entity
 @Table(name = "tb_personagem")
@@ -36,22 +38,14 @@ public class Personagem extends ElementoGrafico {
     @Column(name="pontuacao")
     private int pontos;
 
-    private static final int VIDA_BASE = 3;
-    private static final int DELAY_BASE = 500;
-    private static final int POSICAO_INICIAL_EM_X = 800;
-    private static final int POSICAO_INICIAL_EM_Y = 500;
-    private static final int VELOCIDADE = 3;
-    private static final ImageIcon CORACAO_CHEIO = new ImageIcon("src/main/resources/CoracaoCheio.png");
-    private static final ImageIcon CORACAO_VAZIO = new ImageIcon("src/main/resources/CoracaoVazio.png");
-
     public Personagem() {
-        super.setPosicaoEmX(POSICAO_INICIAL_EM_X);
-        super.setPosicaoEmY(POSICAO_INICIAL_EM_Y);
+        super.setPosicaoEmX(POSICAO_INICIAL_EM_X_PERSONAGEM);
+        super.setPosicaoEmY(POSICAO_INICIAL_EM_Y_PERSONAGEM);
         this.tiros = new ArrayList<Tiro>();
         this.superTiros = new ArrayList<SuperTiro>();
-        this.delayTiro = DELAY_BASE;
-        super.setVelocidade(VELOCIDADE);
-        super.setVida(VIDA_BASE);
+        this.delayTiro = DELAY_INICIAL_TIRO;
+        super.setVelocidade(VELOCIDADE_INICIAL_PERSONAGEM);
+        super.setVida(VIDA_INICIAL_PERSONAGEM);
         this.pontos = 0;
     }
 
@@ -220,7 +214,7 @@ public class Personagem extends ElementoGrafico {
         int coracaoLargura = CORACAO_CHEIO.getIconWidth();
         int vidaCheia = getVida();
 
-        for (int i = 0; i < VIDA_BASE; i++) {
+        for (int i = 0; i < VIDA_INICIAL_PERSONAGEM; i++) {
             ImageIcon icone = (i < vidaCheia) ? CORACAO_CHEIO : CORACAO_VAZIO;
             g.drawImage(icone.getImage(), 10 + (i * coracaoLargura), 10, null);
         }

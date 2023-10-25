@@ -1,4 +1,4 @@
-package br.ifpr.jogo.principal;
+package br.ifpr.jogo.view;
 
 import javax.swing.JFrame;
 
@@ -6,10 +6,10 @@ import br.ifpr.jogo.modelo.Fase;
 import org.hibernate.Session;
 
 import static br.ifpr.jogo.conexao.HibernateUtil.getSession;
-//View, maybe
+import static br.ifpr.jogo.util.Constants.*;
+
+//View
 public class Principal extends JFrame {
-    public static int ALTURA_DA_JANELA = 960;
-    public static int LARGURA_DA_JANELA = 1600;
 
     public Principal() {
         Fase fase = new Fase();
@@ -24,7 +24,7 @@ public class Principal extends JFrame {
 
     public static void main(String[] args) {
         Session session = getSession();
-        Principal principal = new Principal();
+        StartScreen startScreen = new StartScreen();
 
     }
 }

@@ -6,10 +6,11 @@ import javax.swing.ImageIcon;
 
 import br.ifpr.jogo.modelo.elementosgraficos.Personagem;
 
+import static br.ifpr.jogo.util.Constants.*;
+
 @Entity
 @Table(name = "tb_item_tiro_rapido")
 public class ItemTiroRapido extends Item {
-    private static final int REDUCAO_DELAY = 20;
 
     public ItemTiroRapido(int posicaoEmX, int posicaoEmY) {
         setPosicaoEmX(posicaoEmX);
@@ -28,7 +29,7 @@ public class ItemTiroRapido extends Item {
     @Override
     public void aplicarEfeito(Personagem personagem) {
         if (personagem.getDelayTiro() > 0) {
-            personagem.setDelayTiro(personagem.getDelayTiro() - REDUCAO_DELAY);
+            personagem.setDelayTiro(personagem.getDelayTiro() - REDUCAO_DELAY_ITEM);
         }
     }
 }

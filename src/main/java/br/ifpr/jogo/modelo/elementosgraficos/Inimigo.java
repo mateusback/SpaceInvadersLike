@@ -13,6 +13,8 @@ import br.ifpr.jogo.modelo.elementosgraficos.itens.ItemTiroRapido;
 import br.ifpr.jogo.modelo.elementosgraficos.itens.ItemVelocidade;
 import br.ifpr.jogo.modelo.elementosgraficos.itens.ItemVida;
 
+import static br.ifpr.jogo.util.Constants.*;
+
 //MODEL
 @Entity
 @Table(name = "tb_inimigo")
@@ -20,14 +22,13 @@ public class Inimigo extends ElementoGrafico {
     @Transient
     private Personagem personagem;
 
-    private static final int VELOCIDADE = 2;
 
     public Inimigo(int posicaoEmX, int posicaoEmY, Personagem personagem) {
         super();
         super.setPosicaoEmX(posicaoEmX);
         super.setPosicaoEmY(posicaoEmY);
         this.personagem = personagem;
-        super.setVelocidade(VELOCIDADE);
+        super.setVelocidade(VELOCIDADE_INIMIGO);
     }
 
     @Override
@@ -46,15 +47,15 @@ public class Inimigo extends ElementoGrafico {
 
         // Atualiza a posição do inimigo com base na direção.
         if (deltaX > 0) {
-            super.setPosicaoEmX(super.getPosicaoEmX() + VELOCIDADE);
+            super.setPosicaoEmX(super.getPosicaoEmX() + VELOCIDADE_INIMIGO);
         } else if (deltaX < 0) {
-            super.setPosicaoEmX(super.getPosicaoEmX() - VELOCIDADE);
+            super.setPosicaoEmX(super.getPosicaoEmX() - VELOCIDADE_INIMIGO);
         }
 
         if (deltaY > 0) {
-            super.setPosicaoEmY(super.getPosicaoEmY() + VELOCIDADE);
+            super.setPosicaoEmY(super.getPosicaoEmY() + VELOCIDADE_INIMIGO);
         } else if (deltaY < 0) {
-            super.setPosicaoEmY(super.getPosicaoEmY() - VELOCIDADE);
+            super.setPosicaoEmY(super.getPosicaoEmY() - VELOCIDADE_INIMIGO);
         }
     }
 

@@ -4,7 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.swing.ImageIcon;
 
-import br.ifpr.jogo.principal.Principal;
+import static br.ifpr.jogo.util.Constants.*;
 
 //MODEL
 @Entity
@@ -25,8 +25,8 @@ public class Nuvem extends ElementoGrafico{
 
     @Override
     public void atualizar() {
-        if (super.getPosicaoEmX() > Principal.LARGURA_DA_JANELA) {
-            int y = (int) (Math.random() * Principal.ALTURA_DA_JANELA);
+        if (super.getPosicaoEmX() > LARGURA_DA_JANELA) {
+            int y = (int) (Math.random() * ALTURA_DA_JANELA);
             super.setPosicaoEmX(-super.getImagem().getWidth(null));
             super.setPosicaoEmY(y);
         } else {
