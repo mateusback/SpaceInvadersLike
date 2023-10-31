@@ -1,4 +1,4 @@
-package br.ifpr.jogo.modelo.elementosgraficos;
+package br.ifpr.jogo.model.elementosgraficos;
 
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
@@ -7,10 +7,10 @@ import java.util.ArrayList;
 import javax.persistence.*;
 import javax.swing.ImageIcon;
 
-import br.ifpr.jogo.modelo.elementosgraficos.itens.Item;
-import br.ifpr.jogo.modelo.elementosgraficos.tiros.SuperTiro;
-import br.ifpr.jogo.modelo.elementosgraficos.tiros.Tiro;
-import br.ifpr.jogo.modelo.sprites.SpriteTiro;
+import br.ifpr.jogo.model.elementosgraficos.itens.Item;
+import br.ifpr.jogo.model.elementosgraficos.tiros.SuperTiro;
+import br.ifpr.jogo.model.elementosgraficos.tiros.Tiro;
+import br.ifpr.jogo.model.sprites.SpriteTiro;
 import jdk.jfr.Name;
 
 import static br.ifpr.jogo.util.Constants.*;
@@ -18,7 +18,7 @@ import static br.ifpr.jogo.util.Constants.*;
 //
 @Entity
 @Table(name = "tb_personagem")
-public class Personagem extends ElementoGrafico {
+public class Player extends ElementoGrafico {
     @Transient
     private ArrayList<Tiro> tiros;
     @Transient
@@ -38,7 +38,7 @@ public class Personagem extends ElementoGrafico {
     @Column(name="pontuacao")
     private int pontos;
 
-    public Personagem() {
+    public Player() {
         super.setPosicaoEmX(POSICAO_INICIAL_EM_X_PERSONAGEM);
         super.setPosicaoEmY(POSICAO_INICIAL_EM_Y_PERSONAGEM);
         this.tiros = new ArrayList<Tiro>();
@@ -207,16 +207,6 @@ public class Personagem extends ElementoGrafico {
         super.setVida(super.getVida() - dano);
         if (super.getVida() <= 0) {
 
-        }
-    }
-
-    public void desenharVida(Graphics2D g) {
-        int coracaoLargura = CORACAO_CHEIO.getIconWidth();
-        int vidaCheia = getVida();
-
-        for (int i = 0; i < VIDA_INICIAL_PERSONAGEM; i++) {
-            ImageIcon icone = (i < vidaCheia) ? CORACAO_CHEIO : CORACAO_VAZIO;
-            g.drawImage(icone.getImage(), 10 + (i * coracaoLargura), 10, null);
         }
     }
 

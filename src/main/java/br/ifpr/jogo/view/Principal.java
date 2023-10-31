@@ -2,7 +2,7 @@ package br.ifpr.jogo.view;
 
 import javax.swing.JFrame;
 
-import br.ifpr.jogo.modelo.Fase;
+import br.ifpr.jogo.model.Fase;
 import org.hibernate.Session;
 
 import static br.ifpr.jogo.conexao.HibernateUtil.getSession;

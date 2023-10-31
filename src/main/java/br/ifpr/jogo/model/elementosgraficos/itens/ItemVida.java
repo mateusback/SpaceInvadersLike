@@ -1,10 +1,10 @@
-package br.ifpr.jogo.modelo.elementosgraficos.itens;
+package br.ifpr.jogo.model.elementosgraficos.itens;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.swing.ImageIcon;
 
-import br.ifpr.jogo.modelo.elementosgraficos.Personagem;
+import br.ifpr.jogo.model.elementosgraficos.Player;
 
 import static br.ifpr.jogo.util.Constants.*;
 
@@ -28,9 +28,9 @@ public class ItemVida extends Item {
     }
 
     @Override
-    public void aplicarEfeito(Personagem personagem) {
-        if (personagem.getVida() < 3) {
-            personagem.setVida(personagem.getVida() + AUMENTO_VIDA_ITEM);
+    public void aplicarEfeito(Player player) {
+        if (player.getVida() < 3) {
+            player.setVida(player.getVida() + AUMENTO_VIDA_ITEM);
         }
     }
 

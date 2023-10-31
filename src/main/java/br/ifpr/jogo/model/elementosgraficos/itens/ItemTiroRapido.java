@@ -1,10 +1,10 @@
-package br.ifpr.jogo.modelo.elementosgraficos.itens;
+package br.ifpr.jogo.model.elementosgraficos.itens;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.swing.ImageIcon;
 
-import br.ifpr.jogo.modelo.elementosgraficos.Personagem;
+import br.ifpr.jogo.model.elementosgraficos.Player;
 
 import static br.ifpr.jogo.util.Constants.*;
 
@@ -27,9 +27,9 @@ public class ItemTiroRapido extends Item {
     }
 
     @Override
-    public void aplicarEfeito(Personagem personagem) {
-        if (personagem.getDelayTiro() > 0) {
-            personagem.setDelayTiro(personagem.getDelayTiro() - REDUCAO_DELAY_ITEM);
+    public void aplicarEfeito(Player player) {
+        if (player.getDelayTiro() > 0) {
+            player.setDelayTiro(player.getDelayTiro() - REDUCAO_DELAY_ITEM);
         }
     }
 }

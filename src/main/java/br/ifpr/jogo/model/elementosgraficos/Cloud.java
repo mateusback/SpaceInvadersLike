@@ -1,4 +1,4 @@
-package br.ifpr.jogo.modelo.elementosgraficos;
+package br.ifpr.jogo.model.elementosgraficos;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -9,10 +9,10 @@ import static br.ifpr.jogo.util.Constants.*;
 //MODEL
 @Entity
 @Table(name = "tb_nuvem")
-public class Nuvem extends ElementoGrafico{
+public class Cloud extends ElementoGrafico{
     private static int VELOCIDADE = 3;
 
-    public Nuvem(int xAleatorio, int yAleatorio){
+    public Cloud(int xAleatorio, int yAleatorio){
         this.carregar();
         super.setPosicaoEmX(xAleatorio);
         super.setPosicaoEmY(yAleatorio);

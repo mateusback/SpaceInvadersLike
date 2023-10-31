@@ -1,4 +1,4 @@
-package br.ifpr.jogo.modelo.elementosgraficos;
+package br.ifpr.jogo.model.elementosgraficos;
 
 import javax.persistence.*;
 import java.awt.Image;

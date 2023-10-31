@@ -1,10 +1,10 @@
-package br.ifpr.jogo.modelo.elementosgraficos.itens;
+package br.ifpr.jogo.model.elementosgraficos.itens;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.swing.ImageIcon;
 
-import br.ifpr.jogo.modelo.elementosgraficos.Personagem;
+import br.ifpr.jogo.model.elementosgraficos.Player;
 
 import static br.ifpr.jogo.util.Constants.*;
 
@@ -32,9 +32,9 @@ public class ItemVelocidade extends Item {
     }
 
     @Override
-    public void aplicarEfeito(Personagem personagem) {
-        if (personagem.getVelocidade() < 7) {
-            personagem.setVelocidade(personagem.getVelocidade() + AUMENTO_VELOCIDADE_ITEM);
+    public void aplicarEfeito(Player player) {
+        if (player.getVelocidade() < 7) {
+            player.setVelocidade(player.getVelocidade() + AUMENTO_VELOCIDADE_ITEM);
         }
     }
 

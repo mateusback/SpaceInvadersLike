@@ -1,4 +1,4 @@
-package br.ifpr.jogo.modelo.sprites;
+package br.ifpr.jogo.model.sprites;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -12,13 +12,13 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import br.ifpr.jogo.modelo.elementosgraficos.Personagem;
+import br.ifpr.jogo.model.elementosgraficos.Player;
 
 import static br.ifpr.jogo.util.Constants.*;
 
 public class SpriteFundo implements ImageObserver {
-        private int offsetX; // Deslocamento horizontal da câmera
-        private int offsetY; // Deslocamento vertical da câmera
+        public int offsetX; // Deslocamento horizontal da câmera
+        public int offsetY; // Deslocamento vertical da câmera
         private BufferedImage[] tile;
 
         // Posição inicial dos blocos para centralizar na tela
@@ -53,7 +53,7 @@ public class SpriteFundo implements ImageObserver {
                 }
         }
 
-        public void carregarFase1(Graphics g, Personagem personagem) {
+        public void carregarFase1(Graphics g, Player player) {
                 try {
                         int[][] mapa = carregarMapa("src\\main\\resources\\map.txt");
 
@@ -81,10 +81,10 @@ public class SpriteFundo implements ImageObserver {
                 }
         }
 
-        public void atualizarJogo(Personagem personagem) {
+        public void atualizarJogo(Player player) {
                 // Atualiza o deslocamento da câmera com base na posição do personagem
-                offsetX = personagem.getPosicaoEmX() - LARGURA_DA_JANELA / 2;
-                offsetY = personagem.getPosicaoEmY() - ALTURA_DA_JANELA / 2;
+                offsetX = player.getPosicaoEmX() - LARGURA_DA_JANELA / 2;
+                offsetY = player.getPosicaoEmY() - ALTURA_DA_JANELA / 2;
         }
 
         public static int[][] carregarMapa(String arquivo) throws IOException {

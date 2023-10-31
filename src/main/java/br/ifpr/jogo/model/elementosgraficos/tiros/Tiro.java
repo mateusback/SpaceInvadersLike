@@ -1,7 +1,7 @@
-package br.ifpr.jogo.modelo.elementosgraficos.tiros;
+package br.ifpr.jogo.model.elementosgraficos.tiros;
 
-import br.ifpr.jogo.modelo.elementosgraficos.ElementoGrafico;
-import br.ifpr.jogo.modelo.sprites.SpriteTiro;
+import br.ifpr.jogo.model.elementosgraficos.ElementoGrafico;
+import br.ifpr.jogo.model.sprites.SpriteTiro;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;

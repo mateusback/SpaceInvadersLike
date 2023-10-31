@@ -1,4 +1,4 @@
-package br.ifpr.jogo.modelo.elementosgraficos;
+package br.ifpr.jogo.model.elementosgraficos;
 
 import java.util.Random;
 
@@ -7,11 +7,11 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.swing.ImageIcon;
 
-import br.ifpr.jogo.modelo.elementosgraficos.itens.GerenciadorItem;
-import br.ifpr.jogo.modelo.elementosgraficos.itens.Item;
-import br.ifpr.jogo.modelo.elementosgraficos.itens.ItemTiroRapido;
-import br.ifpr.jogo.modelo.elementosgraficos.itens.ItemVelocidade;
-import br.ifpr.jogo.modelo.elementosgraficos.itens.ItemVida;
+import br.ifpr.jogo.model.elementosgraficos.itens.ItemManager;
+import br.ifpr.jogo.model.elementosgraficos.itens.Item;
+import br.ifpr.jogo.model.elementosgraficos.itens.ItemTiroRapido;
+import br.ifpr.jogo.model.elementosgraficos.itens.ItemVelocidade;
+import br.ifpr.jogo.model.elementosgraficos.itens.ItemVida;
 
 import static br.ifpr.jogo.util.Constants.*;
 
@@ -20,14 +20,14 @@ import static br.ifpr.jogo.util.Constants.*;
 @Table(name = "tb_inimigo")
 public class Inimigo extends ElementoGrafico {
     @Transient
-    private Personagem personagem;
+    private Player player;
 
 
-    public Inimigo(int posicaoEmX, int posicaoEmY, Personagem personagem) {
+    public Inimigo(int posicaoEmX, int posicaoEmY, Player player) {
         super();
         super.setPosicaoEmX(posicaoEmX);
         super.setPosicaoEmY(posicaoEmY);
-        this.personagem = personagem;
+        this.player = player;
         super.setVelocidade(VELOCIDADE_INIMIGO);
     }
 
@@ -42,8 +42,8 @@ public class Inimigo extends ElementoGrafico {
     // Movimento do inimigo
     @Override
     public void atualizar() {
-        int deltaX = personagem.getPosicaoEmX() - super.getPosicaoEmX();
-        int deltaY = personagem.getPosicaoEmY() - super.getPosicaoEmY();
+        int deltaX = player.getPosicaoEmX() - super.getPosicaoEmX();
+        int deltaY = player.getPosicaoEmY() - super.getPosicaoEmY();
 
         // Atualiza a posição do inimigo com base na direção.
         if (deltaX > 0) {
@@ -59,7 +59,7 @@ public class Inimigo extends ElementoGrafico {
         }
     }
 
-    public void dropItem(GerenciadorItem gerenciadorItem) {
+    public void dropItem(ItemManager itemManager) {
         Random rand = new Random();
         int chance = rand.nextInt(100) + 1;
         if (chance <= 25) { 
@@ -72,7 +72,7 @@ public class Inimigo extends ElementoGrafico {
             } else{
                 itemDropado = new ItemVida(super.getPosicaoEmX(), super.getPosicaoEmY());
             }
-            gerenciadorItem.adicionarItem(itemDropado);
+            itemManager.addItem(itemDropado);
         }
     }
 }

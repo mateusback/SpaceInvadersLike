@@ -18,17 +18,17 @@
         <property name="hibernate.format_sql">false</property>
         <property name="hbm2ddl.auto">create-drop</property>
         <!-- Classes que serão persistidas no tutorial -->
-        <mapping class="br.ifpr.jogo.modelo.Jogador"/>
-        <mapping class="br.ifpr.jogo.modelo.elementosgraficos.ElementoGrafico"/>
-        <mapping class="br.ifpr.jogo.modelo.elementosgraficos.Personagem"/>
-        <mapping class="br.ifpr.jogo.modelo.elementosgraficos.Inimigo"/>
-        <mapping class="br.ifpr.jogo.modelo.elementosgraficos.Nuvem"/>
-        <mapping class="br.ifpr.jogo.modelo.elementosgraficos.itens.Item"/>
-        <mapping class="br.ifpr.jogo.modelo.elementosgraficos.itens.ItemTiroRapido"/>
-        <mapping class="br.ifpr.jogo.modelo.elementosgraficos.itens.ItemVelocidade"/>
-        <mapping class="br.ifpr.jogo.modelo.elementosgraficos.itens.ItemVida"/>
-        <mapping class="br.ifpr.jogo.modelo.elementosgraficos.tiros.Tiro"/>
-        <mapping class="br.ifpr.jogo.modelo.elementosgraficos.tiros.SuperTiro"/>
+        <mapping class="br.ifpr.jogo.model.Jogador"/>
+        <mapping class="br.ifpr.jogo.model.elementosgraficos.ElementoGrafico"/>
+        <mapping class="br.ifpr.jogo.model.elementosgraficos.Player"/>
+        <mapping class="br.ifpr.jogo.model.elementosgraficos.Inimigo"/>
+        <mapping class="br.ifpr.jogo.model.elementosgraficos.Cloud"/>
+        <mapping class="br.ifpr.jogo.model.elementosgraficos.itens.Item"/>
+        <mapping class="br.ifpr.jogo.model.elementosgraficos.itens.ItemTiroRapido"/>
+        <mapping class="br.ifpr.jogo.model.elementosgraficos.itens.ItemVelocidade"/>
+        <mapping class="br.ifpr.jogo.model.elementosgraficos.itens.ItemVida"/>
+        <mapping class="br.ifpr.jogo.model.elementosgraficos.tiros.Tiro"/>
+        <mapping class="br.ifpr.jogo.model.elementosgraficos.tiros.SuperTiro"/>
         <!-- Classes que serão persistidas em sala e/ou trabalho -->
         <!--
         <mapping class="ifpr.paranavai.jogo.modelo.ElementoGrafico" />

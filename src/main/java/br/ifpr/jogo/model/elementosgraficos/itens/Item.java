@@ -1,10 +1,10 @@
-package br.ifpr.jogo.modelo.elementosgraficos.itens;
+package br.ifpr.jogo.model.elementosgraficos.itens;
 
 import javax.persistence.*;
 import javax.swing.ImageIcon;
 
-import br.ifpr.jogo.modelo.elementosgraficos.ElementoGrafico;
-import br.ifpr.jogo.modelo.elementosgraficos.Personagem;
+import br.ifpr.jogo.model.elementosgraficos.ElementoGrafico;
+import br.ifpr.jogo.model.elementosgraficos.Player;
 
 @Entity
 @Table(name="tb_item")
@@ -22,13 +22,13 @@ public abstract class Item extends ElementoGrafico {
         super.setLarguraImagem(super.getImagem().getHeight(null));
     }
 
-    public abstract void aplicarEfeito(Personagem personagem);
+    public abstract void aplicarEfeito(Player player);
 
-    public void verificarColisao(Personagem personagem) {
-        if (isVisivel() && personagem.getRetangulo().intersects(getRetangulo())) {
+    public void verificarColisao(Player player) {
+        if (isVisivel() && player.getRetangulo().intersects(getRetangulo())) {
             setVisivel(false);
             System.out.println("Colisão com item");
-            aplicarEfeito(personagem);
+            aplicarEfeito(player);
             if (!isVisivel()) {
                 this.setColetado(true);
             }
