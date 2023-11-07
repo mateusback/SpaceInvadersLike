@@ -1,6 +1,5 @@
 package br.ifpr.jogo.model.elementosgraficos;
 
-import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
@@ -10,7 +9,7 @@ import javax.swing.ImageIcon;
 import br.ifpr.jogo.model.elementosgraficos.itens.Item;
 import br.ifpr.jogo.model.elementosgraficos.tiros.SuperTiro;
 import br.ifpr.jogo.model.elementosgraficos.tiros.Tiro;
-import br.ifpr.jogo.model.sprites.SpriteTiro;
+import br.ifpr.jogo.model.sprites.BulletSprite;
 import jdk.jfr.Name;
 
 import static br.ifpr.jogo.util.Constants.*;
@@ -18,7 +17,7 @@ import static br.ifpr.jogo.util.Constants.*;
 //
 @Entity
 @Table(name = "tb_personagem")
-public class Player extends ElementoGrafico {
+public class Player extends GraphicElement {
     @Transient
     private ArrayList<Tiro> tiros;
     @Transient
@@ -39,102 +38,102 @@ public class Player extends ElementoGrafico {
     private int pontos;
 
     public Player() {
-        super.setPosicaoEmX(POSICAO_INICIAL_EM_X_PERSONAGEM);
-        super.setPosicaoEmY(POSICAO_INICIAL_EM_Y_PERSONAGEM);
+        super.setXPosition(POSICAO_INICIAL_EM_X_PERSONAGEM);
+        super.setYPosition(POSICAO_INICIAL_EM_Y_PERSONAGEM);
         this.tiros = new ArrayList<Tiro>();
         this.superTiros = new ArrayList<SuperTiro>();
         this.delayTiro = DELAY_INICIAL_TIRO;
-        super.setVelocidade(VELOCIDADE_INICIAL_PERSONAGEM);
-        super.setVida(VIDA_INICIAL_PERSONAGEM);
+        super.setSpeed(VELOCIDADE_INICIAL_PERSONAGEM);
+        super.setHitPoints(VIDA_INICIAL_PERSONAGEM);
         this.pontos = 0;
     }
 
     @Override
-    public void carregar() {
+    public void load() {
         ImageIcon carregando = new ImageIcon(getClass().getResource("/Personagem_Parado.png"));
-        super.setImagem(carregando.getImage());
-        super.setAlturaImagem(super.getImagem().getWidth(null));
-        super.setLarguraImagem(super.getImagem().getHeight(null));
+        super.setBaseSprite(carregando.getImage());
+        super.setImageHeight(super.getBaseSprite().getWidth(null));
+        super.setImageWidth(super.getBaseSprite().getHeight(null));
     }
 
     @Override
-    public void atualizar() {
-        super.setPosicaoEmX(super.getPosicaoEmX() + super.getDeslocamentoEmX());
-        super.setPosicaoEmY(super.getPosicaoEmY() + super.getDeslocamentoEmY());
+    public void update() {
+        super.setXPosition(super.getXPosition() + super.getXDisplacement());
+        super.setYPosition(super.getYPosition() + super.getYDisplacement());
     }
 
     public void mover(KeyEvent tecla) {
         int codigo = tecla.getKeyCode();
 
         if (codigo == KeyEvent.VK_W) {
-            super.setDeslocamentoEmY(super.getDeslocamentoEmY() - super.getVelocidade());
-            super.setDirecao("cima");
+            super.setYDisplacement(super.getYDisplacement() - super.getSpeed());
+            super.setDirection("cima");
             ImageIcon carregando = new ImageIcon(getClass().getResource("/Personagem_Cima.gif"));
-            super.setImagem(carregando.getImage());
+            super.setBaseSprite(carregando.getImage());
             tudoSolto[0] = false;
         }
 
         if (codigo == KeyEvent.VK_S) {
-            super.setDeslocamentoEmY(super.getVelocidade());
-            this.setDirecao("baixo");
+            super.setYDisplacement(super.getSpeed());
+            this.setDirection("baixo");
             ImageIcon carregando = new ImageIcon(getClass().getResource("/Personagem_Baixo.gif"));
-            super.setImagem(carregando.getImage());
+            super.setBaseSprite(carregando.getImage());
             tudoSolto[1] = false;
         }
 
         if (codigo == KeyEvent.VK_A) {
-            super.setDeslocamentoEmX(super.getDeslocamentoEmX() - super.getVelocidade());
-            this.setDirecao("esquerda");
+            super.setXDisplacement(super.getXDisplacement() - super.getSpeed());
+            this.setDirection("esquerda");
             ImageIcon carregando = new ImageIcon(getClass().getResource("/Personagem_Esquerda.gif"));
-            super.setImagem(carregando.getImage());
+            super.setBaseSprite(carregando.getImage());
             tudoSolto[2] = false;
 
         }
         if (codigo == KeyEvent.VK_D) {
-            super.setDeslocamentoEmX(super.getVelocidade());
-            this.setDirecao("direita");
+            super.setXDisplacement(super.getSpeed());
+            this.setDirection("direita");
             ImageIcon carregando = new ImageIcon(getClass().getResource("/Personagem_Direita.gif"));
-            super.setImagem(carregando.getImage());
+            super.setBaseSprite(carregando.getImage());
             tudoSolto[3] = false;
         }
 
         // Dash
-        if (codigo == KeyEvent.VK_SPACE && super.getDirecao() == "esquerda") {
-            super.setPosicaoEmX(super.getPosicaoEmX() - 100);
+        if (codigo == KeyEvent.VK_SPACE && super.getDirection() == "esquerda") {
+            super.setXPosition(super.getXPosition() - 100);
         }
-        if (codigo == KeyEvent.VK_SPACE && super.getDirecao() == "direita") {
-            super.setPosicaoEmX(super.getPosicaoEmX() + 100);
+        if (codigo == KeyEvent.VK_SPACE && super.getDirection() == "direita") {
+            super.setXPosition(super.getXPosition() + 100);
         }
-        if (codigo == KeyEvent.VK_SPACE && super.getDirecao() == "cima") {
-            super.setPosicaoEmY(super.getPosicaoEmY() - 100);
+        if (codigo == KeyEvent.VK_SPACE && super.getDirection() == "cima") {
+            super.setYPosition(super.getYPosition() - 100);
         }
-        if (codigo == KeyEvent.VK_SPACE && super.getDirecao() == "baixo") {
-            super.setPosicaoEmY(super.getPosicaoEmY() + 100);
+        if (codigo == KeyEvent.VK_SPACE && super.getDirection() == "baixo") {
+            super.setYPosition(super.getYPosition() + 100);
         }
     }
 
     public void parar(KeyEvent tecla) {
         int codigo = tecla.getKeyCode();
         if (codigo == KeyEvent.VK_W) {
-            super.setDeslocamentoEmY(0);
+            super.setYDisplacement(0);
             tudoSolto[0] = true;
         }
         if (codigo == KeyEvent.VK_S) {
-            super.setDeslocamentoEmY(0);
+            super.setYDisplacement(0);
             tudoSolto[1] = true;
         }
         if (codigo == KeyEvent.VK_A) {
-            super.setDeslocamentoEmX(0);
+            super.setXDisplacement(0);
             tudoSolto[2] = true;
         }
         if (codigo == KeyEvent.VK_D) {
-            super.setDeslocamentoEmX(0);
+            super.setXDisplacement(0);
             tudoSolto[3] = true;
         }
 
         if (tudoSolto[0] == true && tudoSolto[1] == true && tudoSolto[2] == true && tudoSolto[3] == true) {
             ImageIcon carregando = new ImageIcon(getClass().getResource("/Personagem_Parado.png"));
-            super.setImagem(carregando.getImage());
+            super.setBaseSprite(carregando.getImage());
         }
     }
 
@@ -143,11 +142,11 @@ public class Player extends ElementoGrafico {
         if (tempoAtual - tempoUltimoTiro < delayTiro) {
             return;
         }
-        SpriteTiro sprite = new SpriteTiro();
+        BulletSprite sprite = new BulletSprite();
         sprite.carregar();
 
-        int centroPersonagemX = super.getPosicaoEmX() + (super.getLarguraImagem() / 2);
-        int centroPersonagemY = super.getPosicaoEmY() + (super.getAlturaImagem() / 2);
+        int centroPersonagemX = super.getXPosition() + (super.getImageWidth() / 2);
+        int centroPersonagemY = super.getYPosition() + (super.getImageHeight() / 2);
 
         if (tecla.getKeyCode() == KeyEvent.VK_RIGHT || tecla.getKeyCode() == KeyEvent.VK_L) {
             Tiro tiro = new Tiro(centroPersonagemX, centroPersonagemY, sprite, "direita");
@@ -155,12 +154,12 @@ public class Player extends ElementoGrafico {
         }
 
         if (tecla.getKeyCode() == KeyEvent.VK_UP || tecla.getKeyCode() == KeyEvent.VK_I) {
-            Tiro tiro = new Tiro(centroPersonagemX, (centroPersonagemY - super.getAlturaImagem()), sprite, "cima");
+            Tiro tiro = new Tiro(centroPersonagemX, (centroPersonagemY - super.getImageHeight()), sprite, "cima");
             this.tiros.add(tiro);
         }
 
         if (tecla.getKeyCode() == KeyEvent.VK_LEFT || tecla.getKeyCode() == KeyEvent.VK_J) {
-            Tiro tiro = new Tiro((centroPersonagemX - super.getLarguraImagem()), centroPersonagemY, sprite, "esquerda");
+            Tiro tiro = new Tiro((centroPersonagemX - super.getImageWidth()), centroPersonagemY, sprite, "esquerda");
             this.tiros.add(tiro);
         }
 
@@ -178,18 +177,18 @@ public class Player extends ElementoGrafico {
     }
 
     public void verificarColisaoBorda() {
-        if (super.getPosicaoEmX() < 0) {
-            super.setPosicaoEmX(0);
-        } else if (super.getPosicaoEmX() + super.getLarguraImagem() > 1600) {
-            int maximoEmX = 1600 - super.getLarguraImagem(); // CALCULA A POSIÇÃO MÁXIMA
-            super.setPosicaoEmX(maximoEmX);
+        if (super.getXPosition() < 0) {
+            super.setXPosition(0);
+        } else if (super.getXPosition() + super.getImageWidth() > 1600) {
+            int maximoEmX = 1600 - super.getImageWidth(); // CALCULA A POSIÇÃO MÁXIMA
+            super.setXPosition(maximoEmX);
         }
 
-        if (super.getPosicaoEmY() < 0) {
-            super.setPosicaoEmY(0);
-        } else if (super.getPosicaoEmY() + super.getAlturaImagem() > 960) {
-            int maximoEmY = 960 - super.getAlturaImagem();
-            super.setPosicaoEmY(maximoEmY);
+        if (super.getYPosition() < 0) {
+            super.setYPosition(0);
+        } else if (super.getYPosition() + super.getImageHeight() > 960) {
+            int maximoEmY = 960 - super.getImageHeight();
+            super.setYPosition(maximoEmY);
         }
     }
 
@@ -204,8 +203,8 @@ public class Player extends ElementoGrafico {
     }
 
     public void sofrerDano(int dano) {
-        super.setVida(super.getVida() - dano);
-        if (super.getVida() <= 0) {
+        super.setHitPoints(super.getHitPoints() - dano);
+        if (super.getHitPoints() <= 0) {
 
         }
     }

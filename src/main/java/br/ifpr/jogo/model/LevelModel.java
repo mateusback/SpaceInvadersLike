@@ -1,7 +1,7 @@
 package br.ifpr.jogo.model;
 
 import br.ifpr.jogo.model.elementosgraficos.Cloud;
-import br.ifpr.jogo.model.elementosgraficos.Inimigo;
+import br.ifpr.jogo.model.elementosgraficos.Enemy;
 import br.ifpr.jogo.model.elementosgraficos.Player;
 
 import javax.persistence.Column;
@@ -13,7 +13,7 @@ public class LevelModel {
     @Transient
     private Player player;
     @Transient
-    private List<Inimigo> enemies;
+    private List<Enemy> enemies;
 
     @Column(name="contador_inimigos")
     private int enemiesCounter;
@@ -28,11 +28,11 @@ public class LevelModel {
         this.player = player;
     }
 
-    public List<Inimigo> getEnemies() {
+    public List<Enemy> getEnemies() {
         return enemies;
     }
 
-    public void setEnemies(List<Inimigo> enemies) {
+    public void setEnemies(List<Enemy> enemies) {
         this.enemies = enemies;
     }
 

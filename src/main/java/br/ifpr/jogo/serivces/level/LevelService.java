@@ -1,11 +1,6 @@
 package br.ifpr.jogo.serivces.level;
 
-import br.ifpr.jogo.model.sprites.SpriteFundo;
-
-import javax.swing.*;
 import java.awt.*;
-
-import static br.ifpr.jogo.util.Constants.*;
 
 public interface LevelService {
     public abstract void drawBullets(Graphics g);

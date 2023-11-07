@@ -24,7 +24,7 @@ public class StartScreen extends JFrame {
 
         newGameBt.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                Principal principal = new Principal();
+                Main main = new Main();
             }
         });
 

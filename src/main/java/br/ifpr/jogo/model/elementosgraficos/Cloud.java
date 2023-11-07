@@ -9,28 +9,33 @@ import static br.ifpr.jogo.util.Constants.*;
 //MODEL
 @Entity
 @Table(name = "tb_nuvem")
-public class Cloud extends ElementoGrafico{
-    private static int VELOCIDADE = 3;
+public class Cloud extends GraphicElement {
+    private static int SPEED = 3;
 
-    public Cloud(int xAleatorio, int yAleatorio){
-        this.carregar();
-        super.setPosicaoEmX(xAleatorio);
-        super.setPosicaoEmY(yAleatorio);
-    }
-    @Override
-    public void carregar() {
-        ImageIcon carregando = new ImageIcon(getClass().getResource("/Nuvem.png"));
-        super.setImagem(carregando.getImage());
+    public Cloud(int xRandom, int yRandom){
+        this.load();
+        super.setXPosition(xRandom);
+        super.setYPosition(yRandom);
     }
 
+    public Cloud() {
+
+    }
+
     @Override
-    public void atualizar() {
-        if (super.getPosicaoEmX() > LARGURA_DA_JANELA) {
+    public void load() {
+        ImageIcon loading = new ImageIcon(getClass().getResource("/Nuvem.png"));
+        super.setBaseSprite(loading.getImage());
+    }
+
+    @Override
+    public void update() {
+        if (super.getXPosition() > LARGURA_DA_JANELA) {
             int y = (int) (Math.random() * ALTURA_DA_JANELA);
-            super.setPosicaoEmX(-super.getImagem().getWidth(null));
-            super.setPosicaoEmY(y);
+            super.setXPosition(-super.getBaseSprite().getWidth(null));
+            super.setYPosition(y);
         } else {
-            super.setPosicaoEmX(super.getPosicaoEmX() + VELOCIDADE);
+            super.setXPosition(super.getXPosition() + SPEED);
         }
     }
 }

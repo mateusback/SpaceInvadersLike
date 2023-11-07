@@ -1,9 +1,9 @@
 package br.ifpr.jogo.model.elementosgraficos.tiros;
 
 
-import br.ifpr.jogo.model.elementosgraficos.ElementoGrafico;
+import br.ifpr.jogo.model.elementosgraficos.GraphicElement;
 import br.ifpr.jogo.model.elementosgraficos.Player;
-import br.ifpr.jogo.model.sprites.SpriteTiro;
+import br.ifpr.jogo.model.sprites.BulletSprite;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -12,9 +12,9 @@ import javax.persistence.Transient;
 
 @Entity
 @Table(name = "tb_super_tiro")
-public class SuperTiro extends ElementoGrafico{
+public class SuperTiro extends GraphicElement {
     @Transient
-    private SpriteTiro sprite;
+    private BulletSprite sprite;
     @Transient
     private Player player;
     private long tempoInicial;
@@ -22,48 +22,48 @@ public class SuperTiro extends ElementoGrafico{
     public static final int ALTURA_TIRO = 30;
     public static final int VELOCIDADE = 4;
 
-    public SuperTiro(int posicaoPersonagemEmX, int posicaoPersonagemEmY, SpriteTiro sprite, String direcao, Player player) {
-        super.setPosicaoEmX(posicaoPersonagemEmX);
-        super.setPosicaoEmY(posicaoPersonagemEmY);
+    public SuperTiro(int posicaoPersonagemEmX, int posicaoPersonagemEmY, BulletSprite sprite, String direcao, Player player) {
+        super.setXPosition(posicaoPersonagemEmX);
+        super.setYPosition(posicaoPersonagemEmY);
         this.sprite = sprite;
-        super.setDirecao(direcao);
-        super.setVisivel(true);
-        super.setVelocidade(VELOCIDADE);
+        super.setDirection(direcao);
+        super.setVisible(true);
+        super.setSpeed(VELOCIDADE);
         this.player = player;
         this.tempoInicial = System.currentTimeMillis();
     }
 
     @Override
-    public void carregar() {
-        super.setImagem(sprite.getImagem(super.getDirecao()));
-        super.setAlturaImagem(ALTURA_TIRO);
-        super.setLarguraImagem(ALTURA_TIRO);
+    public void load() {
+        super.setBaseSprite(sprite.getImagem(super.getDirection()));
+        super.setImageHeight(ALTURA_TIRO);
+        super.setImageWidth(ALTURA_TIRO);
     }
 
     @Override
-    public void atualizar() {
+    public void update() {
         long tempoAtual = System.currentTimeMillis();
         long tempoDecorrido = tempoAtual - tempoInicial;
         if (tempoDecorrido >= 5000) { // 5000 ms = 5 segundos
-            super.setVisivel(false);
+            super.setVisible(false);
         } else {
             double angulo = (tempoDecorrido / 1000.0) * Math.PI * 2;
             int raio = 100;
 
-            int posX = (int) (Math.cos(angulo) * raio) + player.getPosicaoEmX();
-            int posY = (int) (Math.sin(angulo) * raio) + player.getPosicaoEmY();
+            int posX = (int) (Math.cos(angulo) * raio) + player.getXPosition();
+            int posY = (int) (Math.sin(angulo) * raio) + player.getYPosition();
 
-            super.setPosicaoEmX(posX);
-            super.setPosicaoEmY(posY);
+            super.setXPosition(posX);
+            super.setYPosition(posY);
         }
     }
 
     // Corrigir este método
     public boolean verificarVisibilidade() {
-        boolean visivel = super.isVisivel(); // obtém o valor padrão de visibilidade da classe pai
+        boolean visivel = super.isVisible(); // obtém o valor padrão de visibilidade da classe pai
 
-        if (super.getPosicaoEmX() > 1600 || super.getPosicaoEmX() < 0 || super.getPosicaoEmY() < 0
-                || super.getPosicaoEmY() > 960) {
+        if (super.getXPosition() > 1600 || super.getXPosition() < 0 || super.getYPosition() < 0
+                || super.getYPosition() > 960) {
             visivel = false;
         }
 

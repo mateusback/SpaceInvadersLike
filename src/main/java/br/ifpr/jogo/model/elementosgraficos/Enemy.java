@@ -18,44 +18,43 @@ import static br.ifpr.jogo.util.Constants.*;
 //MODEL
 @Entity
 @Table(name = "tb_inimigo")
-public class Inimigo extends ElementoGrafico {
+public class Enemy extends GraphicElement {
     @Transient
     private Player player;
 
-
-    public Inimigo(int posicaoEmX, int posicaoEmY, Player player) {
+    public Enemy(int posicaoEmX, int posicaoEmY, Player player) {
         super();
-        super.setPosicaoEmX(posicaoEmX);
-        super.setPosicaoEmY(posicaoEmY);
+        super.setXPosition(posicaoEmX);
+        super.setYPosition(posicaoEmY);
         this.player = player;
-        super.setVelocidade(VELOCIDADE_INIMIGO);
+        super.setSpeed(VELOCIDADE_INIMIGO);
     }
 
     @Override
-    public void carregar() {
+    public void load() {
         ImageIcon carregando = new ImageIcon(getClass().getResource("/Inimigo.png"));
-        super.setImagem(carregando.getImage());
-        super.setAlturaImagem(super.getImagem().getWidth(null));
-        super.setLarguraImagem(super.getImagem().getHeight(null));
+        super.setBaseSprite(carregando.getImage());
+        super.setImageHeight(super.getBaseSprite().getWidth(null));
+        super.setImageWidth(super.getBaseSprite().getHeight(null));
     }
 
     // Movimento do inimigo
     @Override
-    public void atualizar() {
-        int deltaX = player.getPosicaoEmX() - super.getPosicaoEmX();
-        int deltaY = player.getPosicaoEmY() - super.getPosicaoEmY();
+    public void update() {
+        int deltaX = player.getXPosition() - super.getXPosition();
+        int deltaY = player.getYPosition() - super.getYPosition();
 
         // Atualiza a posição do inimigo com base na direção.
         if (deltaX > 0) {
-            super.setPosicaoEmX(super.getPosicaoEmX() + VELOCIDADE_INIMIGO);
+            super.setXPosition(super.getXPosition() + VELOCIDADE_INIMIGO);
         } else if (deltaX < 0) {
-            super.setPosicaoEmX(super.getPosicaoEmX() - VELOCIDADE_INIMIGO);
+            super.setXPosition(super.getXPosition() - VELOCIDADE_INIMIGO);
         }
 
         if (deltaY > 0) {
-            super.setPosicaoEmY(super.getPosicaoEmY() + VELOCIDADE_INIMIGO);
+            super.setYPosition(super.getYPosition() + VELOCIDADE_INIMIGO);
         } else if (deltaY < 0) {
-            super.setPosicaoEmY(super.getPosicaoEmY() - VELOCIDADE_INIMIGO);
+            super.setYPosition(super.getYPosition() - VELOCIDADE_INIMIGO);
         }
     }
 
@@ -66,11 +65,11 @@ public class Inimigo extends ElementoGrafico {
             Item itemDropado;
             int tipoItem = rand.nextInt(3) + 1;
             if (tipoItem == 1) {
-                itemDropado = new ItemTiroRapido(super.getPosicaoEmX(), super.getPosicaoEmY());
+                itemDropado = new ItemTiroRapido(super.getXPosition(), super.getYPosition());
             } else if(tipoItem == 2) {
-                itemDropado = new ItemVelocidade(super.getPosicaoEmX(), super.getPosicaoEmY());
+                itemDropado = new ItemVelocidade(super.getXPosition(), super.getYPosition());
             } else{
-                itemDropado = new ItemVida(super.getPosicaoEmX(), super.getPosicaoEmY());
+                itemDropado = new ItemVida(super.getXPosition(), super.getYPosition());
             }
             itemManager.addItem(itemDropado);
         }

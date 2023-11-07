@@ -9,7 +9,7 @@
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.connection.password"></property>
         <property name="hibernate.connection.url">
-            jdbc:mysql://localhost:3304/bd_jogo
+            jdbc:mysql://localhost:3306/bd_jogo
         </property>
         <property name="hibernate.dialect">
             org.hibernate.dialect.MySQL8Dialect
@@ -17,11 +17,9 @@
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.format_sql">false</property>
         <property name="hbm2ddl.auto">create-drop</property>
-        <!-- Classes que serão persistidas no tutorial -->
-        <mapping class="br.ifpr.jogo.model.Jogador"/>
-        <mapping class="br.ifpr.jogo.model.elementosgraficos.ElementoGrafico"/>
+        <mapping class="br.ifpr.jogo.model.elementosgraficos.GraphicElement"/>
         <mapping class="br.ifpr.jogo.model.elementosgraficos.Player"/>
-        <mapping class="br.ifpr.jogo.model.elementosgraficos.Inimigo"/>
+        <mapping class="br.ifpr.jogo.model.elementosgraficos.Enemy"/>
         <mapping class="br.ifpr.jogo.model.elementosgraficos.Cloud"/>
         <mapping class="br.ifpr.jogo.model.elementosgraficos.itens.Item"/>
         <mapping class="br.ifpr.jogo.model.elementosgraficos.itens.ItemTiroRapido"/>

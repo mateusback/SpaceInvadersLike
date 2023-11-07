@@ -1,7 +1,5 @@
 package br.ifpr.jogo.model;
 
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
@@ -9,51 +7,41 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import br.ifpr.jogo.model.elementosgraficos.Inimigo;
 import br.ifpr.jogo.model.elementosgraficos.Cloud;
 import br.ifpr.jogo.model.elementosgraficos.Player;
 import br.ifpr.jogo.model.elementosgraficos.itens.ItemManager;
-import br.ifpr.jogo.model.elementosgraficos.itens.Item;
 import br.ifpr.jogo.model.elementosgraficos.tiros.SuperTiro;
 import br.ifpr.jogo.model.elementosgraficos.tiros.Tiro;
-import br.ifpr.jogo.model.sprites.SpriteFundo;
+import br.ifpr.jogo.model.sprites.BackgroundSprite;
 import br.ifpr.jogo.serivces.level.LevelServiceImpl;
 
 import static br.ifpr.jogo.util.Constants.*;
 
-//provavelmente Controller
-
-public class Fase extends JPanel implements KeyListener, ActionListener {
+public class Level extends JPanel implements KeyListener, ActionListener {
     private LevelModel levelModel;
     private LevelServiceImpl levelService;
     private Timer timer;
-    private SpriteFundo spriteFundo;
+    private BackgroundSprite backgroundSprite;
     public ItemManager itemManager;
     public boolean gameOver = false;
 
     // Construtor da fase
-    public Fase() {
+    public Level() {
         levelModel = new LevelModel();
         levelService = new LevelServiceImpl(this, this.levelModel);
         setFocusable(true);
         setDoubleBuffered(true);
         // Instanciando o teclado.
         addKeyListener(this);
-        spriteFundo = new SpriteFundo();
+        backgroundSprite = new BackgroundSprite();
         // Istanciando o jogador e carregando sua imagem.
         levelModel.setPlayer(new Player());
-        levelModel.getPlayer().carregar();
+        levelModel.getPlayer().load();
 
         levelService.InitializeAdditionalGraphics();
         // Definindo a velocidade do jogo.
@@ -75,9 +63,9 @@ public class Fase extends JPanel implements KeyListener, ActionListener {
         Graphics2D graphics2D = (Graphics2D) g;
         Player player = levelModel.getPlayer();
         super.paintComponent(g);
-        spriteFundo.carregarFase1(g, player);
+        backgroundSprite.loadLevel1(g);
 
-        graphics2D.drawImage(player.getImagem(), player.getPosicaoEmX(), player.getPosicaoEmY(), null);
+        graphics2D.drawImage(player.getBaseSprite(), player.getXPosition(), player.getYPosition(), null);
 
 
         levelService.drawBullets(graphics2D);
@@ -119,10 +107,10 @@ public class Fase extends JPanel implements KeyListener, ActionListener {
         if (gameOver) {
             return;
         }
-        player.atualizar();
-        this.spriteFundo.atualizarJogo(player);
+        player.update();
+        this.backgroundSprite.updateOffset(player);
         for (Cloud cloud : levelModel.getNuvens()) {
-            cloud.atualizar();
+            cloud.update();
         }
         List<SuperTiro> superTiros = player.getSuperTiros();
         List<Tiro> tiros = player.getTiros();
@@ -132,10 +120,10 @@ public class Fase extends JPanel implements KeyListener, ActionListener {
         levelService.bulletsRemover();
         levelService.enemiesRemover();
 
-        spriteFundo.atualizarJogo(player);
+        backgroundSprite.updateOffset(player);
         player.verificarColisaoBorda();
 
-        if (player.getVida() <= 0) {
+        if (player.getHitPoints() <= 0) {
             gameOver = true;
             return;
         }

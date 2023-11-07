@@ -2,18 +2,18 @@ package br.ifpr.jogo.view;
 
 import javax.swing.JFrame;
 
-import br.ifpr.jogo.model.Fase;
+import br.ifpr.jogo.model.Level;
 import org.hibernate.Session;
 
 import static br.ifpr.jogo.conexao.HibernateUtil.getSession;
 import static br.ifpr.jogo.util.Constants.*;
 
 //View
-public class Principal extends JFrame {
+public class Main extends JFrame {
 
-    public Principal() {
-        Fase fase = new Fase();
-        add(fase);
+    public Main() {
+        Level level = new Level();
+        add(level);
         setVisible(true);
         setTitle("Farm Invaders");
         setResizable(false);

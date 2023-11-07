@@ -1,13 +1,12 @@
 package br.ifpr.jogo.serivces.level;
 
-import br.ifpr.jogo.model.Fase;
+import br.ifpr.jogo.model.Level;
 import br.ifpr.jogo.model.LevelModel;
-import br.ifpr.jogo.model.elementosgraficos.Inimigo;
+import br.ifpr.jogo.model.elementosgraficos.Enemy;
 import br.ifpr.jogo.model.elementosgraficos.Cloud;
 import br.ifpr.jogo.model.elementosgraficos.itens.Item;
 import br.ifpr.jogo.model.elementosgraficos.tiros.SuperTiro;
 import br.ifpr.jogo.model.elementosgraficos.tiros.Tiro;
-import br.ifpr.jogo.model.sprites.SpriteFundo;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,9 +17,9 @@ import java.util.Random;
 import static br.ifpr.jogo.util.Constants.*;
 
 public class LevelServiceImpl implements LevelService{
-    private Fase level;
+    private Level level;
     private LevelModel levelModel;
-    public LevelServiceImpl(Fase level, LevelModel levelModel){
+    public LevelServiceImpl(Level level, LevelModel levelModel){
         this.level = level;
         this.levelModel = levelModel;
     }
@@ -29,22 +28,22 @@ public class LevelServiceImpl implements LevelService{
     public void drawBullets(Graphics g) {
         ArrayList<Tiro> tiros = levelModel.getPlayer().getTiros();
         for (Tiro tiro : tiros) {
-            tiro.carregar();
-            g.drawImage(tiro.getImagem(), tiro.getPosicaoEmX(), tiro.getPosicaoEmY(), null);
+            tiro.load();
+            g.drawImage(tiro.getBaseSprite(), tiro.getXPosition(), tiro.getYPosition(), null);
         }
 
         //SuperTiros
         ArrayList<SuperTiro> superTiros = levelModel.getPlayer().getSuperTiros();
         for (SuperTiro superTiro : superTiros) {
-            superTiro.carregar();
-            g.drawImage(superTiro.getImagem(), superTiro.getPosicaoEmX(), superTiro.getPosicaoEmY(), null);
+            superTiro.load();
+            g.drawImage(superTiro.getBaseSprite(), superTiro.getXPosition(), superTiro.getYPosition(), null);
         }
     }
 
     @Override
     public void drawEnemies(Graphics g) {
-        for (Inimigo inimigo : levelModel.getEnemies()) {
-            g.drawImage(inimigo.getImagem(), inimigo.getPosicaoEmX(), inimigo.getPosicaoEmY(), null);
+        for (Enemy enemy : levelModel.getEnemies()) {
+            g.drawImage(enemy.getBaseSprite(), enemy.getXPosition(), enemy.getYPosition(), null);
         }
     }
 
@@ -52,8 +51,8 @@ public class LevelServiceImpl implements LevelService{
     public void drawItems(Graphics g) {
         if (!(level.itemManager == null)) {
             for (Item item : level.itemManager.getItems()) {
-                if (item.isVisivel()) {
-                    g.drawImage(item.getImagem(), item.getPosicaoEmX(), item.getPosicaoEmY(), null);
+                if (item.isVisible()) {
+                    g.drawImage(item.getBaseSprite(), item.getXPosition(), item.getYPosition(), null);
                 }
             }
         }
@@ -62,7 +61,7 @@ public class LevelServiceImpl implements LevelService{
     @Override
     public void drawClouds(Graphics g) {
         for (Cloud cloud : levelModel.getNuvens()) {
-            g.drawImage(cloud.getImagem(), cloud.getPosicaoEmX(), cloud.getPosicaoEmY(), null);
+            g.drawImage(cloud.getBaseSprite(), cloud.getXPosition(), cloud.getYPosition(), null);
         }
     }
 
@@ -84,7 +83,7 @@ public class LevelServiceImpl implements LevelService{
     public void drawSpeed(Graphics g) {
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.BOLD, 20));
-        g.drawString("Velocidade: " + levelModel.getPlayer().getVelocidade(), LARGURA_DA_JANELA - 300, 70);
+        g.drawString("Velocidade: " + levelModel.getPlayer().getSpeed(), LARGURA_DA_JANELA - 300, 70);
     }
 
     @Override
@@ -99,7 +98,7 @@ public class LevelServiceImpl implements LevelService{
     @Override
     public void drawPlayerLives(Graphics2D g) {
         int coracaoLargura = CORACAO_CHEIO.getIconWidth();
-        int vidaCheia = levelModel.getPlayer().getVida();
+        int vidaCheia = levelModel.getPlayer().getHitPoints();
 
         for (int i = 0; i < VIDA_INICIAL_PERSONAGEM; i++) {
             ImageIcon icone = (i < vidaCheia) ? CORACAO_CHEIO : CORACAO_VAZIO;
@@ -115,10 +114,10 @@ public class LevelServiceImpl implements LevelService{
             Random rn = new Random();
             int posicaoEmX = rn.nextInt(LARGURA_DA_JANELA - 1 ) + 1;
             int posicaoEmY = rn.nextInt(ALTURA_DA_JANELA - 1) + 1;
-            if (!(posicaoEmX == levelModel.getPlayer().getPosicaoEmX() && posicaoEmX == levelModel.getPlayer().getPosicaoEmY())) {
-                Inimigo novoInimigo = new Inimigo(posicaoEmX, posicaoEmY, levelModel.getPlayer());
-                novoInimigo.carregar();
-                levelModel.getEnemies().add(novoInimigo);
+            if (!(posicaoEmX == levelModel.getPlayer().getXPosition() && posicaoEmX == levelModel.getPlayer().getYPosition())) {
+                Enemy novoEnemy = new Enemy(posicaoEmX, posicaoEmY, levelModel.getPlayer());
+                novoEnemy.load();
+                levelModel.getEnemies().add(novoEnemy);
             }
             levelModel.setEnemiesCounter(0);
         }
@@ -128,10 +127,10 @@ public class LevelServiceImpl implements LevelService{
     public void checkItemCollision() {
         if (!(level.itemManager == null)) {
             for (Item item : level.itemManager.getItems()) {
-                if (item.isVisivel() && levelModel.getPlayer().getRetangulo().intersects(item.getRetangulo())) {
+                if (item.isVisible() && levelModel.getPlayer().getRectangle().intersects(item.getRectangle())) {
                     System.out.println("Colisão com item: " + item.getClass().getSimpleName());
                     item.aplicarEfeito(levelModel.getPlayer());
-                    item.setVisivel(false);
+                    item.setVisible(false);
                 }
             }
         }
@@ -143,8 +142,8 @@ public class LevelServiceImpl implements LevelService{
 
         while (iteratorTiro.hasNext()) {
             Tiro tiro = iteratorTiro.next();
-            if (tiro.isVisivel() && tiro.verificarVisibilidade()) {
-                tiro.atualizar();
+            if (tiro.isVisible() && tiro.verificarVisibilidade()) {
+                tiro.update();
             } else {
                 iteratorTiro.remove();
                 System.out.println("Tiro Removido");
@@ -154,8 +153,8 @@ public class LevelServiceImpl implements LevelService{
         Iterator<SuperTiro> iteratorSuperTiro = levelModel.getPlayer().getSuperTiros().iterator();
         while (iteratorSuperTiro.hasNext()) {
             SuperTiro superTiro = iteratorSuperTiro.next();
-            if (superTiro.isVisivel() && superTiro.verificarVisibilidade()) {
-                superTiro.atualizar();
+            if (superTiro.isVisible() && superTiro.verificarVisibilidade()) {
+                superTiro.update();
             } else {
                 iteratorSuperTiro.remove();
                 System.out.println("Tiro Removido");
@@ -166,27 +165,27 @@ public class LevelServiceImpl implements LevelService{
 
     @Override
     public void enemiesRemover() {
-        Iterator<Inimigo> iteratorInimigo = levelModel.getEnemies().iterator();
+        Iterator<Enemy> iteratorInimigo = levelModel.getEnemies().iterator();
         while (iteratorInimigo.hasNext()) {
-            Inimigo inimigo = iteratorInimigo.next();
-            if (inimigo.isVisivel()) {
-                inimigo.atualizar();
+            Enemy enemy = iteratorInimigo.next();
+            if (enemy.isVisible()) {
+                enemy.update();
 
-                if (levelModel.getPlayer().getRetangulo().intersects(inimigo.getRetangulo())) {
+                if (levelModel.getPlayer().getRectangle().intersects(enemy.getRectangle())) {
                     System.out.println("Colisão com o personagem");
                     iteratorInimigo.remove(); // Remover o inimigo da lista
-                    inimigo.setVisivel(false); // Marcar o inimigo como invisível
+                    enemy.setVisible(false); // Marcar o inimigo como invisível
                     levelModel.getPlayer().sofrerDano(1);
                 }
 
                 for (Tiro tiro : levelModel.getPlayer().getTiros()) {
-                    if (tiro.getRetangulo().intersects(inimigo.getRetangulo())) {
+                    if (tiro.getRectangle().intersects(enemy.getRectangle())) {
                         System.out.println("Colisão com o tiro");
                         // Aqui ele remove o tiro também.
-                        inimigo.dropItem(level.itemManager);
+                        enemy.dropItem(level.itemManager);
                         levelModel.getPlayer().adicionarPontos(100);
                         levelModel.getPlayer().getTiros().remove(tiro);
-                        inimigo.setVisivel(false);
+                        enemy.setVisible(false);
                         iteratorInimigo.remove();
                         break;
                     }
@@ -195,15 +194,15 @@ public class LevelServiceImpl implements LevelService{
                 int contHits = 0;
                 for (Iterator<SuperTiro> iteratorSuperTiro2 = levelModel.getPlayer().getSuperTiros().iterator(); iteratorSuperTiro2.hasNext();) {
                     SuperTiro superTiro = iteratorSuperTiro2.next();
-                    if (superTiro.getRetangulo().intersects(inimigo.getRetangulo())) {
+                    if (superTiro.getRectangle().intersects(enemy.getRectangle())) {
                         System.out.println("Colisão com o tiro");
                         levelModel.getPlayer().adicionarPontos(100);
-                        inimigo.dropItem(level.itemManager);
+                        enemy.dropItem(level.itemManager);
                         if (contHits == 3) {
                             iteratorSuperTiro2.remove();
                         }
 
-                        inimigo.setVisivel(false);
+                        enemy.setVisible(false);
 
                         break;
                     }

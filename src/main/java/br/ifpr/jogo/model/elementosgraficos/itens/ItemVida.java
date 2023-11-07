@@ -14,23 +14,23 @@ public class ItemVida extends Item {
 
 
     public ItemVida(int posicaoEmX, int posicaoEmY) {
-        setPosicaoEmX(posicaoEmX);
-        setPosicaoEmY(posicaoEmY);
-        this.carregar();
+        setXPosition(posicaoEmX);
+        setYPosition(posicaoEmY);
+        this.load();
     }
 
     @Override
-    public void carregar() {
+    public void load() {
         ImageIcon carregando = new ImageIcon(getClass().getResource("/ItemVida.png"));
-        super.setImagem(carregando.getImage());
-        super.setAlturaImagem(super.getImagem().getWidth(null));
-        super.setLarguraImagem(super.getImagem().getHeight(null));
+        super.setBaseSprite(carregando.getImage());
+        super.setImageHeight(super.getBaseSprite().getWidth(null));
+        super.setImageWidth(super.getBaseSprite().getHeight(null));
     }
 
     @Override
     public void aplicarEfeito(Player player) {
-        if (player.getVida() < 3) {
-            player.setVida(player.getVida() + AUMENTO_VIDA_ITEM);
+        if (player.getHitPoints() < 3) {
+            player.setHitPoints(player.getHitPoints() + AUMENTO_VIDA_ITEM);
         }
     }
 

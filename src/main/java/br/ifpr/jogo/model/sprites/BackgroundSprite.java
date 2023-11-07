@@ -16,16 +16,16 @@ import br.ifpr.jogo.model.elementosgraficos.Player;
 
 import static br.ifpr.jogo.util.Constants.*;
 
-public class SpriteFundo implements ImageObserver {
+public class BackgroundSprite implements ImageObserver {
         public int offsetX; // Deslocamento horizontal da câmera
         public int offsetY; // Deslocamento vertical da câmera
         private BufferedImage[] tile;
 
         // Posição inicial dos blocos para centralizar na tela
-        private int xInicial;
-        private int yInicial;
+        private int xInitial;
+        private int yInitial;
 
-        public SpriteFundo() {
+        public BackgroundSprite() {
                 tile = new BufferedImage[19];
                 try {
                         BufferedImage spriteSheet = ImageIO.read(new File("src\\main\\resources\\SpriteSheet.png"));
@@ -53,9 +53,9 @@ public class SpriteFundo implements ImageObserver {
                 }
         }
 
-        public void carregarFase1(Graphics g, Player player) {
+        public void loadLevel1(Graphics g) {
                 try {
-                        int[][] mapa = carregarMapa("src\\main\\resources\\map.txt");
+                        int[][] mapa = readMap("src\\main\\resources\\map.txt");
 
                         Graphics2D graficos = (Graphics2D) g;
                         // Tamanho da fase
@@ -63,16 +63,16 @@ public class SpriteFundo implements ImageObserver {
                         int alturaFase = 32 * ALTURA_BLOCO_BACKGROUND;
 
                         // Posição inicial dos blocos para centralizar na tela
-                        xInicial = (LARGURA_DA_JANELA - larguraFase) / 2;
-                        yInicial = (ALTURA_DA_JANELA - alturaFase) / 2;
-                        for (int posY = 0; posY < mapa.length; posY++) {
-                                for (int posX = 0; posX < mapa[posY].length; posX++) {
-                                        int tileNum = mapa[posY][posX];
-                                        int xBloco = xInicial + posX * LARGURA_BLOCO_BACKGROUND - offsetX;
-                                        int yBloco = yInicial + posY * ALTURA_BLOCO_BACKGROUND - offsetY;
+                        xInitial = (LARGURA_DA_JANELA - larguraFase) / 2;
+                        yInitial = (ALTURA_DA_JANELA - alturaFase) / 2;
+                        for (int yPosition = 0; yPosition < mapa.length; yPosition++) {
+                                for (int xPosition = 0; xPosition < mapa[yPosition].length; xPosition++) {
+                                        int tileNum = mapa[yPosition][xPosition];
+                                        int xBlock = xInitial + xPosition * LARGURA_BLOCO_BACKGROUND - offsetX;
+                                        int yBlock = yInitial + yPosition * ALTURA_BLOCO_BACKGROUND - offsetY;
 
                                         if (tileNum >= 0 && tileNum < tile.length) {
-                                                graficos.drawImage(tile[tileNum], xBloco, yBloco, this);
+                                                graficos.drawImage(tile[tileNum], xBlock, yBlock, this);
                                         }
                                 }
                         }
@@ -81,35 +81,32 @@ public class SpriteFundo implements ImageObserver {
                 }
         }
 
-        public void atualizarJogo(Player player) {
-                // Atualiza o deslocamento da câmera com base na posição do personagem
-                offsetX = player.getPosicaoEmX() - LARGURA_DA_JANELA / 2;
-                offsetY = player.getPosicaoEmY() - ALTURA_DA_JANELA / 2;
+        public void updateOffset(Player player) {
+                offsetX = player.getXPosition() - LARGURA_DA_JANELA / 2;
+                offsetY = player.getYPosition() - ALTURA_DA_JANELA / 2;
         }
 
-        public static int[][] carregarMapa(String arquivo) throws IOException {
-                BufferedReader reader = new BufferedReader(new FileReader(arquivo));
-                String linha;
-                int linhas = 0;
-                int colunas = 0;
-                // Primeira passagem para obter o tamanho do mapa
-                while ((linha = reader.readLine()) != null) {
-                        linhas++;
-                        colunas = linha.trim().split(" ").length;
+        public static int[][] readMap(String filePath) throws IOException {
+                BufferedReader reader = new BufferedReader(new FileReader(filePath));
+                String line;
+                int lines = 0;
+                int columns = 0;
+                while ((line = reader.readLine()) != null) {
+                        lines++;
+                        columns = line.trim().split(" ").length;
                 }
 
                 reader.close();
 
-                // Segunda passagem para carregar os dados do mapa
-                int[][] mapa = new int[linhas][colunas];
-                reader = new BufferedReader(new FileReader(arquivo));
+                int[][] map = new int[lines][columns];
+                reader = new BufferedReader(new FileReader(filePath));
 
                 int i = 0;
-                while ((linha = reader.readLine()) != null) {
-                        String[] numeros = linha.trim().split("\\s+");
+                while ((line = reader.readLine()) != null) {
+                        String[] blockCode = line.trim().split("\\s+");
 
-                        for (int j = 0; j < colunas; j++) {
-                                mapa[i][j] = Integer.parseInt(numeros[j]);
+                        for (int j = 0; j < columns; j++) {
+                                map[i][j] = Integer.parseInt(blockCode[j]);
                         }
 
                         i++;
@@ -117,7 +114,7 @@ public class SpriteFundo implements ImageObserver {
 
                 reader.close();
 
-                return mapa;
+                return map;
         }
 
         public int getOffsetX() {

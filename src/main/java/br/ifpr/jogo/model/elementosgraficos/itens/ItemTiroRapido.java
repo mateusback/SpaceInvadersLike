@@ -13,17 +13,17 @@ import static br.ifpr.jogo.util.Constants.*;
 public class ItemTiroRapido extends Item {
 
     public ItemTiroRapido(int posicaoEmX, int posicaoEmY) {
-        setPosicaoEmX(posicaoEmX);
-        setPosicaoEmY(posicaoEmY);
-        this.carregar();
+        setXPosition(posicaoEmX);
+        setYPosition(posicaoEmY);
+        this.load();
     }
 
     @Override
-    public void carregar() {
+    public void load() {
         ImageIcon carregando = new ImageIcon(getClass().getResource("/ItemTiroRapido.png"));
-        super.setImagem(carregando.getImage());
-        super.setAlturaImagem(super.getImagem().getWidth(null));
-        super.setLarguraImagem(super.getImagem().getHeight(null));
+        super.setBaseSprite(carregando.getImage());
+        super.setImageHeight(super.getBaseSprite().getWidth(null));
+        super.setImageWidth(super.getBaseSprite().getHeight(null));
     }
 
     @Override
