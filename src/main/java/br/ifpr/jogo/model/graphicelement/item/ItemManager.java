@@ -1,4 +1,4 @@
-package br.ifpr.jogo.model.elementosgraficos.itens;
+package br.ifpr.jogo.model.graphicelement.item;
 
 import java.util.ArrayList;
 import java.util.List;

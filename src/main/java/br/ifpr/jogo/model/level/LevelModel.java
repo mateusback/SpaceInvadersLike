@@ -1,8 +1,8 @@
-package br.ifpr.jogo.model;
+package br.ifpr.jogo.model.level;
 
-import br.ifpr.jogo.model.elementosgraficos.Cloud;
-import br.ifpr.jogo.model.elementosgraficos.Enemy;
-import br.ifpr.jogo.model.elementosgraficos.Player;
+import br.ifpr.jogo.model.graphicelement.Cloud;
+import br.ifpr.jogo.model.graphicelement.Enemy;
+import br.ifpr.jogo.model.graphicelement.Player;
 
 import javax.persistence.Column;
 import javax.persistence.Transient;

@@ -1,12 +1,12 @@
 package br.ifpr.jogo.serivces.level;
 
-import br.ifpr.jogo.model.Level;
-import br.ifpr.jogo.model.LevelModel;
-import br.ifpr.jogo.model.elementosgraficos.Enemy;
-import br.ifpr.jogo.model.elementosgraficos.Cloud;
-import br.ifpr.jogo.model.elementosgraficos.itens.Item;
-import br.ifpr.jogo.model.elementosgraficos.tiros.SuperTiro;
-import br.ifpr.jogo.model.elementosgraficos.tiros.Tiro;
+import br.ifpr.jogo.model.graphicelement.tiros.Bullet;
+import br.ifpr.jogo.model.level.Level;
+import br.ifpr.jogo.model.level.LevelModel;
+import br.ifpr.jogo.model.graphicelement.Enemy;
+import br.ifpr.jogo.model.graphicelement.Cloud;
+import br.ifpr.jogo.model.graphicelement.item.Item;
+import br.ifpr.jogo.model.graphicelement.tiros.SuperBullet;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,17 +26,17 @@ public class LevelServiceImpl implements LevelService{
 
     @Override
     public void drawBullets(Graphics g) {
-        ArrayList<Tiro> tiros = levelModel.getPlayer().getTiros();
-        for (Tiro tiro : tiros) {
-            tiro.load();
-            g.drawImage(tiro.getBaseSprite(), tiro.getXPosition(), tiro.getYPosition(), null);
+        ArrayList<Bullet> bullets = levelModel.getPlayer().getTiros();
+        for (Bullet bullet : bullets) {
+            bullet.load();
+            g.drawImage(bullet.getBaseSprite(), bullet.getXPosition(), bullet.getYPosition(), null);
         }
 
         //SuperTiros
-        ArrayList<SuperTiro> superTiros = levelModel.getPlayer().getSuperTiros();
-        for (SuperTiro superTiro : superTiros) {
-            superTiro.load();
-            g.drawImage(superTiro.getBaseSprite(), superTiro.getXPosition(), superTiro.getYPosition(), null);
+        ArrayList<SuperBullet> superBullets = levelModel.getPlayer().getSuperTiros();
+        for (SuperBullet superBullet : superBullets) {
+            superBullet.load();
+            g.drawImage(superBullet.getBaseSprite(), superBullet.getXPosition(), superBullet.getYPosition(), null);
         }
     }
 
@@ -76,7 +76,7 @@ public class LevelServiceImpl implements LevelService{
     public void drawShootDelay(Graphics g) {
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.BOLD, 20));
-        g.drawString("Delay Tiro: " + levelModel.getPlayer().getDelayTiro()/100, LARGURA_DA_JANELA - 300, 50);
+        g.drawString("Delay Tiro: " + levelModel.getPlayer().getBulletDelay()/100, LARGURA_DA_JANELA - 300, 50);
     }
 
     @Override
@@ -129,7 +129,7 @@ public class LevelServiceImpl implements LevelService{
             for (Item item : level.itemManager.getItems()) {
                 if (item.isVisible() && levelModel.getPlayer().getRectangle().intersects(item.getRectangle())) {
                     System.out.println("Colisão com item: " + item.getClass().getSimpleName());
-                    item.aplicarEfeito(levelModel.getPlayer());
+                    item.applyEffect(levelModel.getPlayer());
                     item.setVisible(false);
                 }
             }
@@ -138,23 +138,23 @@ public class LevelServiceImpl implements LevelService{
 
     @Override
     public void bulletsRemover() {
-        Iterator<Tiro> iteratorTiro = levelModel.getPlayer().getTiros().iterator();
+        Iterator<Bullet> iteratorTiro = levelModel.getPlayer().getTiros().iterator();
 
         while (iteratorTiro.hasNext()) {
-            Tiro tiro = iteratorTiro.next();
-            if (tiro.isVisible() && tiro.verificarVisibilidade()) {
-                tiro.update();
+            Bullet bullet = iteratorTiro.next();
+            if (bullet.isVisible() && bullet.checkVisibility()) {
+                bullet.update();
             } else {
                 iteratorTiro.remove();
                 System.out.println("Tiro Removido");
             }
         }
 
-        Iterator<SuperTiro> iteratorSuperTiro = levelModel.getPlayer().getSuperTiros().iterator();
+        Iterator<SuperBullet> iteratorSuperTiro = levelModel.getPlayer().getSuperTiros().iterator();
         while (iteratorSuperTiro.hasNext()) {
-            SuperTiro superTiro = iteratorSuperTiro.next();
-            if (superTiro.isVisible() && superTiro.verificarVisibilidade()) {
-                superTiro.update();
+            SuperBullet superBullet = iteratorSuperTiro.next();
+            if (superBullet.isVisible() && superBullet.verificarVisibilidade()) {
+                superBullet.update();
             } else {
                 iteratorSuperTiro.remove();
                 System.out.println("Tiro Removido");
@@ -178,13 +178,13 @@ public class LevelServiceImpl implements LevelService{
                     levelModel.getPlayer().sofrerDano(1);
                 }
 
-                for (Tiro tiro : levelModel.getPlayer().getTiros()) {
-                    if (tiro.getRectangle().intersects(enemy.getRectangle())) {
+                for (Bullet bullet : levelModel.getPlayer().getTiros()) {
+                    if (bullet.getRectangle().intersects(enemy.getRectangle())) {
                         System.out.println("Colisão com o tiro");
                         // Aqui ele remove o tiro também.
                         enemy.dropItem(level.itemManager);
                         levelModel.getPlayer().adicionarPontos(100);
-                        levelModel.getPlayer().getTiros().remove(tiro);
+                        levelModel.getPlayer().getTiros().remove(bullet);
                         enemy.setVisible(false);
                         iteratorInimigo.remove();
                         break;
@@ -192,9 +192,9 @@ public class LevelServiceImpl implements LevelService{
                 }
 
                 int contHits = 0;
-                for (Iterator<SuperTiro> iteratorSuperTiro2 = levelModel.getPlayer().getSuperTiros().iterator(); iteratorSuperTiro2.hasNext();) {
-                    SuperTiro superTiro = iteratorSuperTiro2.next();
-                    if (superTiro.getRectangle().intersects(enemy.getRectangle())) {
+                for (Iterator<SuperBullet> iteratorSuperTiro2 = levelModel.getPlayer().getSuperTiros().iterator(); iteratorSuperTiro2.hasNext();) {
+                    SuperBullet superBullet = iteratorSuperTiro2.next();
+                    if (superBullet.getRectangle().intersects(enemy.getRectangle())) {
                         System.out.println("Colisão com o tiro");
                         levelModel.getPlayer().adicionarPontos(100);
                         enemy.dropItem(level.itemManager);

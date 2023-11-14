@@ -1,4 +1,4 @@
-package br.ifpr.jogo.model;
+package br.ifpr.jogo.model.level;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -12,11 +12,11 @@ import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import br.ifpr.jogo.model.elementosgraficos.Cloud;
-import br.ifpr.jogo.model.elementosgraficos.Player;
-import br.ifpr.jogo.model.elementosgraficos.itens.ItemManager;
-import br.ifpr.jogo.model.elementosgraficos.tiros.SuperTiro;
-import br.ifpr.jogo.model.elementosgraficos.tiros.Tiro;
+import br.ifpr.jogo.model.graphicelement.Cloud;
+import br.ifpr.jogo.model.graphicelement.Player;
+import br.ifpr.jogo.model.graphicelement.item.ItemManager;
+import br.ifpr.jogo.model.graphicelement.tiros.Bullet;
+import br.ifpr.jogo.model.graphicelement.tiros.SuperBullet;
 import br.ifpr.jogo.model.sprites.BackgroundSprite;
 import br.ifpr.jogo.serivces.level.LevelServiceImpl;
 
@@ -85,14 +85,14 @@ public class Level extends JPanel implements KeyListener, ActionListener {
     // Puxa metodos para quando as teclas são pressionadas.
     @Override
     public void keyPressed(KeyEvent e) {
-        levelModel.getPlayer().atirar(e);
+        levelModel.getPlayer().shoot(e);
         levelModel.getPlayer().mover(e);
     }
 
     // Puxa metodos para quando soltamos as teclas qu estavam pressionadas.
     @Override
     public void keyReleased(KeyEvent e) {
-        levelModel.getPlayer().parar(e);
+        levelModel.getPlayer().stop(e);
     }
 
     @Override
@@ -112,8 +112,8 @@ public class Level extends JPanel implements KeyListener, ActionListener {
         for (Cloud cloud : levelModel.getNuvens()) {
             cloud.update();
         }
-        List<SuperTiro> superTiros = player.getSuperTiros();
-        List<Tiro> tiros = player.getTiros();
+        List<SuperBullet> superBullets = player.getSuperTiros();
+        List<Bullet> bullets = player.getTiros();
 
         levelService.spawnEnemies();
         levelService.checkItemCollision();
@@ -121,7 +121,7 @@ public class Level extends JPanel implements KeyListener, ActionListener {
         levelService.enemiesRemover();
 
         backgroundSprite.updateOffset(player);
-        player.verificarColisaoBorda();
+        player.checkBoundsCollision();
 
         if (player.getHitPoints() <= 0) {
             gameOver = true;

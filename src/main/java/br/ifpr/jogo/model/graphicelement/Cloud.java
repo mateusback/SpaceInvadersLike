@@ -1,4 +1,4 @@
-package br.ifpr.jogo.model.elementosgraficos;
+package br.ifpr.jogo.model.graphicelement;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;

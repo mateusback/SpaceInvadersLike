@@ -17,7 +17,7 @@ public class BulletSprite {
         images = new HashMap<>();
     }
 
-    public void carregar() {
+    public void load() {
         // Carregar a imagem padrão
         ImageIcon icon = new ImageIcon(getClass().getResource("/Tiro.png"));
         Image defaultSprite = icon.getImage();

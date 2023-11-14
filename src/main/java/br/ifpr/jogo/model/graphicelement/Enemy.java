@@ -1,4 +1,4 @@
-package br.ifpr.jogo.model.elementosgraficos;
+package br.ifpr.jogo.model.graphicelement;
 
 import java.util.Random;
 
@@ -7,11 +7,11 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.swing.ImageIcon;
 
-import br.ifpr.jogo.model.elementosgraficos.itens.ItemManager;
-import br.ifpr.jogo.model.elementosgraficos.itens.Item;
-import br.ifpr.jogo.model.elementosgraficos.itens.ItemTiroRapido;
-import br.ifpr.jogo.model.elementosgraficos.itens.ItemVelocidade;
-import br.ifpr.jogo.model.elementosgraficos.itens.ItemVida;
+import br.ifpr.jogo.model.graphicelement.item.ItemManager;
+import br.ifpr.jogo.model.graphicelement.item.Item;
+import br.ifpr.jogo.model.graphicelement.item.ItemAttackSpeed;
+import br.ifpr.jogo.model.graphicelement.item.ItemSpeed;
+import br.ifpr.jogo.model.graphicelement.item.ItemHeal;
 
 import static br.ifpr.jogo.util.Constants.*;
 
@@ -65,11 +65,11 @@ public class Enemy extends GraphicElement {
             Item itemDropado;
             int tipoItem = rand.nextInt(3) + 1;
             if (tipoItem == 1) {
-                itemDropado = new ItemTiroRapido(super.getXPosition(), super.getYPosition());
+                itemDropado = new ItemAttackSpeed(super.getXPosition(), super.getYPosition());
             } else if(tipoItem == 2) {
-                itemDropado = new ItemVelocidade(super.getXPosition(), super.getYPosition());
+                itemDropado = new ItemSpeed(super.getXPosition(), super.getYPosition());
             } else{
-                itemDropado = new ItemVida(super.getXPosition(), super.getYPosition());
+                itemDropado = new ItemHeal(super.getXPosition(), super.getYPosition());
             }
             itemManager.addItem(itemDropado);
         }

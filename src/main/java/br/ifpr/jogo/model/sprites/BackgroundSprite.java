@@ -12,7 +12,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import br.ifpr.jogo.model.elementosgraficos.Player;
+import br.ifpr.jogo.model.graphicelement.Player;
 
 import static br.ifpr.jogo.util.Constants.*;
 

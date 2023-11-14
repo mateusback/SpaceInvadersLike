@@ -1,8 +1,8 @@
-package br.ifpr.jogo.model.elementosgraficos.tiros;
+package br.ifpr.jogo.model.graphicelement.tiros;
 
 
-import br.ifpr.jogo.model.elementosgraficos.GraphicElement;
-import br.ifpr.jogo.model.elementosgraficos.Player;
+import br.ifpr.jogo.model.graphicelement.GraphicElement;
+import br.ifpr.jogo.model.graphicelement.Player;
 import br.ifpr.jogo.model.sprites.BulletSprite;
 
 import javax.persistence.Entity;
@@ -12,7 +12,7 @@ import javax.persistence.Transient;
 
 @Entity
 @Table(name = "tb_super_tiro")
-public class SuperTiro extends GraphicElement {
+public class SuperBullet extends GraphicElement {
     @Transient
     private BulletSprite sprite;
     @Transient
@@ -22,7 +22,7 @@ public class SuperTiro extends GraphicElement {
     public static final int ALTURA_TIRO = 30;
     public static final int VELOCIDADE = 4;
 
-    public SuperTiro(int posicaoPersonagemEmX, int posicaoPersonagemEmY, BulletSprite sprite, String direcao, Player player) {
+    public SuperBullet(int posicaoPersonagemEmX, int posicaoPersonagemEmY, BulletSprite sprite, String direcao, Player player) {
         super.setXPosition(posicaoPersonagemEmX);
         super.setYPosition(posicaoPersonagemEmY);
         this.sprite = sprite;
