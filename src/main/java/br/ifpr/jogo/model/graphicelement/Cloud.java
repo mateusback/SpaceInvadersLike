@@ -4,7 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.swing.ImageIcon;
 
-import static br.ifpr.jogo.util.Constants.*;
+import static br.ifpr.jogo.util.ScreenConstants.*;
 
 //MODEL
 @Entity

@@ -1,24 +1,32 @@
 package br.ifpr.jogo.serivces.level;
 
-import br.ifpr.jogo.model.graphicelement.tiros.Bullet;
+import br.ifpr.jogo.model.graphicelement.Player;
+import br.ifpr.jogo.model.graphicelement.bullet.Bullet;
 import br.ifpr.jogo.model.level.Level;
 import br.ifpr.jogo.model.level.LevelModel;
 import br.ifpr.jogo.model.graphicelement.Enemy;
 import br.ifpr.jogo.model.graphicelement.Cloud;
 import br.ifpr.jogo.model.graphicelement.item.Item;
-import br.ifpr.jogo.model.graphicelement.tiros.SuperBullet;
+import br.ifpr.jogo.model.graphicelement.bullet.SuperBullet;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
-import static br.ifpr.jogo.util.Constants.*;
+import static br.ifpr.jogo.util.ScreenConstants.*;
 
 public class LevelServiceImpl implements LevelService{
+
+    private static final ImageIcon CORACAO_CHEIO = new ImageIcon("src/main/resources/CoracaoCheio.png");
+    private static final ImageIcon CORACAO_VAZIO = new ImageIcon("src/main/resources/CoracaoVazio.png");
+    private static final int DELAY_INIMIGOS = 50;
+    private static final int QTDE_DE_NUVENS = 7;
     private Level level;
     private LevelModel levelModel;
+
     public LevelServiceImpl(Level level, LevelModel levelModel){
         this.level = level;
         this.levelModel = levelModel;
@@ -60,7 +68,7 @@ public class LevelServiceImpl implements LevelService{
 
     @Override
     public void drawClouds(Graphics g) {
-        for (Cloud cloud : levelModel.getNuvens()) {
+        for (Cloud cloud : levelModel.getClouds()) {
             g.drawImage(cloud.getBaseSprite(), cloud.getXPosition(), cloud.getYPosition(), null);
         }
     }
@@ -100,7 +108,7 @@ public class LevelServiceImpl implements LevelService{
         int coracaoLargura = CORACAO_CHEIO.getIconWidth();
         int vidaCheia = levelModel.getPlayer().getHitPoints();
 
-        for (int i = 0; i < VIDA_INICIAL_PERSONAGEM; i++) {
+        for (int i = 0; i < Player.VIDA_INICIAL_PERSONAGEM; i++) {
             ImageIcon icone = (i < vidaCheia) ? CORACAO_CHEIO : CORACAO_VAZIO;
             g.drawImage(icone.getImage(), 10 + (i * coracaoLargura), 10, null);
         }
@@ -214,13 +222,71 @@ public class LevelServiceImpl implements LevelService{
     }
 
     @Override
-    public void InitializeAdditionalGraphics() {
-        levelModel.setNuvens(new ArrayList<Cloud>());
+    public void initializeAdditionalGraphics() {
+        levelModel.setClouds(new ArrayList<Cloud>());
         for (int i = 0; i < QTDE_DE_NUVENS; i++) {
             int x = (int) (Math.random() * LARGURA_DA_JANELA);
             int y = (int) (Math.random() * ALTURA_DA_JANELA);
             Cloud cloud = new Cloud(x, y);
-            levelModel.getNuvens().add(cloud);
+            levelModel.getClouds().add(cloud);
         }
+    }
+
+    @Override
+    public void checkGamePause(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            pauseGame();
+        }
+    }
+
+    @Override
+    public void pauseGame() {
+        level.gamePaused = !level.gamePaused;
+        if (level.gamePaused) {
+            levelModel.getPauseMenuPanel().setVisible(true);
+        }
+    }
+
+    @Override
+    public void initializePauseMenu() {
+        levelModel.getPauseMenuPanel().setLayout(new BorderLayout());
+        JButton botaoRetomar = new JButton("Retomar Jogo");
+        levelModel.getPauseMenuPanel().add(botaoRetomar, BorderLayout.CENTER);
+        JButton botaoSair = new JButton("Sair do Jogo");
+        levelModel.getPauseMenuPanel().add(botaoSair, BorderLayout.SOUTH);
+        levelModel.getPauseMenuPanel().setVisible(false);
+        level.add(levelModel.getPauseMenuPanel());
+    }
+
+    @Override
+    public void drawPauseMenu() {
+        if (level.gamePaused) {
+            int choice = JOptionPane.showOptionDialog(level,
+                    "Jogo Pausado",
+                    "Pause Menu",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    new String[]{"Retomar jogo", "Salvar Jogo", "Sair"},
+                    "Retomar Jogo");
+            switch (choice) {
+                case 0:
+                    unpauseGame();
+                    break;
+                case 2:
+                    quitGame();
+                    break;
+            }
+        }
+    }
+    @Override
+    public void unpauseGame() {
+        level.gamePaused = false;
+        levelModel.getPauseMenuPanel().setVisible(false);
+    }
+    @Override
+    public void quitGame() {
+        JOptionPane.showMessageDialog(level, "Saindo do Jogo");
+        System.exit(0);
     }
 }

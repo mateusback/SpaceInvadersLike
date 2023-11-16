@@ -1,4 +1,4 @@
-package br.ifpr.jogo.model.graphicelement.tiros;
+package br.ifpr.jogo.model.graphicelement.bullet;
 
 
 import br.ifpr.jogo.model.graphicelement.GraphicElement;

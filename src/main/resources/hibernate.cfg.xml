@@ -25,8 +25,8 @@
         <mapping class="br.ifpr.jogo.model.graphicelement.item.ItemAttackSpeed"/>
         <mapping class="br.ifpr.jogo.model.graphicelement.item.ItemSpeed"/>
         <mapping class="br.ifpr.jogo.model.graphicelement.item.ItemHeal"/>
-        <mapping class="br.ifpr.jogo.model.graphicelement.bullets.Bullet"/>
-        <mapping class="br.ifpr.jogo.model.graphicelement.bullets.SuperBullet"/>
+        <mapping class="br.ifpr.jogo.model.graphicelement.bullet.Bullet"/>
+        <mapping class="br.ifpr.jogo.model.graphicelement.bullet.SuperBullet"/>
         <!-- Classes que serão persistidas em sala e/ou trabalho -->
         <!--
         <mapping class="ifpr.paranavai.jogo.modelo.ElementoGrafico" />

@@ -7,17 +7,20 @@ import javax.persistence.*;
 import javax.swing.ImageIcon;
 
 import br.ifpr.jogo.model.graphicelement.item.Item;
-import br.ifpr.jogo.model.graphicelement.tiros.Bullet;
-import br.ifpr.jogo.model.graphicelement.tiros.SuperBullet;
+import br.ifpr.jogo.model.graphicelement.bullet.Bullet;
+import br.ifpr.jogo.model.graphicelement.bullet.SuperBullet;
 import br.ifpr.jogo.model.sprites.BulletSprite;
 import jdk.jfr.Name;
 
-import static br.ifpr.jogo.util.Constants.*;
+import static br.ifpr.jogo.util.ScreenConstants.*;
 
-//
+
 @Entity
 @Table(name = "tb_personagem")
 public class Player extends GraphicElement {
+    public static final int VIDA_INICIAL_PERSONAGEM = 3;
+    private static final int DELAY_INICIAL_TIRO = 500;
+    private static final int VELOCIDADE_INICIAL_PERSONAGEM = 3;
     @Transient
     private ArrayList<Bullet> bullets;
     @Transient

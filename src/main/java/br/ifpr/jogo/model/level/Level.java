@@ -1,7 +1,6 @@
 package br.ifpr.jogo.model.level;
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -9,26 +8,26 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JPanel;
-import javax.swing.Timer;
+import javax.swing.*;
 
 import br.ifpr.jogo.model.graphicelement.Cloud;
 import br.ifpr.jogo.model.graphicelement.Player;
 import br.ifpr.jogo.model.graphicelement.item.ItemManager;
-import br.ifpr.jogo.model.graphicelement.tiros.Bullet;
-import br.ifpr.jogo.model.graphicelement.tiros.SuperBullet;
+import br.ifpr.jogo.model.graphicelement.bullet.Bullet;
+import br.ifpr.jogo.model.graphicelement.bullet.SuperBullet;
 import br.ifpr.jogo.model.sprites.BackgroundSprite;
 import br.ifpr.jogo.serivces.level.LevelServiceImpl;
 
-import static br.ifpr.jogo.util.Constants.*;
-
 public class Level extends JPanel implements KeyListener, ActionListener {
+    public static final int DELAY_JOGO = 5;
     private LevelModel levelModel;
     private LevelServiceImpl levelService;
     private Timer timer;
     private BackgroundSprite backgroundSprite;
     public ItemManager itemManager;
     public boolean gameOver = false;
+    public boolean gamePaused;
+
 
     // Construtor da fase
     public Level() {
@@ -43,7 +42,7 @@ public class Level extends JPanel implements KeyListener, ActionListener {
         levelModel.setPlayer(new Player());
         levelModel.getPlayer().load();
 
-        levelService.InitializeAdditionalGraphics();
+        levelService.initializeAdditionalGraphics();
         // Definindo a velocidade do jogo.
         timer = new Timer(DELAY_JOGO, this);
         timer.start();
@@ -52,7 +51,7 @@ public class Level extends JPanel implements KeyListener, ActionListener {
         itemManager = new ItemManager();
         // Adicionando inimigos
         levelModel.setEnemies(new ArrayList<>());
-
+        levelService.initializePauseMenu();
     }
 
     // Metodo utilizado para desenhar os elementos no painel.
@@ -78,13 +77,21 @@ public class Level extends JPanel implements KeyListener, ActionListener {
         levelService.drawSpeed(graphics2D);
         levelService.drawShootDelay(graphics2D);
 
+
         repaint();
-        g.dispose();
+        revalidate();
     }
 
     // Puxa metodos para quando as teclas são pressionadas.
     @Override
     public void keyPressed(KeyEvent e) {
+        if(gameOver){
+            return;
+        }
+        if(gamePaused){
+            return;
+        }
+        levelService.checkGamePause(e);
         levelModel.getPlayer().shoot(e);
         levelModel.getPlayer().mover(e);
     }
@@ -104,12 +111,15 @@ public class Level extends JPanel implements KeyListener, ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         Player player = levelModel.getPlayer();
-        if (gameOver) {
+        if(gameOver){
+            return;
+        }
+        if(gamePaused){
             return;
         }
         player.update();
         this.backgroundSprite.updateOffset(player);
-        for (Cloud cloud : levelModel.getNuvens()) {
+        for (Cloud cloud : levelModel.getClouds()) {
             cloud.update();
         }
         List<SuperBullet> superBullets = player.getSuperTiros();

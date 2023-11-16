@@ -1,4 +1,4 @@
-package br.ifpr.jogo.model.graphicelement.tiros;
+package br.ifpr.jogo.model.graphicelement.bullet;
 
 import br.ifpr.jogo.model.graphicelement.GraphicElement;
 import br.ifpr.jogo.model.sprites.BulletSprite;
@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import static br.ifpr.jogo.util.Constants.*;
+import static br.ifpr.jogo.util.ScreenConstants.*;
 
 @Entity
 @Table(name = "tb_tiro")

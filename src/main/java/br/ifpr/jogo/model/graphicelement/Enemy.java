@@ -13,7 +13,7 @@ import br.ifpr.jogo.model.graphicelement.item.ItemAttackSpeed;
 import br.ifpr.jogo.model.graphicelement.item.ItemSpeed;
 import br.ifpr.jogo.model.graphicelement.item.ItemHeal;
 
-import static br.ifpr.jogo.util.Constants.*;
+import static br.ifpr.jogo.util.ScreenConstants.*;
 
 //MODEL
 @Entity
@@ -21,6 +21,7 @@ import static br.ifpr.jogo.util.Constants.*;
 public class Enemy extends GraphicElement {
     @Transient
     private Player player;
+    private static final int VELOCIDADE_INIMIGO = 2;
 
     public Enemy(int posicaoEmX, int posicaoEmY, Player player) {
         super();

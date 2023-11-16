@@ -6,7 +6,7 @@ import br.ifpr.jogo.model.level.Level;
 import org.hibernate.Session;
 
 import static br.ifpr.jogo.conexao.HibernateUtil.getSession;
-import static br.ifpr.jogo.util.Constants.*;
+import static br.ifpr.jogo.util.ScreenConstants.*;
 
 //View
 public class Main extends JFrame {

@@ -14,14 +14,14 @@ import javax.imageio.ImageIO;
 
 import br.ifpr.jogo.model.graphicelement.Player;
 
-import static br.ifpr.jogo.util.Constants.*;
+import static br.ifpr.jogo.util.ScreenConstants.*;
 
 public class BackgroundSprite implements ImageObserver {
-        public int offsetX; // Deslocamento horizontal da câmera
-        public int offsetY; // Deslocamento vertical da câmera
+        private int offsetX; // Deslocamento horizontal da câmera
+        private int offsetY; // Deslocamento vertical da câmera
         private BufferedImage[] tile;
-
-        // Posição inicial dos blocos para centralizar na tela
+        private static final int LARGURA_BLOCO_BACKGROUND = 64;
+        private static final int ALTURA_BLOCO_BACKGROUND = 64;
         private int xInitial;
         private int yInitial;
 
@@ -115,22 +115,6 @@ public class BackgroundSprite implements ImageObserver {
                 reader.close();
 
                 return map;
-        }
-
-        public int getOffsetX() {
-                return offsetX;
-        }
-
-        public void setOffsetX(int offsetX) {
-                this.offsetX = offsetX;
-        }
-
-        public int getOffsetY() {
-                return offsetY;
-        }
-
-        public void setOffsetY(int offsetY) {
-                this.offsetY = offsetY;
         }
 
         @Override

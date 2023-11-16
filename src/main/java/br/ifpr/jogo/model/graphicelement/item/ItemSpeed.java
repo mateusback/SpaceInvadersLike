@@ -6,7 +6,7 @@ import javax.swing.ImageIcon;
 
 import br.ifpr.jogo.model.graphicelement.Player;
 
-import static br.ifpr.jogo.util.Constants.*;
+import static br.ifpr.jogo.util.ItemsConstants.*;
 
 @Entity
 @Table(name = "tb_item_velocidade")
