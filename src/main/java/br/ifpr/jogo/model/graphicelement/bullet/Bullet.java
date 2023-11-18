@@ -46,13 +46,14 @@ public class Bullet extends GraphicElement {
 
     public boolean checkVisibility() {
         boolean visible;
-        if (super.getXPosition() > ALTURA_DA_JANELA || super.getXPosition() < 0 || super.getYPosition() < 0
-                || super.getYPosition() > LARGURA_DA_JANELA) {
+        boolean cond1 = super.getXPosition() > LARGURA_DA_JANELA;
+        boolean cond2 = super.getXPosition() < 0;
+        boolean cond3 = super.getYPosition() < 0;
+        boolean cond4 = super.getYPosition() > ALTURA_DA_JANELA;
+        if (cond1 || cond2 ||cond3 || cond4) {
             visible = false;
-            super.setVisible(false);
         } else {
             visible = true;
-            super.setVisible(true);
         }
         return visible;
     }

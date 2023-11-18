@@ -49,7 +49,6 @@ public class LevelModel {
     public JPanel getPauseMenuPanel() {
         return pauseMenuPanel;
     }
-
     public void setPauseMenuPanel(JPanel pauseMenuPanel) {
         this.pauseMenuPanel = pauseMenuPanel;
     }

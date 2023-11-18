@@ -150,7 +150,8 @@ public class LevelServiceImpl implements LevelService{
 
         while (iteratorTiro.hasNext()) {
             Bullet bullet = iteratorTiro.next();
-            if (bullet.isVisible() && bullet.checkVisibility()) {
+            bullet.setVisible(bullet.checkVisibility());
+            if (bullet.isVisible()) {
                 bullet.update();
             } else {
                 iteratorTiro.remove();

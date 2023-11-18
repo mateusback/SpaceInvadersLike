@@ -10,6 +10,7 @@ import br.ifpr.jogo.model.graphicelement.item.Item;
 import br.ifpr.jogo.model.graphicelement.bullet.Bullet;
 import br.ifpr.jogo.model.graphicelement.bullet.SuperBullet;
 import br.ifpr.jogo.model.sprites.BulletSprite;
+import br.ifpr.jogo.serivces.player.PlayerServiceImpl;
 import jdk.jfr.Name;
 
 import static br.ifpr.jogo.util.ScreenConstants.*;
@@ -21,6 +22,7 @@ public class Player extends GraphicElement {
     public static final int VIDA_INICIAL_PERSONAGEM = 3;
     private static final int DELAY_INICIAL_TIRO = 500;
     private static final int VELOCIDADE_INICIAL_PERSONAGEM = 3;
+    private static final int PIXELS_AJUSTE_ALTURA_TELA = 48;
     @Transient
     private ArrayList<Bullet> bullets;
     @Transient
@@ -39,6 +41,7 @@ public class Player extends GraphicElement {
     private long tempoAtual;
     @Column(name="pontuacao")
     private int pontos;
+    private PlayerServiceImpl playerService;
 
     public Player() {
         super.setXPosition(POSICAO_INICIAL_EM_X_PERSONAGEM);
@@ -49,6 +52,7 @@ public class Player extends GraphicElement {
         super.setSpeed(VELOCIDADE_INICIAL_PERSONAGEM);
         super.setHitPoints(VIDA_INICIAL_PERSONAGEM);
         this.pontos = 0;
+        playerService = new PlayerServiceImpl(this);
     }
 
     @Override
@@ -66,53 +70,7 @@ public class Player extends GraphicElement {
     }
 
     public void mover(KeyEvent key) {
-        int code = key.getKeyCode();
 
-        if (code == KeyEvent.VK_W) {
-            super.setYDisplacement(super.getYDisplacement() - super.getSpeed());
-            super.setDirection("top");
-            ImageIcon loading = new ImageIcon(getClass().getResource("/Personagem_Cima.gif"));
-            super.setBaseSprite(loading.getImage());
-            keysReleased[0] = false;
-        }
-
-        if (code == KeyEvent.VK_S) {
-            super.setYDisplacement(super.getSpeed());
-            this.setDirection("bottom");
-            ImageIcon loading = new ImageIcon(getClass().getResource("/Personagem_Baixo.gif"));
-            super.setBaseSprite(loading.getImage());
-            keysReleased[1] = false;
-        }
-
-        if (code == KeyEvent.VK_A) {
-            super.setXDisplacement(super.getXDisplacement() - super.getSpeed());
-            this.setDirection("left");
-            ImageIcon loading = new ImageIcon(getClass().getResource("/Personagem_Esquerda.gif"));
-            super.setBaseSprite(loading.getImage());
-            keysReleased[2] = false;
-
-        }
-        if (code == KeyEvent.VK_D) {
-            super.setXDisplacement(super.getSpeed());
-            this.setDirection("right");
-            ImageIcon loading = new ImageIcon(getClass().getResource("/Personagem_Direita.gif"));
-            super.setBaseSprite(loading.getImage());
-            keysReleased[3] = false;
-        }
-
-        // Dash
-        if (code == KeyEvent.VK_SPACE && super.getDirection() == "left") {
-            super.setXPosition(super.getXPosition() - 100);
-        }
-        if (code == KeyEvent.VK_SPACE && super.getDirection() == "right") {
-            super.setXPosition(super.getXPosition() + 100);
-        }
-        if (code == KeyEvent.VK_SPACE && super.getDirection() == "top") {
-            super.setYPosition(super.getYPosition() - 100);
-        }
-        if (code == KeyEvent.VK_SPACE && super.getDirection() == "bottom") {
-            super.setYPosition(super.getYPosition() + 100);
-        }
     }
 
     public void stop(KeyEvent key) {
@@ -152,7 +110,7 @@ public class Player extends GraphicElement {
         int playerCenterY = super.getYPosition() + (super.getImageHeight() / 2);
 
         if (key.getKeyCode() == KeyEvent.VK_RIGHT || key.getKeyCode() == KeyEvent.VK_L) {
-            Bullet bullet = new Bullet(playerCenterX, playerCenterY, sprite, "right");
+            Bullet bullet = new Bullet(super.getXPosition(), super.getYPosition(), sprite, "right");
             this.bullets.add(bullet);
         }
 
@@ -189,8 +147,8 @@ public class Player extends GraphicElement {
 
         if (super.getYPosition() < 0) {
             super.setYPosition(0);
-        } else if (super.getYPosition() + super.getImageHeight() > ALTURA_DA_JANELA) {
-            int yMaximum = ALTURA_DA_JANELA - super.getImageHeight();
+        } else if (super.getYPosition() + super.getImageHeight() >= ALTURA_DA_JANELA - PIXELS_AJUSTE_ALTURA_TELA) {
+            int yMaximum = ALTURA_DA_JANELA - PIXELS_AJUSTE_ALTURA_TELA - super.getImageHeight();
             super.setYPosition(yMaximum);
         }
     }
@@ -265,4 +223,11 @@ public class Player extends GraphicElement {
         this.itemEquipado = itemEquipado;
     }
 
+    public boolean[] getKeysReleased() {
+        return keysReleased;
+    }
+
+    public void setKeysReleased(boolean[] keysReleased) {
+        this.keysReleased = keysReleased;
+    }
 }
