@@ -37,7 +37,7 @@ public class EnemyDAO {
             List<Enemy> enemies = query.list();
 
             for (Enemy enemy : enemies) {
-                enemy.load();
+                enemy.getEnemyController().load();
             }
 
             return enemies;

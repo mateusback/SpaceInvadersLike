@@ -12,4 +12,6 @@ public interface PlayerService {
     void checkBoundsCollision();
     void takeDamage(int damage, LevelController levelController);
     void addPoints(int quantity);
+    void load();
+    void update();
 }

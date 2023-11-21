@@ -41,10 +41,6 @@ public abstract class GraphicElement {
         this.visible = true;
     }
 
-    public abstract void load();
-
-    public abstract void update();
-
     public Rectangle getRectangle() {
         return new Rectangle(xPosition, yPosition, imageWidth, imageHeight);
     }
@@ -52,7 +48,6 @@ public abstract class GraphicElement {
     public int getXPosition() {
         return xPosition;
     }
-
     public void setXPosition(int xPosition) {
         this.xPosition = xPosition;
     }

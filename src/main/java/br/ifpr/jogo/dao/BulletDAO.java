@@ -36,7 +36,7 @@ public class BulletDAO {
             List<Bullet> bullets = query.list();
 
             for (Bullet bullet : bullets) {
-                bullet.load();
+                bullet.getBulletController().load();
             }
 
             return bullets;

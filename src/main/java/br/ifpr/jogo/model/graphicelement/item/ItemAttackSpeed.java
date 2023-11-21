@@ -2,35 +2,27 @@ package br.ifpr.jogo.model.graphicelement.item;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.swing.ImageIcon;
+import javax.persistence.Transient;
 
-import br.ifpr.jogo.model.graphicelement.Player;
-
-import static br.ifpr.jogo.util.ItemsConstants.*;
+import br.ifpr.jogo.controller.ItemAttackSpeedController;
 
 @Entity
 @Table(name = "tb_item_tiro_rapido")
 public class ItemAttackSpeed extends Item {
-
+    @Transient
+    private ItemAttackSpeedController ItemAttackSpeedController;
     public ItemAttackSpeed(int xPosition, int yPosition) {
-        //Spawn
+        this.setItemAttackSpeedController(new ItemAttackSpeedController(this));
         setXPosition(xPosition);
         setYPosition(yPosition);
-        this.load();
+        ItemAttackSpeedController.load();
     }
 
-    @Override
-    public void load() {
-        ImageIcon loading = new ImageIcon(getClass().getResource("/ItemTiroRapido.png"));
-        super.setBaseSprite(loading.getImage());
-        super.setImageHeight(super.getBaseSprite().getWidth(null));
-        super.setImageWidth(super.getBaseSprite().getHeight(null));
+    public ItemAttackSpeedController getItemAttackSpeedController() {
+        return ItemAttackSpeedController;
     }
 
-    @Override
-    public void applyEffect(Player player) {
-        if (player.getBulletDelay() > 0) {
-            player.setBulletDelay(player.getBulletDelay() - REDUCAO_DELAY_ITEM);
-        }
+    public void setItemAttackSpeedController(ItemAttackSpeedController itemAttackSpeedController) {
+        ItemAttackSpeedController = itemAttackSpeedController;
     }
 }

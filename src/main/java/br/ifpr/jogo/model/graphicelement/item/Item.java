@@ -22,8 +22,6 @@ public abstract class Item extends GraphicElement {
         super.setImageWidth(super.getBaseSprite().getHeight(null));
     }
 
-    public abstract void applyEffect(Player player);
-
     public void checkPlayerColision(Player player) {
         if (isVisible() && player.getRectangle().intersects(getRectangle())) {
             setVisible(false);
@@ -42,16 +40,6 @@ public abstract class Item extends GraphicElement {
 
     public void setCollected(boolean collected) {
         this.collected = collected;
-    }
-
-    @Override
-    public void load() {
-        throw new UnsupportedOperationException("Unimplemented method 'carregar'");
-    }
-
-    @Override
-    public void update() {
-        throw new UnsupportedOperationException("Unimplemented method 'atualizar'");
     }
 
 }
