@@ -11,7 +11,7 @@ import br.ifpr.jogo.model.graphicelement.Enemy;
 import br.ifpr.jogo.model.graphicelement.Cloud;
 import br.ifpr.jogo.model.graphicelement.item.Item;
 import br.ifpr.jogo.model.graphicelement.bullet.SuperBullet;
-import br.ifpr.jogo.model.sprites.BackgroundSprite;
+import br.ifpr.jogo.view.sprites.BackgroundSprite;
 
 import javax.swing.*;
 import java.awt.*;

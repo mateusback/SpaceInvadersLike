@@ -1,4 +1,4 @@
-package br.ifpr.jogo.controller;
+package br.ifpr.jogo.serivces.enemy;
 
 import br.ifpr.jogo.dao.EnemyDAO;
 import br.ifpr.jogo.model.graphicelement.Enemy;
@@ -10,7 +10,6 @@ import java.util.Random;
 
 public class EnemyService {
     public static final int VELOCIDADE_INIMIGO = 2;
-    private EnemyDAO enemyDAO;
     private Enemy enemy;
 
     public EnemyService(Enemy enemy) {

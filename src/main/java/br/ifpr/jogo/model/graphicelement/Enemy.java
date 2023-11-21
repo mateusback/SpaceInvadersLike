@@ -11,11 +11,12 @@ public class Enemy extends GraphicElement {
     @ManyToOne
     @JoinColumn(name = "player_id")
     private Player player;
+    @Transient
     private EnemyController enemyController;
     public Enemy() {
+        this.setEnemyController(new EnemyController(this));
     }
     public Enemy(int posicaoEmX, int posicaoEmY, Player player) {
-        super();
         this.setEnemyController(new EnemyController(this));
         super.setXPosition(posicaoEmX);
         super.setYPosition(posicaoEmY);

@@ -1,4 +1,4 @@
-package br.ifpr.jogo.model.sprites;
+package br.ifpr.jogo.view.sprites;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;

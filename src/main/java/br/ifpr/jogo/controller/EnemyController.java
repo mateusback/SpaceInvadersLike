@@ -3,9 +3,7 @@ package br.ifpr.jogo.controller;
 import br.ifpr.jogo.dao.EnemyDAO;
 import br.ifpr.jogo.model.graphicelement.Enemy;
 import br.ifpr.jogo.model.graphicelement.item.*;
-
-import javax.swing.*;
-import java.util.Random;
+import br.ifpr.jogo.serivces.enemy.EnemyService;
 
 
 public class EnemyController{

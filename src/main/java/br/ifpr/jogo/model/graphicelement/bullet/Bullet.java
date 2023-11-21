@@ -17,15 +17,16 @@ public class Bullet extends GraphicElement {
     private static final int SPEED = 4;
 
     public Bullet(){
+        this.setBulletController(new BulletController(this));
     }
 
     public Bullet(int playerPositionX, int PlayerPositionY, String direction, Player player) {
+        this.setBulletController(new BulletController(this));
         super.setXPosition(playerPositionX);
         super.setYPosition(PlayerPositionY);
         super.setDirection(direction);
         super.setSpeed(SPEED);
         this.setPlayer(player);
-        this.setBulletController(new BulletController(this));
     }
 
     public Player getPlayer() {

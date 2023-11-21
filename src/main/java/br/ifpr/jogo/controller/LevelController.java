@@ -12,7 +12,7 @@ import br.ifpr.jogo.model.graphicelement.Cloud;
 import br.ifpr.jogo.model.graphicelement.Player;
 import br.ifpr.jogo.model.graphicelement.item.ItemManager;
 import br.ifpr.jogo.model.level.LevelModel;
-import br.ifpr.jogo.model.sprites.BackgroundSprite;
+import br.ifpr.jogo.view.sprites.BackgroundSprite;
 import br.ifpr.jogo.serivces.level.LevelServiceImpl;
 
 public class LevelController extends JPanel implements KeyListener, ActionListener {

@@ -16,21 +16,20 @@ public class SuperBullet extends GraphicElement {
     @ManyToOne
     @JoinColumn(name = "player_id")
     private Player player;
-
-    @Transient
+    @Column(name = "tempo_inicial")
     private long tempoInicial;
-
     @Transient
     private SuperBulletController superBulletController;
+    private static final int SPEED = 4;
 
     public SuperBullet(int posicaoPersonagemEmX, int posicaoPersonagemEmY, Player player) {
-        this.setSuperBulletController(new SuperBulletController((this)));
-        super.setXPosition(posicaoPersonagemEmX);
-        super.setYPosition(posicaoPersonagemEmY);
-        super.setVisible(true);
-        super.setSpeed(VELOCIDADE);
         this.setPlayer(player);
         this.setTempoInicial(System.currentTimeMillis());
+        this.setSuperBulletController(new SuperBulletController(this));
+        super.setXPosition(posicaoPersonagemEmX);
+        super.setYPosition(posicaoPersonagemEmY);
+        super.setSpeed(SPEED);
+        super.setDirection("super");
     }
 
     public SuperBullet(){

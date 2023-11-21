@@ -1,50 +1,33 @@
 package br.ifpr.jogo.controller;
 
 
+import br.ifpr.jogo.dao.SuperBulletDAO;
 import br.ifpr.jogo.model.graphicelement.bullet.SuperBullet;
+import br.ifpr.jogo.serivces.bullet.SuperBulletService;
 
-import javax.swing.*;
-
-
+import java.util.List;
 
 public class SuperBulletController {
-    private static final int ALTURA_TIRO = 30;
     private SuperBullet superBullet;
-    public SuperBulletController(SuperBullet superBullet){
+    private SuperBulletService superBulletService;
+    private SuperBulletDAO superBulletDAO;
+
+    public SuperBulletController(SuperBullet superBullet) {
         this.setSuperBullet(superBullet);
+        this.superBulletService = new SuperBulletService(superBullet);
+        superBulletDAO = new SuperBulletDAO();
     }
 
     public void load() {
-        ImageIcon loading = new ImageIcon(getClass().getResource("/SuperTiro.png"));
-        superBullet.setBaseSprite(loading.getImage());
-        superBullet.setImageHeight(ALTURA_TIRO);
-        superBullet.setImageWidth(ALTURA_TIRO);
+        superBulletService.load();
     }
 
     public void update() {
-        long tempoAtual = System.currentTimeMillis();
-        long tempoDecorrido = tempoAtual - superBullet.getTempoInicial();
-        if (tempoDecorrido >= 5000) {
-            superBullet.setVisible(false);
-        } else {
-            double angulo = (tempoDecorrido / 1000.0) * Math.PI * 2;
-            int raio = 100;
-
-            int posX = (int) (Math.cos(angulo) * raio) + superBullet.getXPosition();
-            int posY = (int) (Math.sin(angulo) * raio) + superBullet.getYPosition();
-
-            superBullet.setXPosition(posX);
-            superBullet.setYPosition(posY);
-        }
+        superBulletService.update();
     }
 
     public boolean checkVisibility() {
-        boolean visivel = superBullet.isVisible();
-        if (superBullet.getXPosition() > 1600 || superBullet.getXPosition() < 0 || superBullet.getYPosition() < 0
-                || superBullet.getYPosition() > 960) {
-            visivel = false;
-        }
-        return visivel;
+        return superBulletService.checkVisibility();
     }
 
     public SuperBullet getSuperBullet() {
@@ -53,5 +36,17 @@ public class SuperBulletController {
 
     public void setSuperBullet(SuperBullet superBullet) {
         this.superBullet = superBullet;
+    }
+
+    public void saveOrUpdateSuperBullet(SuperBullet superBullet) {
+        superBulletDAO.saveOrUpdateSuperBullet(superBullet);
+    }
+
+    public SuperBullet getSuperBullet(Integer id) {
+        return superBulletDAO.getSuperBullet(id);
+    }
+
+    public List<SuperBullet> getAllSuperBullets(int playerId) {
+        return superBulletDAO.getAllSuperBullets(playerId);
     }
 }

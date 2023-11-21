@@ -1,11 +1,17 @@
 package br.ifpr.jogo.controller;
 
+import br.ifpr.jogo.conexao.HibernateUtil;
+import br.ifpr.jogo.dao.PlayerDAO;
 import br.ifpr.jogo.model.graphicelement.Player;
 import br.ifpr.jogo.serivces.player.PlayerService;
 import br.ifpr.jogo.serivces.player.PlayerServiceImpl;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
+import java.util.List;
 
 
 public class PlayerController {
@@ -15,22 +21,20 @@ public class PlayerController {
 
     private PlayerService playerService;
     private Player player;
+    private PlayerDAO playerDAO;
 
     public PlayerController(Player player) {
         this.setPlayerService(new PlayerServiceImpl(this));
         this.setPlayer(player);
+        this.playerDAO = new PlayerDAO();
     }
 
     public void load() {
-        ImageIcon loading = new ImageIcon(getClass().getResource("/Personagem_Parado.png"));
-        player.setBaseSprite(loading.getImage());
-        player.setImageHeight(player.getBaseSprite().getWidth(null));
-        player.setImageWidth(player.getBaseSprite().getHeight(null));
+        playerService.load();
     }
 
     public void update() {
-        player.setXPosition(player.getXPosition() + player.getXDisplacement());
-        player.setYPosition(player.getYPosition() + player.getYDisplacement());
+        playerService.update();
     }
 
     public void move(KeyEvent key) {
@@ -74,5 +78,16 @@ public class PlayerController {
 
     public void setPlayer(Player player) {
         this.player = player;
+    }
+
+    public void saveOrUpdatePlayer(Player player) {
+        playerDAO.saveOrUpdatePlayer(player);
+    }
+
+    public Player getPlayer(Integer id) {
+        return playerDAO.getPlayer(id);
+    }
+    public List<Integer> getAvailableSaveIds() {
+        return playerDAO.getAvailableSaveIds();
     }
 }
