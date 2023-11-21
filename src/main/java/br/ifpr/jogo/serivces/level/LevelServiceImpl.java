@@ -4,7 +4,7 @@ import br.ifpr.jogo.dao.*;
 import br.ifpr.jogo.model.graphicelement.Player;
 import br.ifpr.jogo.model.graphicelement.bullet.Bullet;
 import br.ifpr.jogo.model.graphicelement.item.ItemManager;
-import br.ifpr.jogo.model.level.Level;
+import br.ifpr.jogo.controller.LevelController;
 import br.ifpr.jogo.model.level.LevelModel;
 import br.ifpr.jogo.model.graphicelement.Enemy;
 import br.ifpr.jogo.model.graphicelement.Cloud;
@@ -29,11 +29,11 @@ public class LevelServiceImpl implements LevelService{
     private static final ImageIcon EMPTY_HEART = new ImageIcon("src/main/resources/CoracaoVazio.png");
     private static final int ENEMIES_DELAY = 50;
     private static final int CLOUDS_QUANTITY = 7;
-    private Level level;
+    private LevelController levelController;
     private LevelModel levelModel;
 
-    public LevelServiceImpl(Level level, LevelModel levelModel){
-        this.level = level;
+    public LevelServiceImpl(LevelController levelController, LevelModel levelModel){
+        this.levelController = levelController;
         this.levelModel = levelModel;
     }
 
@@ -62,8 +62,8 @@ public class LevelServiceImpl implements LevelService{
 
     @Override
     public void drawItems(Graphics g) {
-        if (!(level.itemManager == null)) {
-            for (Item item : level.itemManager.getItems()) {
+        if (!(levelController.itemManager == null)) {
+            for (Item item : levelController.itemManager.getItems()) {
                 if (item.isVisible()) {
                     g.drawImage(item.getBaseSprite(), item.getXPosition(), item.getYPosition(), null);
                 }
@@ -101,7 +101,7 @@ public class LevelServiceImpl implements LevelService{
 
     @Override
     public void drawGameOver(Graphics g) {
-        if (level.gameOver) {
+        if (levelController.gameOver) {
             Font fonteGameOver = new Font("Arial", Font.BOLD, 48);
             g.setFont(fonteGameOver);
             g.setColor(Color.RED);
@@ -138,8 +138,8 @@ public class LevelServiceImpl implements LevelService{
 
     @Override
     public void checkItemCollision() {
-        if (!(level.itemManager == null)) {
-            for (Item item : level.itemManager.getItems()) {
+        if (!(levelController.itemManager == null)) {
+            for (Item item : levelController.itemManager.getItems()) {
                 if (item.isVisible() && levelModel.getPlayer().getRectangle().intersects(item.getRectangle())) {
                     System.out.println("Colisão com item: " + item.getClass().getSimpleName());
                     item.applyEffect(levelModel.getPlayer());
@@ -189,14 +189,14 @@ public class LevelServiceImpl implements LevelService{
                     System.out.println("Colisão com o personagem");
                     iteratorInimigo.remove(); // Remover o inimigo da lista
                     enemy.setVisible(false); // Marcar o inimigo como invisível
-                    levelModel.getPlayer().getPlayerService().takeDamage(1, level);
+                    levelModel.getPlayer().getPlayerService().takeDamage(1, levelController);
                 }
 
                 for (Bullet bullet : levelModel.getPlayer().getBullets()) {
                     if (bullet.getRectangle().intersects(enemy.getRectangle())) {
                         System.out.println("Colisão com o tiro");
                         // Aqui ele remove o tiro também.
-                        enemy.dropItem(level.itemManager);
+                        enemy.dropItem(levelController.itemManager);
                         levelModel.getPlayer().setScore(levelModel.getPlayer().getScore() + 100);
                         levelModel.getPlayer().getBullets().remove(bullet);
                         enemy.setVisible(false);
@@ -211,7 +211,7 @@ public class LevelServiceImpl implements LevelService{
                     if (superBullet.getRectangle().intersects(enemy.getRectangle())) {
                         System.out.println("Colisão com o tiro");
                         levelModel.getPlayer().setScore(levelModel.getPlayer().getScore() + 100);
-                        enemy.dropItem(level.itemManager);
+                        enemy.dropItem(levelController.itemManager);
                         if (contHits == 3) {
                             iteratorSuperTiro2.remove();
                         }
@@ -247,8 +247,8 @@ public class LevelServiceImpl implements LevelService{
 
     @Override
     public void pauseGame() {
-        level.gamePaused = !level.gamePaused;
-        if (level.gamePaused) {
+        levelController.gamePaused = !levelController.gamePaused;
+        if (levelController.gamePaused) {
             levelModel.getPauseMenuPanel().setVisible(true);
         }
     }
@@ -287,17 +287,17 @@ public class LevelServiceImpl implements LevelService{
         levelModel.getPauseMenuPanel().add(quitBtn, BorderLayout.SOUTH);
         levelModel.getPauseMenuPanel().add(saveBtn, BorderLayout.NORTH);
         levelModel.getPauseMenuPanel().setVisible(false);
-        level.add(levelModel.getPauseMenuPanel());
+        levelController.add(levelModel.getPauseMenuPanel());
     }
 
     @Override
     public void unpauseGame() {
-        level.gamePaused = false;
+        levelController.gamePaused = false;
         levelModel.getPauseMenuPanel().setVisible(false);
     }
     @Override
     public void quitGame() {
-        JOptionPane.showMessageDialog(level, "Saindo do Jogo");
+        JOptionPane.showMessageDialog(levelController, "Saindo do Jogo");
         System.exit(0);
     }
 
@@ -326,30 +326,30 @@ public class LevelServiceImpl implements LevelService{
             superBulletDAO.saveOrUpdateSuperBullet(superBullet);
         }
 
-        JOptionPane.showMessageDialog(level, "Jogo salvo com sucesso!");
+        JOptionPane.showMessageDialog(levelController, "Jogo salvo com sucesso!");
         unpauseGame();
     }
 
     public void levelInit(boolean gameState){
-        level.setFocusable(true);
-        level.setDoubleBuffered(true);
-        level.addKeyListener(level);
-        level.setBackgroundSprite(new BackgroundSprite());
+        levelController.setFocusable(true);
+        levelController.setDoubleBuffered(true);
+        levelController.addKeyListener(levelController);
+        levelController.setBackgroundSprite(new BackgroundSprite());
         if (gameState){
             levelModel.setPlayer(levelModel.getPlayer());
             levelModel.getPlayer().load();
-            level.getLevelService().initializeAdditionalGraphics();
+            levelController.getLevelService().initializeAdditionalGraphics();
             levelModel.setEnemies(levelModel.getEnemies());
-            level.getLevelService().initializePauseMenu();
+            levelController.getLevelService().initializePauseMenu();
         }else {
             levelModel.setPlayer(new Player());
             levelModel.getPlayer().load();
-            level.getLevelService().initializeAdditionalGraphics();
+            levelController.getLevelService().initializeAdditionalGraphics();
             levelModel.setEnemies(new ArrayList<>());
-            level.getLevelService().initializePauseMenu();
+            levelController.getLevelService().initializePauseMenu();
         }
-        level.setTimer(new Timer(level.DELAY_JOGO, level));
-        level.getTimer().start();
-        level.setItemManager(new ItemManager());
+        levelController.setTimer(new Timer(levelController.DELAY_JOGO, levelController));
+        levelController.getTimer().start();
+        levelController.setItemManager(new ItemManager());
     }
 }

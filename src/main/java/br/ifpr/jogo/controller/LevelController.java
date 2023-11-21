@@ -1,4 +1,4 @@
-package br.ifpr.jogo.model.level;
+package br.ifpr.jogo.controller;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -11,10 +11,11 @@ import javax.swing.*;
 import br.ifpr.jogo.model.graphicelement.Cloud;
 import br.ifpr.jogo.model.graphicelement.Player;
 import br.ifpr.jogo.model.graphicelement.item.ItemManager;
+import br.ifpr.jogo.model.level.LevelModel;
 import br.ifpr.jogo.model.sprites.BackgroundSprite;
 import br.ifpr.jogo.serivces.level.LevelServiceImpl;
 
-public class Level extends JPanel implements KeyListener, ActionListener {
+public class LevelController extends JPanel implements KeyListener, ActionListener {
     public static final int DELAY_JOGO = 5;
     public static final boolean LOADED_GAME_START = true;
     public static final boolean NEW_GAME_START = false;
@@ -27,12 +28,12 @@ public class Level extends JPanel implements KeyListener, ActionListener {
     public boolean gamePaused;
 
 
-    public Level(LevelModel levelModel) {
+    public LevelController(LevelModel levelModel) {
         this.levelModel = levelModel;
         this.levelService = new LevelServiceImpl(this, this.levelModel);
         levelService.levelInit(LOADED_GAME_START);
     }
-    public Level() {
+    public LevelController() {
         levelModel = new LevelModel();
         this.levelService = new LevelServiceImpl(this, this.levelModel);
         levelService.levelInit(NEW_GAME_START);
@@ -85,7 +86,6 @@ public class Level extends JPanel implements KeyListener, ActionListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-        // vazio
     }
 
 

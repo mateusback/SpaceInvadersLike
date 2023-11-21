@@ -3,7 +3,7 @@ package br.ifpr.jogo.serivces.player;
 import br.ifpr.jogo.model.graphicelement.Player;
 import br.ifpr.jogo.model.graphicelement.bullet.Bullet;
 import br.ifpr.jogo.model.graphicelement.bullet.SuperBullet;
-import br.ifpr.jogo.model.level.Level;
+import br.ifpr.jogo.controller.LevelController;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
@@ -112,7 +112,7 @@ public class PlayerServiceImpl implements PlayerService{
         }
 
         if (key.getKeyCode() == KeyEvent.VK_UP || key.getKeyCode() == KeyEvent.VK_I) {
-            Bullet bullet = new Bullet(playerCenterX, (playerCenterY - player.getImageHeight()), "top", player);
+            Bullet bullet = new Bullet(player.getXPosition(), (playerCenterY - player.getImageHeight()), "top", player);
             player.getBullets().add(bullet);
         }
 
@@ -122,7 +122,7 @@ public class PlayerServiceImpl implements PlayerService{
         }
 
         if (key.getKeyCode() == KeyEvent.VK_DOWN || key.getKeyCode() == KeyEvent.VK_K) {
-            Bullet bullet = new Bullet(playerCenterX, playerCenterY, "bottom", player);
+            Bullet bullet = new Bullet(player.getXPosition(), playerCenterY, "bottom", player);
             player.getBullets().add(bullet);
         }
 
@@ -152,10 +152,10 @@ public class PlayerServiceImpl implements PlayerService{
     }
 
     @Override
-    public void takeDamage(int damage, Level level) {
+    public void takeDamage(int damage, LevelController levelController) {
         player.setHitPoints(player.getHitPoints() - damage);
         if (player.getHitPoints() <= 0) {
-            level.gameOver = true;
+            levelController.gameOver = true;
         }
     }
 

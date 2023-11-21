@@ -2,7 +2,7 @@ package br.ifpr.jogo.view;
 
 import javax.swing.JFrame;
 
-import br.ifpr.jogo.model.level.Level;
+import br.ifpr.jogo.controller.LevelController;
 import br.ifpr.jogo.model.level.LevelModel;
 import org.hibernate.Session;
 
@@ -13,16 +13,16 @@ import static br.ifpr.jogo.util.ScreenConstants.*;
 public class Main extends JFrame {
 
     public Main() {
-        Level level = new Level();
-        MainInit(level);
+        LevelController levelController = new LevelController();
+        MainInit(levelController);
     }
     public Main(LevelModel levelModel) {
-        Level level = new Level(levelModel);
-        MainInit(level);
+        LevelController levelController = new LevelController(levelModel);
+        MainInit(levelController);
     }
 
-    private void MainInit(Level level){
-        add(level);
+    private void MainInit(LevelController levelController){
+        add(levelController);
         setVisible(true);
         setTitle("Farm Invaders");
         setResizable(false);
