@@ -36,10 +36,6 @@ public class EnemyDAO {
             query.setParameter("playerId", playerId);
             List<Enemy> enemies = query.list();
 
-            for (Enemy enemy : enemies) {
-                enemy.load();
-            }
-
             return enemies;
         } catch (Exception e) {
             e.printStackTrace();

@@ -2,38 +2,27 @@ package br.ifpr.jogo.model.graphicelement.item;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.swing.ImageIcon;
+import javax.persistence.Transient;
 
-import br.ifpr.jogo.model.graphicelement.Player;
-
-import static br.ifpr.jogo.util.ItemsConstants.*;
+import br.ifpr.jogo.controller.ItemSpeedController;
 
 @Entity
 @Table(name = "tb_item_velocidade")
 public class ItemSpeed extends Item {
+    @Transient
+    private ItemSpeedController itemSpeedController;
     public ItemSpeed(int xPosition, int yPosition) {
+        this.setItemSpeedController(new ItemSpeedController(this));
         setXPosition(xPosition);
         setYPosition(yPosition);
-        this.load();
+        itemSpeedController.load();
     }
 
-    @Override
-    public void load() {
-        ImageIcon loading = new ImageIcon(getClass().getResource("/ItemVelocidade.png"));
-        super.setBaseSprite(loading.getImage());
-        super.setImageHeight(super.getBaseSprite().getWidth(null));
-        super.setImageWidth(super.getBaseSprite().getHeight(null));
+    public ItemSpeedController getItemSpeedController() {
+        return itemSpeedController;
     }
 
-    @Override
-    public void update() {
+    public void setItemSpeedController(ItemSpeedController itemSpeedController) {
+        this.itemSpeedController = itemSpeedController;
     }
-
-    @Override
-    public void applyEffect(Player player) {
-        if (player.getSpeed() < 7) {
-            player.setSpeed(player.getSpeed() + AUMENTO_VELOCIDADE_ITEM);
-        }
-    }
-
 }

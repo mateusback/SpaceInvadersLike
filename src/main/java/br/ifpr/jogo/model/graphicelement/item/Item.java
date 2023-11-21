@@ -3,8 +3,8 @@ package br.ifpr.jogo.model.graphicelement.item;
 import javax.persistence.*;
 import javax.swing.ImageIcon;
 
+import br.ifpr.jogo.controller.ItemController;
 import br.ifpr.jogo.model.graphicelement.GraphicElement;
-import br.ifpr.jogo.model.graphicelement.Player;
 
 @Entity
 @Table(name="tb_item")
@@ -13,27 +13,17 @@ public abstract class Item extends GraphicElement {
     @Column(name="coletado")
     private boolean collected;
 
+    @Transient
+    private br.ifpr.jogo.controller.ItemController ItemController;
+
     public Item() {
+        this.setItemController(new ItemController(this));
         this.collected = false;
         ImageIcon carregando = new ImageIcon(getClass().getResource("/ItemBase.png"));
         super.setVisible(true);
         super.setBaseSprite(carregando.getImage());
         super.setImageHeight(super.getBaseSprite().getWidth(null));
         super.setImageWidth(super.getBaseSprite().getHeight(null));
-    }
-
-    public abstract void applyEffect(Player player);
-
-    public void checkPlayerColision(Player player) {
-        if (isVisible() && player.getRectangle().intersects(getRectangle())) {
-            setVisible(false);
-            System.out.println("Colisão com item");
-            applyEffect(player);
-            if (!isVisible()) {
-                this.setCollected(true);
-            }
-        }
-
     }
 
     public boolean isCollected() {
@@ -44,14 +34,11 @@ public abstract class Item extends GraphicElement {
         this.collected = collected;
     }
 
-    @Override
-    public void load() {
-        throw new UnsupportedOperationException("Unimplemented method 'carregar'");
+    public ItemController getItemController() {
+        return ItemController;
     }
 
-    @Override
-    public void update() {
-        throw new UnsupportedOperationException("Unimplemented method 'atualizar'");
+    public void setItemController(ItemController itemController) {
+        ItemController = itemController;
     }
-
 }

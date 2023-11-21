@@ -35,10 +35,6 @@ public class BulletDAO {
             query.setParameter("playerId", playerId);
             List<Bullet> bullets = query.list();
 
-            for (Bullet bullet : bullets) {
-                bullet.load();
-            }
-
             return bullets;
         } catch (Exception e) {
             e.printStackTrace();

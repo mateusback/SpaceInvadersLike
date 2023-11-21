@@ -12,7 +12,7 @@ import br.ifpr.jogo.model.graphicelement.Cloud;
 import br.ifpr.jogo.model.graphicelement.Player;
 import br.ifpr.jogo.model.graphicelement.item.ItemManager;
 import br.ifpr.jogo.model.level.LevelModel;
-import br.ifpr.jogo.model.sprites.BackgroundSprite;
+import br.ifpr.jogo.view.sprites.BackgroundSprite;
 import br.ifpr.jogo.serivces.level.LevelServiceImpl;
 
 public class LevelController extends JPanel implements KeyListener, ActionListener {
@@ -73,15 +73,15 @@ public class LevelController extends JPanel implements KeyListener, ActionListen
             return;
         }
         levelService.checkGamePause(e);
-        levelModel.getPlayer().getPlayerService().shoot(e);
-        levelModel.getPlayer().getPlayerService().move(e);
-        levelModel.getPlayer().getPlayerService().dash(e);
+        levelModel.getPlayer().getPlayerController().shoot(e);
+        levelModel.getPlayer().getPlayerController().move(e);
+        levelModel.getPlayer().getPlayerController().dash(e);
     }
 
     // Puxa metodos para quando soltamos as teclas qu estavam pressionadas.
     @Override
     public void keyReleased(KeyEvent e) {
-        levelModel.getPlayer().getPlayerService().stop(e);
+        levelModel.getPlayer().getPlayerController().stop(e);
     }
 
     @Override
@@ -101,12 +101,12 @@ public class LevelController extends JPanel implements KeyListener, ActionListen
             return;
         }
 
-        player.update();
+        player.getPlayerController().update();
 
         this.backgroundSprite.updateOffset(player);
 
         for (Cloud cloud : levelModel.getClouds()) {
-            cloud.update();
+            cloud.getCloudController().update();
         }
 
         levelService.spawnEnemies();
@@ -116,7 +116,7 @@ public class LevelController extends JPanel implements KeyListener, ActionListen
 
         backgroundSprite.updateOffset(player);
 
-        player.getPlayerService().checkBoundsCollision();
+        player.getPlayerController().checkBoundsCollision();
 
         repaint();
 

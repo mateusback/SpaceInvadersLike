@@ -1,6 +1,7 @@
 package br.ifpr.jogo.serivces.player;
 
 import br.ifpr.jogo.model.graphicelement.Player;
+import br.ifpr.jogo.controller.PlayerController;
 import br.ifpr.jogo.model.graphicelement.bullet.Bullet;
 import br.ifpr.jogo.model.graphicelement.bullet.SuperBullet;
 import br.ifpr.jogo.controller.LevelController;
@@ -11,13 +12,28 @@ import java.awt.event.KeyEvent;
 import static br.ifpr.jogo.util.ScreenConstants.*;
 
 public class PlayerServiceImpl implements PlayerService{
-    private Player player;
+    private PlayerController playerController;
     private boolean keysReleased[] = new boolean[4];
-    public PlayerServiceImpl(Player player){
-        this.player = player;
+    public PlayerServiceImpl(PlayerController playerController){
+        this.playerController = playerController;
     }
     @Override
+    public void load() {
+        ImageIcon loading = new ImageIcon(getClass().getResource("/Personagem_Parado.png"));
+        playerController.getPlayer().setBaseSprite(loading.getImage());
+        playerController.getPlayer().setImageHeight(playerController.getPlayer().getBaseSprite().getWidth(null));
+        playerController.getPlayer().setImageWidth(playerController.getPlayer().getBaseSprite().getHeight(null));
+    }
+
+    @Override
+    public void update() {
+        playerController.getPlayer().setXPosition(playerController.getPlayer().getXPosition() + playerController.getPlayer().getXDisplacement());
+        playerController.getPlayer().setYPosition(playerController.getPlayer().getYPosition() + playerController.getPlayer().getYDisplacement());
+    }
+
+    @Override
     public void move(KeyEvent key) {
+        Player player =  playerController.getPlayer();
         int code = key.getKeyCode();
 
         if (code == KeyEvent.VK_W) {
@@ -55,6 +71,7 @@ public class PlayerServiceImpl implements PlayerService{
 
     @Override
     public void dash(KeyEvent key){
+        Player player =  playerController.getPlayer();
         int code = key.getKeyCode();
         if (code == KeyEvent.VK_SPACE && player.getDirection() == "left") {
             player.setXPosition(player.getXPosition() - 100);
@@ -72,6 +89,7 @@ public class PlayerServiceImpl implements PlayerService{
 
     @Override
     public void stop(KeyEvent key) {
+        Player player =  playerController.getPlayer();
             int code = key.getKeyCode();
             if (code == KeyEvent.VK_W) {
                 player.setYDisplacement(0);
@@ -98,6 +116,7 @@ public class PlayerServiceImpl implements PlayerService{
 
     @Override
     public void shoot(KeyEvent key) {
+        Player player =  playerController.getPlayer();
         player.setTimeMark(System.currentTimeMillis());
         if (player.getTimeMark() - player.getLastShootMark() < player.getBulletDelay()) {
             return;
@@ -136,31 +155,32 @@ public class PlayerServiceImpl implements PlayerService{
 
     @Override
     public void checkBoundsCollision() {
+        Player player =  playerController.getPlayer();
         if (player.getXPosition() < 0) {
             player.setXPosition(0);
-        } else if (player.getXPosition() + player.getImageWidth() > LARGURA_DA_JANELA) {
-            int xMaximum = LARGURA_DA_JANELA - player.getImageWidth();
+        } else if (player.getXPosition() + player.getImageWidth() > WINDOW_WIDTH) {
+            int xMaximum = WINDOW_WIDTH - player.getImageWidth();
             player.setXPosition(xMaximum);
         }
 
         if (player.getYPosition() < 0) {
             player.setYPosition(0);
-        } else if (player.getYPosition() + player.getImageHeight() >= ALTURA_DA_JANELA - PIXELS_AJUSTE_ALTURA_TELA) {
-            int yMaximum = ALTURA_DA_JANELA - PIXELS_AJUSTE_ALTURA_TELA - player.getImageHeight();
+        } else if (player.getYPosition() + player.getImageHeight() >= WINDOW_HEIGHT - PIXELS_SCREEN_HEIGHT_ADJUSTMENT) {
+            int yMaximum = WINDOW_HEIGHT - PIXELS_SCREEN_HEIGHT_ADJUSTMENT - player.getImageHeight();
             player.setYPosition(yMaximum);
         }
     }
 
     @Override
     public void takeDamage(int damage, LevelController levelController) {
-        player.setHitPoints(player.getHitPoints() - damage);
-        if (player.getHitPoints() <= 0) {
+        playerController.getPlayer().setHitPoints(playerController.getPlayer().getHitPoints() - damage);
+        if (playerController.getPlayer().getHitPoints() <= 0) {
             levelController.gameOver = true;
         }
     }
 
     @Override
     public void addPoints(int quantity) {
-        player.setScore(player.getScore()+ quantity); ;
+        playerController.getPlayer().setScore(playerController.getPlayer().getScore()+ quantity); ;
     }
 }

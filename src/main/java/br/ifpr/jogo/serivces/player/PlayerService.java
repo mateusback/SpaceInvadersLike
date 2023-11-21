@@ -5,6 +5,8 @@ import br.ifpr.jogo.controller.LevelController;
 import java.awt.event.KeyEvent;
 
 public interface PlayerService {
+    void update();
+    void load();
     void move(KeyEvent key);
     void dash(KeyEvent key);
     void stop(KeyEvent key);
