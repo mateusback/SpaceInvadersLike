@@ -2,9 +2,7 @@ package br.ifpr.jogo.model.graphicelement;
 
 import java.util.Random;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import javax.swing.ImageIcon;
 
 import br.ifpr.jogo.model.graphicelement.item.ItemManager;
@@ -19,10 +17,12 @@ import static br.ifpr.jogo.util.ScreenConstants.*;
 @Entity
 @Table(name = "tb_inimigo")
 public class Enemy extends GraphicElement {
-    @Transient
+    @ManyToOne
+    @JoinColumn(name = "player_id")
     private Player player;
     private static final int VELOCIDADE_INIMIGO = 2;
-
+    public Enemy() {
+    }
     public Enemy(int posicaoEmX, int posicaoEmY, Player player) {
         super();
         super.setXPosition(posicaoEmX);
@@ -33,8 +33,8 @@ public class Enemy extends GraphicElement {
 
     @Override
     public void load() {
-        ImageIcon carregando = new ImageIcon(getClass().getResource("/Inimigo.png"));
-        super.setBaseSprite(carregando.getImage());
+        ImageIcon loading = new ImageIcon(getClass().getResource("/Inimigo.png"));
+        super.setBaseSprite(loading.getImage());
         super.setImageHeight(super.getBaseSprite().getWidth(null));
         super.setImageWidth(super.getBaseSprite().getHeight(null));
     }

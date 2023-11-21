@@ -1,35 +1,39 @@
 package br.ifpr.jogo.model.graphicelement.bullet;
 
 import br.ifpr.jogo.model.graphicelement.GraphicElement;
-import br.ifpr.jogo.model.sprites.BulletSprite;
+import br.ifpr.jogo.model.graphicelement.Player;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
+import javax.swing.*;
 
 import static br.ifpr.jogo.util.ScreenConstants.*;
 
 @Entity
 @Table(name = "tb_tiro")
 public class Bullet extends GraphicElement {
-    @Transient
-    private BulletSprite sprite;
-    public static final int LARGURA_TIRO = 10;
+
+    @ManyToOne
+    @JoinColumn(name = "player_id")
+    private Player player;
     public static final int ALTURA_TIRO = 30;
     public static final int SPEED = 4;
 
-    public Bullet(int playerPositionX, int PlayerPositionY, BulletSprite sprite, String direction) {
+    public Bullet(){
+    }
+
+    public Bullet(int playerPositionX, int PlayerPositionY, String direction, Player player) {
         super.setXPosition(playerPositionX);
         super.setYPosition(PlayerPositionY);
-        this.sprite = sprite;
         super.setDirection(direction);
         super.setVisible(true);
         super.setSpeed(SPEED);
+        this.player = player;
     }
 
     @Override
     public void load() {
-        super.setBaseSprite(sprite.getImagem(super.getDirection()));
+        ImageIcon loading = new ImageIcon(getClass().getResource("/Tiro2.gif"));
+        super.setBaseSprite(loading.getImage());
         super.setImageHeight(ALTURA_TIRO);
         super.setImageWidth(ALTURA_TIRO);
     }
@@ -50,11 +54,7 @@ public class Bullet extends GraphicElement {
         boolean cond2 = super.getXPosition() < 0;
         boolean cond3 = super.getYPosition() < 0;
         boolean cond4 = super.getYPosition() > ALTURA_DA_JANELA;
-        if (cond1 || cond2 ||cond3 || cond4) {
-            visible = false;
-        } else {
-            visible = true;
-        }
+        visible = !cond1 && !cond2 && !cond3 && !cond4;
         return visible;
     }
 

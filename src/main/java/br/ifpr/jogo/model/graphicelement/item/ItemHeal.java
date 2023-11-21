@@ -11,8 +11,6 @@ import static br.ifpr.jogo.util.ItemsConstants.*;
 @Entity
 @Table(name = "tb_item_vida")
 public class ItemHeal extends Item {
-
-
     public ItemHeal(int xPosition, int yPosition) {
         setXPosition(xPosition);
         setYPosition(yPosition);

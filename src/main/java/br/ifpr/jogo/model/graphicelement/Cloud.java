@@ -11,15 +11,12 @@ import static br.ifpr.jogo.util.ScreenConstants.*;
 @Table(name = "tb_nuvem")
 public class Cloud extends GraphicElement {
     private static int SPEED = 3;
-
+    public Cloud(){
+    }
     public Cloud(int xRandom, int yRandom){
         this.load();
         super.setXPosition(xRandom);
         super.setYPosition(yRandom);
-    }
-
-    public Cloud() {
-
     }
 
     @Override

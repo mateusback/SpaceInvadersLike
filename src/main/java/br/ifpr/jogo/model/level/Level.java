@@ -5,21 +5,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.*;
 
 import br.ifpr.jogo.model.graphicelement.Cloud;
 import br.ifpr.jogo.model.graphicelement.Player;
 import br.ifpr.jogo.model.graphicelement.item.ItemManager;
-import br.ifpr.jogo.model.graphicelement.bullet.Bullet;
-import br.ifpr.jogo.model.graphicelement.bullet.SuperBullet;
 import br.ifpr.jogo.model.sprites.BackgroundSprite;
 import br.ifpr.jogo.serivces.level.LevelServiceImpl;
 
 public class Level extends JPanel implements KeyListener, ActionListener {
     public static final int DELAY_JOGO = 5;
+    public static final boolean LOADED_GAME_START = true;
+    public static final boolean NEW_GAME_START = false;
     private LevelModel levelModel;
     private LevelServiceImpl levelService;
     private Timer timer;
@@ -29,35 +27,17 @@ public class Level extends JPanel implements KeyListener, ActionListener {
     public boolean gamePaused;
 
 
-    // Construtor da fase
+    public Level(LevelModel levelModel) {
+        this.levelModel = levelModel;
+        this.levelService = new LevelServiceImpl(this, this.levelModel);
+        levelService.levelInit(LOADED_GAME_START);
+    }
     public Level() {
         levelModel = new LevelModel();
-        levelService = new LevelServiceImpl(this, this.levelModel);
-        setFocusable(true);
-        setDoubleBuffered(true);
-        // Instanciando o teclado.
-        addKeyListener(this);
-        backgroundSprite = new BackgroundSprite();
-        // Istanciando o jogador e carregando sua imagem.
-        levelModel.setPlayer(new Player());
-        levelModel.getPlayer().load();
-
-        levelService.initializeAdditionalGraphics();
-        // Definindo a velocidade do jogo.
-        timer = new Timer(DELAY_JOGO, this);
-        timer.start();
-
-        //Renomear
-        itemManager = new ItemManager();
-        // Adicionando inimigos
-        levelModel.setEnemies(new ArrayList<>());
-        levelService.initializePauseMenu();
+        this.levelService = new LevelServiceImpl(this, this.levelModel);
+        levelService.levelInit(NEW_GAME_START);
     }
 
-    // Metodo utilizado para desenhar os elementos no painel.
-    // O fundo está sendo desenhado e da mesma forma o jogador.
-    // Já o os tiros, por serem vários, estão sendo instanciados
-    // como forma de array.
     public void paintComponent(Graphics g) {
         Graphics2D graphics2D = (Graphics2D) g;
         Player player = levelModel.getPlayer();
@@ -92,14 +72,15 @@ public class Level extends JPanel implements KeyListener, ActionListener {
             return;
         }
         levelService.checkGamePause(e);
-        levelModel.getPlayer().shoot(e);
-        levelModel.getPlayer().mover(e);
+        levelModel.getPlayer().getPlayerService().shoot(e);
+        levelModel.getPlayer().getPlayerService().move(e);
+        levelModel.getPlayer().getPlayerService().dash(e);
     }
 
     // Puxa metodos para quando soltamos as teclas qu estavam pressionadas.
     @Override
     public void keyReleased(KeyEvent e) {
-        levelModel.getPlayer().stop(e);
+        levelModel.getPlayer().getPlayerService().stop(e);
     }
 
     @Override
@@ -111,19 +92,22 @@ public class Level extends JPanel implements KeyListener, ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         Player player = levelModel.getPlayer();
+
         if(gameOver){
             return;
         }
+
         if(gamePaused){
             return;
         }
+
         player.update();
+
         this.backgroundSprite.updateOffset(player);
+
         for (Cloud cloud : levelModel.getClouds()) {
             cloud.update();
         }
-        List<SuperBullet> superBullets = player.getSuperTiros();
-        List<Bullet> bullets = player.getTiros();
 
         levelService.spawnEnemies();
         levelService.checkItemCollision();
@@ -131,14 +115,66 @@ public class Level extends JPanel implements KeyListener, ActionListener {
         levelService.enemiesRemover();
 
         backgroundSprite.updateOffset(player);
-        player.checkBoundsCollision();
 
-        if (player.getHitPoints() <= 0) {
-            gameOver = true;
-            return;
-        }
+        player.getPlayerService().checkBoundsCollision();
+
         repaint();
 
     }
 
+    public LevelModel getLevelModel() {
+        return levelModel;
+    }
+
+    public void setLevelModel(LevelModel levelModel) {
+        this.levelModel = levelModel;
+    }
+
+    public LevelServiceImpl getLevelService() {
+        return levelService;
+    }
+
+    public void setLevelService(LevelServiceImpl levelService) {
+        this.levelService = levelService;
+    }
+
+    public Timer getTimer() {
+        return timer;
+    }
+
+    public void setTimer(Timer timer) {
+        this.timer = timer;
+    }
+
+    public BackgroundSprite getBackgroundSprite() {
+        return backgroundSprite;
+    }
+
+    public void setBackgroundSprite(BackgroundSprite backgroundSprite) {
+        this.backgroundSprite = backgroundSprite;
+    }
+
+    public ItemManager getItemManager() {
+        return itemManager;
+    }
+
+    public void setItemManager(ItemManager itemManager) {
+        this.itemManager = itemManager;
+    }
+
+    public boolean isGameOver() {
+        return gameOver;
+    }
+
+    public void setGameOver(boolean gameOver) {
+        this.gameOver = gameOver;
+    }
+
+    public boolean isGamePaused() {
+        return gamePaused;
+    }
+
+    public void setGamePaused(boolean gamePaused) {
+        this.gamePaused = gamePaused;
+    }
 }

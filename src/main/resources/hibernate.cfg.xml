@@ -7,7 +7,7 @@
             com.mysql.jdbc.Driver
         </property>
         <property name="hibernate.connection.username">root</property>
-        <property name="hibernate.connection.password"></property>
+        <property name="hibernate.connection.password">admin</property>
         <property name="hibernate.connection.url">
             jdbc:mysql://localhost:3306/bd_jogo
         </property>
@@ -16,7 +16,7 @@
         </property>
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.format_sql">false</property>
-        <property name="hbm2ddl.auto">create-drop</property>
+        <property name="hbm2ddl.auto">update</property>
         <mapping class="br.ifpr.jogo.model.graphicelement.GraphicElement"/>
         <mapping class="br.ifpr.jogo.model.graphicelement.Player"/>
         <mapping class="br.ifpr.jogo.model.graphicelement.Enemy"/>
@@ -27,15 +27,6 @@
         <mapping class="br.ifpr.jogo.model.graphicelement.item.ItemHeal"/>
         <mapping class="br.ifpr.jogo.model.graphicelement.bullet.Bullet"/>
         <mapping class="br.ifpr.jogo.model.graphicelement.bullet.SuperBullet"/>
-        <!-- Classes que serão persistidas em sala e/ou trabalho -->
-        <!--
-        <mapping class="ifpr.paranavai.jogo.modelo.ElementoGrafico" />
 
-        <mapping class="ifpr.paranavai.jogo.modelo.Inimigo" />
-        <mapping class="ifpr.paranavai.jogo.modelo.Tiro" />
-        <mapping class="ifpr.paranavai.jogo.modelo.FaseUm" />
-        <mapping class="ifpr.paranavai.jogo.modelo.Pessoa" />
-        <mapping class="ifpr.paranavai.jogo.modelo.Asteroide" />
-        -->
     </session-factory>
 </hibernate-configuration>

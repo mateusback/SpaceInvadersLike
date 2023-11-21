@@ -3,30 +3,29 @@ package br.ifpr.jogo.model.graphicelement.bullet;
 
 import br.ifpr.jogo.model.graphicelement.GraphicElement;
 import br.ifpr.jogo.model.graphicelement.Player;
-import br.ifpr.jogo.model.sprites.BulletSprite;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
+import javax.swing.*;
 
 
 @Entity
 @Table(name = "tb_super_tiro")
 public class SuperBullet extends GraphicElement {
-    @Transient
-    private BulletSprite sprite;
-    @Transient
-    private Player player;
-    private long tempoInicial;
-    public static final int LARGURA_TIRO = 10;
     public static final int ALTURA_TIRO = 30;
     public static final int VELOCIDADE = 4;
+    @ManyToOne
+    @JoinColumn(name = "player_id")
+    private Player player;
 
-    public SuperBullet(int posicaoPersonagemEmX, int posicaoPersonagemEmY, BulletSprite sprite, String direcao, Player player) {
+    @Transient
+    private long tempoInicial;
+
+    public SuperBullet(){
+
+    }
+    public SuperBullet(int posicaoPersonagemEmX, int posicaoPersonagemEmY, Player player) {
         super.setXPosition(posicaoPersonagemEmX);
         super.setYPosition(posicaoPersonagemEmY);
-        this.sprite = sprite;
-        super.setDirection(direcao);
         super.setVisible(true);
         super.setSpeed(VELOCIDADE);
         this.player = player;
@@ -35,7 +34,8 @@ public class SuperBullet extends GraphicElement {
 
     @Override
     public void load() {
-        super.setBaseSprite(sprite.getImagem(super.getDirection()));
+        ImageIcon loading = new ImageIcon(getClass().getResource("/SuperTiro.png"));
+        super.setBaseSprite(loading.getImage());
         super.setImageHeight(ALTURA_TIRO);
         super.setImageWidth(ALTURA_TIRO);
     }
@@ -44,7 +44,7 @@ public class SuperBullet extends GraphicElement {
     public void update() {
         long tempoAtual = System.currentTimeMillis();
         long tempoDecorrido = tempoAtual - tempoInicial;
-        if (tempoDecorrido >= 5000) { // 5000 ms = 5 segundos
+        if (tempoDecorrido >= 5000) {
             super.setVisible(false);
         } else {
             double angulo = (tempoDecorrido / 1000.0) * Math.PI * 2;

@@ -11,8 +11,6 @@ import static br.ifpr.jogo.util.ItemsConstants.*;
 @Entity
 @Table(name = "tb_item_velocidade")
 public class ItemSpeed extends Item {
-
-
     public ItemSpeed(int xPosition, int yPosition) {
         setXPosition(xPosition);
         setYPosition(yPosition);

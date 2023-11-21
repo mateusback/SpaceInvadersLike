@@ -1,8 +1,5 @@
 package br.ifpr.jogo.serivces.level;
 
-import br.ifpr.jogo.model.level.Level;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
@@ -24,7 +21,8 @@ public interface LevelService {
     void checkGamePause(KeyEvent e);
     void pauseGame();
     void initializePauseMenu();
-    void drawPauseMenu();
     void unpauseGame();
     void quitGame();
+    void saveGame();
+    void levelInit(boolean gameState);
 }

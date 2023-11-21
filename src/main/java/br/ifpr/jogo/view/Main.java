@@ -3,6 +3,7 @@ package br.ifpr.jogo.view;
 import javax.swing.JFrame;
 
 import br.ifpr.jogo.model.level.Level;
+import br.ifpr.jogo.model.level.LevelModel;
 import org.hibernate.Session;
 
 import static br.ifpr.jogo.conexao.HibernateUtil.getSession;
@@ -13,6 +14,14 @@ public class Main extends JFrame {
 
     public Main() {
         Level level = new Level();
+        MainInit(level);
+    }
+    public Main(LevelModel levelModel) {
+        Level level = new Level(levelModel);
+        MainInit(level);
+    }
+
+    private void MainInit(Level level){
         add(level);
         setVisible(true);
         setTitle("Farm Invaders");
