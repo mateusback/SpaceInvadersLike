@@ -26,7 +26,7 @@ public abstract class Item extends GraphicElement {
         if (isVisible() && player.getRectangle().intersects(getRectangle())) {
             setVisible(false);
             System.out.println("Colisão com item");
-            applyEffect(player);
+            itemapplyEffect(player);
             if (!isVisible()) {
                 this.setCollected(true);
             }

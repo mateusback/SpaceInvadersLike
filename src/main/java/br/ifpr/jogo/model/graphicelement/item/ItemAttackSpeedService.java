@@ -23,12 +23,6 @@ public class ItemAttackSpeedService {
         itemAttackSpeed.setImageWidth(itemAttackSpeed.getBaseSprite().getHeight(null));
     }
 
-    public void applyEffect(Player player) {
-        if (player.getBulletDelay() > 0) {
-            player.setBulletDelay(player.getBulletDelay() - REDUCAO_DELAY_ITEM);
-        }
-    }
-
     public ItemAttackSpeedController getItemAttackSpeedController() {
         return itemAttackSpeedController;
     }

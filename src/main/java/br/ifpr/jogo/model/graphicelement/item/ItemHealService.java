@@ -25,12 +25,6 @@ public class ItemHealService{
         itemHeal.setImageWidth(itemHeal.getBaseSprite().getHeight(null));
     }
 
-    public void applyEffect(Player player) {
-        if (player.getHitPoints() < 3) {
-            player.setHitPoints(player.getHitPoints() + AUMENTO_VIDA_ITEM);
-        }
-    }
-
     public ItemHealController getItemHealController() {
         return itemHealController;
     }

@@ -18,11 +18,11 @@ public class ItemHeal extends Item {
         ItemHealController.load();
     }
 
-    public br.ifpr.jogo.controller.ItemHealController getItemHealController() {
+    public ItemHealController getItemHealController() {
         return ItemHealController;
     }
 
-    public void setItemHealController(br.ifpr.jogo.controller.ItemHealController itemHealController) {
+    public void setItemHealController(ItemHealController itemHealController) {
         ItemHealController = itemHealController;
     }
 }
