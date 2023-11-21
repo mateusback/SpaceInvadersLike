@@ -32,8 +32,8 @@ public class Player extends GraphicElement {
 
     public Player() {
         this.setPlayerController(new PlayerController(this));
-        super.setXPosition(POSICAO_INICIAL_EM_X_PERSONAGEM);
-        super.setYPosition(POSICAO_INICIAL_EM_Y_PERSONAGEM);
+        super.setXPosition(INITIAL_POSITION_X_PLAYER);
+        super.setYPosition(INITIAL_POSITION_Y_PLAYER);
         this.bullets = new ArrayList<Bullet>();
         this.superBullets = new ArrayList<SuperBullet>();
         this.bulletDelay = playerController.DELAY_INICIAL_TIRO;

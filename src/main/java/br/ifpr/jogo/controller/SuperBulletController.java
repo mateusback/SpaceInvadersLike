@@ -7,14 +7,13 @@ import javax.swing.*;
 
 
 
-public class SuperBulletController extends GraphicElementController {
+public class SuperBulletController {
     private static final int ALTURA_TIRO = 30;
     private SuperBullet superBullet;
     public SuperBulletController(SuperBullet superBullet){
         this.setSuperBullet(superBullet);
     }
 
-    @Override
     public void load() {
         ImageIcon loading = new ImageIcon(getClass().getResource("/SuperTiro.png"));
         superBullet.setBaseSprite(loading.getImage());
@@ -22,7 +21,6 @@ public class SuperBulletController extends GraphicElementController {
         superBullet.setImageWidth(ALTURA_TIRO);
     }
 
-    @Override
     public void update() {
         long tempoAtual = System.currentTimeMillis();
         long tempoDecorrido = tempoAtual - superBullet.getTempoInicial();

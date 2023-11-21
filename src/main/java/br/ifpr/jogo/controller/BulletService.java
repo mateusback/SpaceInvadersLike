@@ -4,22 +4,20 @@ import br.ifpr.jogo.dao.BulletDAO;
 import br.ifpr.jogo.model.graphicelement.bullet.Bullet;
 
 import javax.swing.*;
-
 import java.util.List;
 
 import static br.ifpr.jogo.util.ScreenConstants.WINDOW_HEIGHT;
 import static br.ifpr.jogo.util.ScreenConstants.WINDOW_WIDTH;
 
-public class BulletController {
+public class BulletService {
     private Bullet bullet;
     private BulletDAO bulletDAO;
-    private BulletService bulletService;
     public static final int ALTURA_TIRO = 30;
     public static final int SPEED = 4;
-
-    public BulletController(Bullet bullet){
-        this.bullet = bullet;
-        this.bulletDAO = new BulletDAO();
+    public BulletService(Bullet bullet){
+        this.setBullet(bullet);
+        this.setBulletDAO(new BulletDAO());
+        this.load();
     }
 
     public void load() {
@@ -59,4 +57,19 @@ public class BulletController {
         bulletDAO.saveOrUpdateBullet(bullet);
     }
 
+    public Bullet getBullet() {
+        return bullet;
+    }
+
+    public void setBullet(Bullet bullet) {
+        this.bullet = bullet;
+    }
+
+    public BulletDAO getBulletDAO() {
+        return bulletDAO;
+    }
+
+    public void setBulletDAO(BulletDAO bulletDAO) {
+        this.bulletDAO = bulletDAO;
+    }
 }

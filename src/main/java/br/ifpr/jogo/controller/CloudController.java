@@ -1,36 +1,39 @@
 package br.ifpr.jogo.controller;
 
+import br.ifpr.jogo.dao.CloudDAO;
 import br.ifpr.jogo.model.graphicelement.Cloud;
+import br.ifpr.jogo.model.graphicelement.bullet.Bullet;
+import br.ifpr.jogo.serivces.cloud.CloudService;
 
-import javax.swing.*;
+import java.util.List;
 
-import static br.ifpr.jogo.util.ScreenConstants.ALTURA_DA_JANELA;
-import static br.ifpr.jogo.util.ScreenConstants.LARGURA_DA_JANELA;
-
-public class CloudController extends GraphicElementController {
-    private static int SPEED = 3;
-
+public class CloudController {
+    private CloudDAO cloudDAO;
     private Cloud cloud;
+    private CloudService cloudService;
 
     public CloudController(Cloud cloud){
         this.setCloud(cloud);
+        this.setCloudService(new CloudService(cloud));
+        this.cloudDAO = new CloudDAO();
     }
 
-    @Override
     public void load() {
-        ImageIcon loading = new ImageIcon(getClass().getResource("/Nuvem.png"));
-        cloud.setBaseSprite(loading.getImage());
+        cloudService.load();
     }
 
-    @Override
     public void update() {
-        if (cloud.getXPosition() > LARGURA_DA_JANELA) {
-            int y = (int) (Math.random() * ALTURA_DA_JANELA);
-            cloud.setXPosition(-cloud.getBaseSprite().getWidth(null));
-            cloud.setYPosition(y);
-        } else {
-            cloud.setXPosition(cloud.getXPosition() + SPEED);
-        }
+        cloudService.update();
+    }
+
+    public List<Cloud> getAllClouds() {
+        return cloudDAO.getAllClouds();
+    }
+    public Cloud getBullet(Integer id) {
+        return cloudDAO.getCloud(id);
+    }
+    public void saveOrUpdateCloud(Cloud cloud) {
+        cloudDAO.saveOrUpdateCloud(cloud);
     }
 
     public Cloud getCloud() {
@@ -39,5 +42,13 @@ public class CloudController extends GraphicElementController {
 
     public void setCloud(Cloud cloud) {
         this.cloud = cloud;
+    }
+
+    public CloudService getCloudService() {
+        return cloudService;
+    }
+
+    public void setCloudService(CloudService cloudService) {
+        this.cloudService = cloudService;
     }
 }

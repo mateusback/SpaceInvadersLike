@@ -1,29 +1,18 @@
 package br.ifpr.jogo.controller;
 
-import br.ifpr.jogo.model.graphicelement.Player;
 import br.ifpr.jogo.model.graphicelement.item.ItemHeal;
-import br.ifpr.jogo.model.graphicelement.item.ItemHealService;
-
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.swing.*;
-
-import static br.ifpr.jogo.util.ItemsConstants.AUMENTO_VIDA_ITEM;
+import br.ifpr.jogo.serivces.item.ItemHealService;
 
 public class ItemHealController{
     private ItemHeal itemHeal;
     private ItemHealService itemHealService;
     public ItemHealController(ItemHeal itemHeal) {
-        this.setItemHealService(new ItemHealService(itemHeal, this));
+        this.setItemHealService(new ItemHealService(itemHeal));
         this.setItemHeal(itemHeal);
     }
 
     public void load() {
         itemHealService.load();
-    }
-
-    public void applyEffect(Player player) {
-        itemHealService.applyEffect(player);
     }
 
     public ItemHeal getItemHeal() {

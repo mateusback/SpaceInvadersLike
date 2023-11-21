@@ -10,7 +10,6 @@ import javax.persistence.Transient;
 @Entity
 @Table(name = "tb_nuvem")
 public class Cloud extends GraphicElement {
-    private static int SPEED = 3;
     @Transient
     private CloudController cloudController;
 

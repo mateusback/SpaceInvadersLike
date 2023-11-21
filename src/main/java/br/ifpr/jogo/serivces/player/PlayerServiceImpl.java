@@ -158,15 +158,15 @@ public class PlayerServiceImpl implements PlayerService{
         Player player =  playerController.getPlayer();
         if (player.getXPosition() < 0) {
             player.setXPosition(0);
-        } else if (player.getXPosition() + player.getImageWidth() > LARGURA_DA_JANELA) {
-            int xMaximum = LARGURA_DA_JANELA - player.getImageWidth();
+        } else if (player.getXPosition() + player.getImageWidth() > WINDOW_WIDTH) {
+            int xMaximum = WINDOW_WIDTH - player.getImageWidth();
             player.setXPosition(xMaximum);
         }
 
         if (player.getYPosition() < 0) {
             player.setYPosition(0);
-        } else if (player.getYPosition() + player.getImageHeight() >= ALTURA_DA_JANELA - PIXELS_AJUSTE_ALTURA_TELA) {
-            int yMaximum = ALTURA_DA_JANELA - PIXELS_AJUSTE_ALTURA_TELA - player.getImageHeight();
+        } else if (player.getYPosition() + player.getImageHeight() >= WINDOW_HEIGHT - PIXELS_SCREEN_HEIGHT_ADJUSTMENT) {
+            int yMaximum = WINDOW_HEIGHT - PIXELS_SCREEN_HEIGHT_ADJUSTMENT - player.getImageHeight();
             player.setYPosition(yMaximum);
         }
     }

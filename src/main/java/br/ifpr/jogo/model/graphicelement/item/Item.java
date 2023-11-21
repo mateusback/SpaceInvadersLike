@@ -3,8 +3,8 @@ package br.ifpr.jogo.model.graphicelement.item;
 import javax.persistence.*;
 import javax.swing.ImageIcon;
 
+import br.ifpr.jogo.controller.ItemController;
 import br.ifpr.jogo.model.graphicelement.GraphicElement;
-import br.ifpr.jogo.model.graphicelement.Player;
 
 @Entity
 @Table(name="tb_item")
@@ -13,25 +13,17 @@ public abstract class Item extends GraphicElement {
     @Column(name="coletado")
     private boolean collected;
 
+    @Transient
+    private br.ifpr.jogo.controller.ItemController ItemController;
+
     public Item() {
+        this.setItemController(new ItemController(this));
         this.collected = false;
         ImageIcon carregando = new ImageIcon(getClass().getResource("/ItemBase.png"));
         super.setVisible(true);
         super.setBaseSprite(carregando.getImage());
         super.setImageHeight(super.getBaseSprite().getWidth(null));
         super.setImageWidth(super.getBaseSprite().getHeight(null));
-    }
-
-    public void checkPlayerColision(Player player) {
-        if (isVisible() && player.getRectangle().intersects(getRectangle())) {
-            setVisible(false);
-            System.out.println("Colisão com item");
-            itemapplyEffect(player);
-            if (!isVisible()) {
-                this.setCollected(true);
-            }
-        }
-
     }
 
     public boolean isCollected() {
@@ -42,4 +34,11 @@ public abstract class Item extends GraphicElement {
         this.collected = collected;
     }
 
+    public ItemController getItemController() {
+        return ItemController;
+    }
+
+    public void setItemController(ItemController itemController) {
+        ItemController = itemController;
+    }
 }

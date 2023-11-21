@@ -1,20 +1,11 @@
 package br.ifpr.jogo.controller;
 
-import br.ifpr.jogo.controller.LevelController;
 import br.ifpr.jogo.model.graphicelement.Player;
-import br.ifpr.jogo.model.graphicelement.bullet.Bullet;
-import br.ifpr.jogo.model.graphicelement.bullet.SuperBullet;
 import br.ifpr.jogo.serivces.player.PlayerService;
 import br.ifpr.jogo.serivces.player.PlayerServiceImpl;
 
-import javax.persistence.*;
 import javax.swing.*;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.List;
-
-import static br.ifpr.jogo.util.ScreenConstants.*;
-import static br.ifpr.jogo.util.ScreenConstants.PIXELS_AJUSTE_ALTURA_TELA;
 
 
 public class PlayerController {

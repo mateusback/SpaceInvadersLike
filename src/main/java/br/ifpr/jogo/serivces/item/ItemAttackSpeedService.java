@@ -1,18 +1,17 @@
-package br.ifpr.jogo.model.graphicelement.item;
+package br.ifpr.jogo.serivces.item;
 
 import br.ifpr.jogo.controller.ItemAttackSpeedController;
 import br.ifpr.jogo.model.graphicelement.Player;
+import br.ifpr.jogo.model.graphicelement.item.ItemAttackSpeed;
 
 import javax.swing.*;
 
 import static br.ifpr.jogo.util.ItemsConstants.REDUCAO_DELAY_ITEM;
 
 public class ItemAttackSpeedService {
-    private ItemAttackSpeedController itemAttackSpeedController;
     private ItemAttackSpeed itemAttackSpeed;
-    public ItemAttackSpeedService(ItemAttackSpeed itemAttackSpeed, ItemAttackSpeedController itemAttackSpeedController) {
+    public ItemAttackSpeedService(ItemAttackSpeed itemAttackSpeed) {
         this.setItemAttackSpeed(itemAttackSpeed);
-        this.setItemAttackSpeedController(itemAttackSpeedController);
         this.load();
     }
 
@@ -21,14 +20,6 @@ public class ItemAttackSpeedService {
         itemAttackSpeed.setBaseSprite(loading.getImage());
         itemAttackSpeed.setImageHeight(itemAttackSpeed.getBaseSprite().getWidth(null));
         itemAttackSpeed.setImageWidth(itemAttackSpeed.getBaseSprite().getHeight(null));
-    }
-
-    public ItemAttackSpeedController getItemAttackSpeedController() {
-        return itemAttackSpeedController;
-    }
-
-    public void setItemAttackSpeedController(ItemAttackSpeedController itemAttackSpeedController) {
-        this.itemAttackSpeedController = itemAttackSpeedController;
     }
 
     public ItemAttackSpeed getItemAttackSpeed() {

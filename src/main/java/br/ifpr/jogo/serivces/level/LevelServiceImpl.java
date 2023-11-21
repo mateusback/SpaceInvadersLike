@@ -83,21 +83,21 @@ public class LevelServiceImpl implements LevelService{
     public void drawPoints(Graphics g) {
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.BOLD, 20));
-        g.drawString("Pontuação: " + levelModel.getPlayer().getScore(), LARGURA_DA_JANELA - 300, 30);
+        g.drawString("Pontuação: " + levelModel.getPlayer().getScore(), WINDOW_WIDTH - 300, 30);
     }
 
     @Override
     public void drawShootDelay(Graphics g) {
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.BOLD, 20));
-        g.drawString("Delay Tiro: " + levelModel.getPlayer().getBulletDelay()/100, LARGURA_DA_JANELA - 300, 50);
+        g.drawString("Delay Tiro: " + levelModel.getPlayer().getBulletDelay()/100, WINDOW_WIDTH - 300, 50);
     }
 
     @Override
     public void drawSpeed(Graphics g) {
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.BOLD, 20));
-        g.drawString("Velocidade: " + levelModel.getPlayer().getSpeed(), LARGURA_DA_JANELA - 300, 70);
+        g.drawString("Velocidade: " + levelModel.getPlayer().getSpeed(), WINDOW_WIDTH - 300, 70);
     }
 
     @Override
@@ -106,7 +106,7 @@ public class LevelServiceImpl implements LevelService{
             Font fonteGameOver = new Font("Arial", Font.BOLD, 48);
             g.setFont(fonteGameOver);
             g.setColor(Color.RED);
-            g.drawString("Game Over", LARGURA_DA_JANELA / 2 - 100, ALTURA_DA_JANELA / 2);
+            g.drawString("Game Over", WINDOW_WIDTH / 2 - 100, WINDOW_HEIGHT / 2);
         }
     }
     @Override
@@ -126,8 +126,8 @@ public class LevelServiceImpl implements LevelService{
 
         if (levelModel.getEnemiesCounter() >= ENEMIES_DELAY) {
             Random rn = new Random();
-            int posicaoEmX = rn.nextInt(LARGURA_DA_JANELA - 1 ) + 1;
-            int posicaoEmY = rn.nextInt(ALTURA_DA_JANELA - 1) + 1;
+            int posicaoEmX = rn.nextInt(WINDOW_WIDTH - 1 ) + 1;
+            int posicaoEmY = rn.nextInt(WINDOW_HEIGHT - 1) + 1;
             if (!(posicaoEmX == levelModel.getPlayer().getXPosition() && posicaoEmX == levelModel.getPlayer().getYPosition())) {
                 Enemy newEnemy = new Enemy(posicaoEmX, posicaoEmY, levelModel.getPlayer());
                 newEnemy.getEnemyController().load();
@@ -143,7 +143,7 @@ public class LevelServiceImpl implements LevelService{
             for (Item item : levelController.itemManager.getItems()) {
                 if (item.isVisible() && levelModel.getPlayer().getRectangle().intersects(item.getRectangle())) {
                     System.out.println("Colisão com item: " + item.getClass().getSimpleName());
-                    item.applyEffect(levelModel.getPlayer());
+                    item.getItemController().applyEffect(levelModel.getPlayer());
                     item.setVisible(false);
                 }
             }
@@ -232,8 +232,8 @@ public class LevelServiceImpl implements LevelService{
     public void initializeAdditionalGraphics() {
         levelModel.setClouds(new ArrayList<Cloud>());
         for (int i = 0; i < CLOUDS_QUANTITY; i++) {
-            int x = (int) (Math.random() * LARGURA_DA_JANELA);
-            int y = (int) (Math.random() * ALTURA_DA_JANELA);
+            int x = (int) (Math.random() * WINDOW_WIDTH);
+            int y = (int) (Math.random() * WINDOW_HEIGHT);
             Cloud cloud = new Cloud(x, y);
             levelModel.getClouds().add(cloud);
         }

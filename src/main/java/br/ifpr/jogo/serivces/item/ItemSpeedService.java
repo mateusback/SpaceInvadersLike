@@ -1,6 +1,7 @@
-package br.ifpr.jogo.model.graphicelement.item;
+package br.ifpr.jogo.serivces.item;
 
 import br.ifpr.jogo.model.graphicelement.Player;
+import br.ifpr.jogo.model.graphicelement.item.ItemSpeed;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -10,10 +11,8 @@ import static br.ifpr.jogo.util.ItemsConstants.AUMENTO_VELOCIDADE_ITEM;
 
 public class ItemSpeedService {
     private ItemSpeed itemSpeed;
-    private ItemSpeedController itemSpeedController;
-    public ItemSpeedService(ItemSpeed itemSpeed, ItemSpeedController itemSpeedController) {
+    public ItemSpeedService(ItemSpeed itemSpeed) {
         this.setItemSpeed(itemSpeed);
-        this.setItemSpeedController(itemSpeedController);
         this.load();
     }
 
@@ -35,11 +34,4 @@ public class ItemSpeedService {
         this.itemSpeed = itemSpeed;
     }
 
-    public ItemSpeedController getItemSpeedController() {
-        return itemSpeedController;
-    }
-
-    public void setItemSpeedController(ItemSpeedController itemSpeedController) {
-        this.itemSpeedController = itemSpeedController;
-    }
 }

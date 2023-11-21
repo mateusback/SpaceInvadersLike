@@ -37,7 +37,7 @@ public class SuperBulletDAO {
             List<SuperBullet> superBullets = query.list();
 
             for (SuperBullet superBullet : superBullets) {
-                superBullet.load();
+                superBullet.getSuperBulletController().load();
             }
 
            return superBullets;

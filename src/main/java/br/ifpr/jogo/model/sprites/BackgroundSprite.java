@@ -63,8 +63,8 @@ public class BackgroundSprite implements ImageObserver {
                         int alturaFase = 32 * ALTURA_BLOCO_BACKGROUND;
 
                         // Posição inicial dos blocos para centralizar na tela
-                        xInitial = (LARGURA_DA_JANELA - larguraFase) / 2;
-                        yInitial = (ALTURA_DA_JANELA - alturaFase) / 2;
+                        xInitial = (WINDOW_WIDTH - larguraFase) / 2;
+                        yInitial = (WINDOW_HEIGHT - alturaFase) / 2;
                         for (int yPosition = 0; yPosition < mapa.length; yPosition++) {
                                 for (int xPosition = 0; xPosition < mapa[yPosition].length; xPosition++) {
                                         int tileNum = mapa[yPosition][xPosition];
@@ -82,8 +82,8 @@ public class BackgroundSprite implements ImageObserver {
         }
 
         public void updateOffset(Player player) {
-                offsetX = player.getXPosition() - LARGURA_DA_JANELA / 2;
-                offsetY = player.getYPosition() - ALTURA_DA_JANELA / 2;
+                offsetX = player.getXPosition() - WINDOW_WIDTH / 2;
+                offsetY = player.getYPosition() - WINDOW_HEIGHT / 2;
         }
 
         public static int[][] readMap(String filePath) throws IOException {

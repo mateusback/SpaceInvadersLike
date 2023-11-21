@@ -3,11 +3,8 @@ package br.ifpr.jogo.model.graphicelement.item;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.swing.ImageIcon;
 
-import br.ifpr.jogo.model.graphicelement.Player;
-
-import static br.ifpr.jogo.util.ItemsConstants.*;
+import br.ifpr.jogo.controller.ItemSpeedController;
 
 @Entity
 @Table(name = "tb_item_velocidade")

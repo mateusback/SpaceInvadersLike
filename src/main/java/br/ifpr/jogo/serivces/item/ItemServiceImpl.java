@@ -7,10 +7,8 @@ import static br.ifpr.jogo.util.ItemsConstants.*;
 
 public class ItemServiceImpl {
     private Item item;
-    private ItemController itemController;
-    public ItemServiceImpl(Item item, ItemController itemController){
+    public ItemServiceImpl(Item item){
         this.setItem(item);
-        this.setItemController(itemController);
     }
     public void checkPlayerColision(Player player) {
         if (item.isVisible() && player.getRectangle().intersects(item.getRectangle())) {
@@ -47,13 +45,5 @@ public class ItemServiceImpl {
 
     public void setItem(Item item) {
         this.item = item;
-    }
-
-    public ItemController getItemController() {
-        return itemController;
-    }
-
-    public void setItemController(ItemController itemController) {
-        this.itemController = itemController;
     }
 }

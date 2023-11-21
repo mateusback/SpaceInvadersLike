@@ -1,30 +1,19 @@
 package br.ifpr.jogo.controller;
 
-import br.ifpr.jogo.model.graphicelement.Player;
 import br.ifpr.jogo.model.graphicelement.item.ItemAttackSpeed;
-import br.ifpr.jogo.model.graphicelement.item.ItemAttackSpeedService;
-
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.swing.*;
-
-import static br.ifpr.jogo.util.ItemsConstants.REDUCAO_DELAY_ITEM;
+import br.ifpr.jogo.serivces.item.ItemAttackSpeedService;
 
 public class ItemAttackSpeedController{
     ItemAttackSpeedService itemAttackSpeedService;
 
     ItemAttackSpeed itemAttackSpeed;
     public ItemAttackSpeedController(ItemAttackSpeed itemAttackSpeed) {
-        this.setItemAttackSpeedService(new ItemAttackSpeedService(itemAttackSpeed, this));
+        this.setItemAttackSpeedService(new ItemAttackSpeedService(itemAttackSpeed));
         this.setItemAttackSpeed(itemAttackSpeed);
     }
 
     public void load() {
         itemAttackSpeedService.load();
-    }
-
-    public void applyEffect(Player player) {
-        itemAttackSpeedService.applyEffect(player);
     }
 
     public ItemAttackSpeedService getItemAttackSpeedService() {
