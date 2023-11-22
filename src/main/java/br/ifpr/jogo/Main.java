@@ -1,16 +1,17 @@
-package br.ifpr.jogo.view;
+package br.ifpr.jogo;
 
 import javax.swing.JFrame;
 
 import br.ifpr.jogo.controller.LevelController;
 import br.ifpr.jogo.controller.MainController;
 import br.ifpr.jogo.model.level.LevelModel;
+import br.ifpr.jogo.view.StartScreen;
 import org.hibernate.Session;
 
 import static br.ifpr.jogo.util.ScreenConstants.*;
 import static br.ifpr.jogo.conexao.HibernateUtil.getSession;
 
-public class Main extends JFrame {
+public class Main {
     private MainController mainController;
     public Main() {
         this.mainController = new MainController(this);

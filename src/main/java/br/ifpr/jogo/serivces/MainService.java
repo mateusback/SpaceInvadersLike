@@ -1,8 +1,7 @@
 package br.ifpr.jogo.serivces;
 
 import br.ifpr.jogo.controller.LevelController;
-import br.ifpr.jogo.controller.MainController;
-import br.ifpr.jogo.view.Main;
+import br.ifpr.jogo.Main;
 
 import javax.swing.*;
 

@@ -1,6 +1,5 @@
 package br.ifpr.jogo.serivces;
 
-import br.ifpr.jogo.controller.PlayerController;
 import br.ifpr.jogo.dao.*;
 import br.ifpr.jogo.model.graphicelement.Cloud;
 import br.ifpr.jogo.model.graphicelement.Enemy;
@@ -8,7 +7,7 @@ import br.ifpr.jogo.model.graphicelement.Player;
 import br.ifpr.jogo.model.graphicelement.bullet.Bullet;
 import br.ifpr.jogo.model.graphicelement.bullet.SuperBullet;
 import br.ifpr.jogo.model.level.LevelModel;
-import br.ifpr.jogo.view.Main;
+import br.ifpr.jogo.Main;
 import br.ifpr.jogo.view.StartScreen;
 
 import javax.swing.*;
